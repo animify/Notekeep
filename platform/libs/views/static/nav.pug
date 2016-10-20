@@ -1,0 +1,19 @@
+- var embedhtml = '<img height="300" src=' + o.raw + '/>'
+- var htmllink = '<a href=' + o.raw + ' alt=' + o.raw + '/>'
+
+nav.nav
+	ul.list.horizontal
+		li.item.options
+			a #[i.material-icons &#xE14D;]
+			a #[i.material-icons &#xE899;]
+			a(href=o.raw) #[i.material-icons &#xE3E0;]
+			.dropdown.upward
+				a.toggle #[i.material-icons &#xE80D;]
+				ul.menu
+					li.header.input Direct
+						input(type="text", value=o.raw)
+					li.header.input HTML Link
+						input(type="text", value=htmllink)
+					li.header.input Embed
+						input(type="text", value=embedhtml)
+		li.item.time= o.date
