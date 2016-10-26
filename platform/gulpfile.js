@@ -1,3 +1,4 @@
 'use strict';
 
-require('./tasks/pug')
+require('./tasks/stylus')
+require('./tasks/start')

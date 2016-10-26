@@ -17,20 +17,16 @@
 		line-height em-height
 		padding 1em 1.2em
 		outline 0
-		border-radius 0
+		border-radius 3px
 		text-align left
-		border 0
+		border 1px solid border-gray
 		transition border-color 0.14s ease
 		min-width 30em
-		font-weight 300
 		background-color #fff
 		&:focus
 			border-color color-primary
 		+placeholder()
-			font-weight 300
-			text-transform uppercase
-			letter-spacing 2px
-			color body-color
+			color lighten(body-color, 20%)
 	textarea
 		&:not([rows])
 			min-height 8em

@@ -41,9 +41,15 @@
   "devDependencies": {
     "fs-jetpack": "^0.10.0",
     "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1",
     "gulp-pug": "^3.1.0",
+    "gulp-stylus": "^2.5.0",
+    "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.10",
     "gulp-watch-pug": "^1.0.0",
-    "nodemon": "^1.10.2"
+    "jeet": "^6.1.5",
+    "nib": "^1.1.2",
+    "nodemon": "^1.10.2",
+    "rupture": "^0.6.2"
   }
 }
