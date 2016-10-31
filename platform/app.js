@@ -17,7 +17,8 @@ const mongoStore = require('connect-mongo')(session)
 const validator = require('express-validator')
 
 const db = require(jt.path('db/mongoose'))
-const routeAuth = require(jt.path('routes/authenicate'))
+const routeAuth = require(jt.path('routes/authenticate'))
+const routeAuthed = require(jt.path('routes/authenticated'))
 const endpoint = require(jt.path('routes/endpoint'))
 const authcontroller = require(jt.path('auth/auth'))
 const oauth2 = require(jt.path('auth/oauth2'))
@@ -80,6 +81,7 @@ app.set('view engine', 'pug')
 app.set('view options', { layout: false })
 
 app.use('/', routeAuth)
+app.use('/', authcontroller.isAuthenticatedLocal, routeAuthed)
 app.use('/facets/endpoints', endpoint)
 
 app.listen(app.get('port'), () => {

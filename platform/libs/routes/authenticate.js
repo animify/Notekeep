@@ -11,8 +11,6 @@ const config = require(libs + 'config')
 const User = require(libs + 'model/user')
 const notekeep = require(libs + 'controllers/notekeep')
 
-const stripe = require("stripe")(config.get("stripe:key"))
-
 router.get('/', (req, res) => {
 	return res.render('root', {title: 'Notekeep'})
 })
@@ -38,7 +36,7 @@ router.post('/signup', (req, res) => {
 		},
 		'lastname' :{
 			notEmpty: true,
-			errorMessage: 'lastname: What also need your lastname'
+			errorMessage: 'lastname: We also need your lastname'
 		},
 		'email' :{
 			notEmpty: true,
@@ -80,7 +78,7 @@ router.post('/signup', (req, res) => {
 			user.save((err, user) => {
 				if(!err) {
 						passport.authenticate('local')(req, res, () => {
-							return res.send({'status': 'OK', 'statusCode' : '200'})
+							return res.json({status: 'OK', statusCode : 200})
 						})
 				} else {
 					return res.json({ error: '404', message : err })
@@ -94,7 +92,7 @@ router.post('/signup', (req, res) => {
 })
 
 router.post('/signin', passport.authenticate('local'), (req, res) => {
-	return res.json({status:"OK"})
+	return res.json({status: 'OK', statusCode : 200})
 })
 
 module.exports = router

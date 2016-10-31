@@ -9,6 +9,7 @@ body
 	cf()
 	min-height 100%
 	height 100%
+	color text-grey
 	&.auto
 		height auto
 	&.pass
@@ -23,21 +24,71 @@ p.sub
 	padding-bottom 10em
 	cf()
 	small
-		margin-top 1.5em
+		margin-top 1.4em
 		display block
 	p.explanation
-		padding 1em 0 3em 0
+		padding .7em 0 2.5em 0
 		letter-spacing .4px
 	.logo
-		padding 4em 0 4em 0
+		padding 3em 0 3em 0
 	.split
 		.button
 			display block
 			margin 0 auto
 			width 100%
-			max-width 30em
+			max-width 24em
+			height em-height
 		.input + .input
 			input
-				margin-top 1em
+				margin-top .7em
 		& + .split
-			margin-top 2em
+			margin-top 1.6em
+
+.nav
+	border-bottom 1px solid border-gray
+	display block
+	width 100%
+	height 3.6em
+	img.logo
+		height 3em
+		relative top 4px
+		cf()
+
+ul.options
+	margin-bottom 1.3em
+	li
+		padding .4em 0
+		display inline-block
+		vertical-align top
+		a
+			color text-lighter-link
+			cursor pointer
+			&:hover
+				color text-lighter-link-hover
+		&.active a
+			color primary-color !important
+		& + li
+			margin-left 2.6em
+
+.inner
+	margin-top 3.6em
+	padding-top 3.6em
+	.what
+		font-weight 300
+		margin-bottom 1em
+	&#settings
+		.input h6
+			font-size font-size-standard
+			line-height 1em
+			margin-bottom .8em
+
+.section
+	border 1px solid border-gray
+	padding 2.6em 2.4em
+	border-radius border-radius-normal
+	.input + .input
+		margin-top 2em
+	& + .section
+		margin-top 1em
+	.button
+		margin-top 1.3em

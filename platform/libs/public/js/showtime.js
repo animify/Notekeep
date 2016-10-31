@@ -6,9 +6,8 @@ $(() => {
 			contentType: 'application/json',
 			success: (data) => {
 				JSON.stringify(data)
-				console.log(data)
-				// if (data.status == "OK")
-					// window.location.replace("/account")
+				if (data.statusCode == 200)
+					window.location.replace("/dashboard")
 			}
 		})
 	})
@@ -27,10 +26,8 @@ $(() => {
 			contentType: 'application/json',
 			data: JSON.stringify(data),
 			success: (data) => {
-				// JSON.parse(data)
-				console.log(data);
-				// if (data.status == "OK")
-					// window.location.replace("/account")
+				if (data.statusCode == 200)
+					window.location.replace("/dashboard")
 			}
 		})
 	})
@@ -46,8 +43,8 @@ $(() => {
 			contentType: 'application/json',
 			data: JSON.stringify(data),
 			success: (data) => {
-				JSON.stringify(data)
-				console.log(data);
+				if (data.statusCode == 200)
+					window.location.replace("/dashboard")
 			}
 		})
 	})

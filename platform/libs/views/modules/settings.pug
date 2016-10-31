@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+	include ../static/dashboard/nav.pug
+	.wrap
+		.inner#settings
+			.contain
+				ul.options
+					li.active
+						a My account
+					li
+						a Team
+					li
+						a Developer
+				.section
+					.input
+						h6 First name
+						input(type="text", value=user.firstname)
+					.input
+						h6 Last name
+						input(type="text", value=user.lastname)
+					.input
+						h6 Username
+						input(type="text", value=user.username)
+					.input
+						h6 Email
+						input(type="text", value=user.email)
+
+					a.button.primary Update preferences

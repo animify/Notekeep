@@ -16,7 +16,6 @@ const RefreshToken = require(libs + 'model/refreshToken')
 passport.use('local', new LocalStategy((email, password, done) => {
 		User.findOne({'email': new RegExp('^'+email+'$', "i")})
 		.exec((err, user) => {
-			console.log(user);
 			if (err) {
 				return done(err)
 			}
@@ -26,7 +25,7 @@ passport.use('local', new LocalStategy((email, password, done) => {
 			}
 
 			if (!user.checkPassword(password))
-				return done(null, false, { message: 'Wrong pass' })
+				return done(null, false, { message: 'Incorrect password' })
 
 			return done(null, user)
 		})
@@ -34,8 +33,8 @@ passport.use('local', new LocalStategy((email, password, done) => {
 ))
 
 passport.use(new BasicStrategy(
-		function(username, password, done) {
-				Client.findOne({ clientId: username }, function(err, client) {
+	(username, password, done) => {
+				Client.findOne({ clientId: username }, (err, client) => {
 						if (err) {
 							return done(err)
 						}
@@ -55,7 +54,7 @@ passport.use(new BasicStrategy(
 
 passport.use(new ClientPasswordStrategy(
 		function(clientId, clientSecret, done) {
-				Client.findOne({ clientId: clientId }, function(err, client) {
+				Client.findOne({ clientId: clientId }, (err, client) => {
 						if (err) {
 							return done(err)
 						}
@@ -74,8 +73,8 @@ passport.use(new ClientPasswordStrategy(
 ))
 
 passport.use(new BearerStrategy(
-		function(accessToken, done) {
-				AccessToken.findOne({ token: accessToken }, function(err, token) {
+	(accessToken, done) => {
+				AccessToken.findOne({ token: accessToken }, (err, token) => {
 
 						if (err) {
 							return done(err)
@@ -85,9 +84,9 @@ passport.use(new BearerStrategy(
 							return done(null, false)
 						}
 
-						if( Math.round((Date.now()-token.created)/1000) > config.get('security:tokenLife') ) {
+						if(Math.round((Date.now()-token.created)/1000) > config.get('security:tokenLife')) {
 
-								AccessToken.remove({ token: accessToken }, function (err) {
+								AccessToken.remove({ token: accessToken }, (err) => {
 										if (err) {
 											return done(err)
 										}
@@ -96,7 +95,7 @@ passport.use(new BearerStrategy(
 								return done(null, false, { message: 'Token expired' })
 						}
 
-						User.findById(token.userId, function(err, user) {
+						User.findById(token.userId, (err, user) => {
 
 								if (err) {
 									return done(err)
@@ -113,13 +112,13 @@ passport.use(new BearerStrategy(
 		}
 ))
 
-exports.isAuthenticatedLocal = function(req, res, callback) {
+exports.isAuthenticatedLocal = (req, res, callback) => {
 	if (req.isAuthenticated()) {
-		if (!req.user.workspace && req.originalUrl != '/workspaces/new')
-			return res.redirect('/workspaces/new')
+		// if (!req.user.workspace && req.originalUrl != '/workspaces/new')
+			// return res.redirect('/workspaces/new')
 		callback(null, true)
 	} else {
-		res.redirect('/login')
+		res.redirect('/signin')
 	}
 }
 
