@@ -17,7 +17,7 @@ const mongoStore = require('connect-mongo')(session)
 const validator = require('express-validator')
 
 const db = require(jt.path('db/mongoose'))
-const root = require(jt.path('routes/root'))
+const routeAuth = require(jt.path('routes/authenicate'))
 const endpoint = require(jt.path('routes/endpoint'))
 const authcontroller = require(jt.path('auth/auth'))
 const oauth2 = require(jt.path('auth/oauth2'))
@@ -79,9 +79,9 @@ app.set('views', jt.path('views/modules'))
 app.set('view engine', 'pug')
 app.set('view options', { layout: false })
 
-app.use('/', root)
+app.use('/', routeAuth)
 app.use('/facets/endpoints', endpoint)
 
 app.listen(app.get('port'), () => {
-	log.info('Notekeep running on port' + app.get('port'))
+	log.info('Notekeep running on port: ' + app.get('port'))
 })

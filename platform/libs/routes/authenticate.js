@@ -13,23 +13,19 @@ const notekeep = require(libs + 'controllers/notekeep')
 
 const stripe = require("stripe")(config.get("stripe:key"))
 
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
 	return res.render('root', {title: 'Notekeep'})
 })
 
-router.get('/signin', function(req, res) {
+router.get('/signin', (req, res) => {
 	return res.render('signin', {title: 'Sign in - Apse', gradient: 'true'})
 })
 
-router.get('/signup', function(req, res) {
+router.get('/signup', (req, res) => {
 	return res.render('signup', {title: 'Sign up - Apse', gradient: 'true'})
 })
 
-router.get('/dashboard', function(req, res) {
-	return res.render('dashboard', {title: 'Dashboard'})
-})
-
-router.post('/signup', function(req, res) {
+router.post('/signup', (req, res) => {
 	req.sanitizeBody()
 	req.checkBody({
 		'username' :{
@@ -65,39 +61,30 @@ router.post('/signup', function(req, res) {
 		}
 	})
 
-	var errors = req.validationErrors()
+	const errors = req.validationErrors()
 
 	if (errors) {
 		return res.send(errors)
 	} else {
 		if (req.body.password == req.body.repassword) {
-			var newid = mongoose.Types.ObjectId()
+			let newid = mongoose.Types.ObjectId()
+			let user = new User()
 
-			stripe.customers.create({
-				email: req.body.email,
-				metadata: {'userID' : newid.toString(), 'fullname' : `${req.body.firstname} ${req.body.lastname}` }
-			}, function(err, customer) {
-				if (err)
-					return res.json({ error: '404', message :  err })
+			user._id = newid
+			user.username = req.body.username
+			user.firstname = req.body.firstname
+			user.lastname = req.body.lastname
+			user.email = req.body.email
+			user.password = req.body.password
 
-				var user = new User()
-				user._id = newid
-				user.username = req.body.username
-				user.firstname = req.body.firstname
-				user.lastname = req.body.lastname
-				user.email = req.body.email
-				user.password = req.body.password
-				user.plan.customer = customer.id
-
-				user.save(function(err, user) {
-					if(!err) {
-							passport.authenticate('local')(req, res, function () {
-								return res.send({'status': 'OK', 'statusCode' : '200'})
-							})
-					} else {
-						return res.json({ error: '404', message : err })
-					}
-				})
+			user.save((err, user) => {
+				if(!err) {
+						passport.authenticate('local')(req, res, () => {
+							return res.send({'status': 'OK', 'statusCode' : '200'})
+						})
+				} else {
+					return res.json({ error: '404', message : err })
+				}
 			})
 
 		} else {
@@ -106,20 +93,8 @@ router.post('/signup', function(req, res) {
 	}
 })
 
-router.get('/:notekeep', function(req, res) {
-	notekeep.findNotekeep(req, res, function(err, ret) {
-		if (err)
-			return res.redirect('/')
-
-		return res.render('notekeep', {title: 'Found'})
-	})
-
-})
-
-router.post('/signin', passport.authenticate('local'), function(req, res) {
+router.post('/signin', passport.authenticate('local'), (req, res) => {
 	return res.json({status:"OK"})
 })
-
-
 
 module.exports = router

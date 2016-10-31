@@ -39,26 +39,6 @@ var	User = new Schema({
 		workspace: {
 			type: String
 		},
-		plan: {
-			customer: {
-				type: String,
-				required: true
-			},
-			current: {
-				type: String,
-				default: 0
-			},
-			charges: [{
-				eventID: {
-					type: String,
-					required: true
-				},
-				created_at: {
-					type: Date,
-					default: Date.now
-				}
-			}]
-		},
 		created: {
 			type: Date,
 			default: Date.now

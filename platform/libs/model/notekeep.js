@@ -11,6 +11,9 @@ var	Notekeep = new Schema({
 			type: String,
 			required: true
 		},
+		team: {
+			type: String
+		},
 		content : {
 			type: String
 		},
