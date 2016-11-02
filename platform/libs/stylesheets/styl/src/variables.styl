@@ -27,7 +27,7 @@ color-grey = #7E7E7E
 color-black = #000
 color-primary = primary-color
 color-ash = #2F3133
-color-smoke = #E4E9EC
+color-smoke = #EFF2F7
 
 light-color-red = lighten(color-red, 20%)
 light-color-orange = lighten(color-orange, 20%)
@@ -59,7 +59,7 @@ dark-color-grey = darken(color-grey, 20%)
 dark-color-black = darken(color-black, 20%)
 dark-color-primary = darken(color-primary, 20%)
 dark-color-ash = #202020
-dark-color-smoke = darken(color-smoke, 10%)
+dark-color-smoke = darken(color-smoke, 5%)
 
 background-info = lighten(color-blue, 92%)
 background-warning = lighten(color-yellow, 92%)
@@ -71,7 +71,7 @@ background-lighter-gray = #f5f6f7
 background-lightest-gray = light-color-smoke
 background-primary = primary-color
 
-border-gray = #E4E5E6
+border-gray = dark-color-smoke
 border-info = darken(background-info, 24%)
 border-warning = darken(background-warning, 24%)
 border-important = darken(background-important, 14%)
@@ -109,10 +109,11 @@ text-warning = darken(color-yellow, 65%)
 text-important = darken(color-red, 65%)
 text-success = darken(color-green, 65%)
 
-box-shadow-gray = rgba(38,38,40,.15)
+box-shadow-gray = transparentify(darken(color-smoke, 80%), 0.05)
 
 //Identifiers
 border-radius-normal = 5px
+border-radius-xl = 8px
 em-height = 3.4em
 
 //Page

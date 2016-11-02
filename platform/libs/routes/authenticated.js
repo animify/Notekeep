@@ -15,7 +15,7 @@ router.get('/dashboard', (req, res) => {
 	return res.render('dashboard', {title: 'Dashboard - Notekeep', user: req.user})
 })
 router.get('/settings', (req, res) => {
-	return res.render('settings', {title: 'Dashboard - Notekeep', user: req.user})
+	return res.render('settings', {title: 'Dashboard - Notekeep', user: req.user, light:true})
 })
 
 module.exports = router
