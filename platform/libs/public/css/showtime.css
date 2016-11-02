@@ -753,8 +753,8 @@ strong {
   clear: both;
 }
 .wrap {
-  padding-left: 2em;
-  padding-right: 2em;
+  padding-left: 2.6em;
+  padding-right: 2.6em;
   *zoom: 1;
 }
 .wrap:before,
@@ -879,6 +879,9 @@ strong {
 .grid-row {
   margin: 0 -15px;
   overflow: hidden;
+}
+.grid-row.nogutter {
+  margin: 0;
 }
 .grid-row:before,
 .grid-row:after {
@@ -1420,14 +1423,14 @@ strong {
   position: absolute;
   top: 2em;
   left: 0;
-  border: 1px solid #eff2f7;
+  border: 1px solid #dfe5ef;
   border-radius: 5px;
-  min-width: 180px;
+  min-width: 15em;
   z-index: 2000;
   display: none;
   padding: 0.4em 0;
-  -webkit-box-shadow: 0 2px 3px 0 rgba(34,36,38,0.15);
-  box-shadow: 0 2px 3px 0 rgba(34,36,38,0.15);
+  -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05);
 }
 .dropdown li {
   font-size: 1em;
@@ -1451,11 +1454,18 @@ strong {
   cursor: default;
 }
 .dropdown li.header {
-  text-transform: uppercase;
   color: #5a6670;
-  padding: 1.1em 1.2em 0.5em 1.2em;
-  font-size: 0.8em;
-  font-weight: 900;
+  padding: 1.1em 1.6em 0.5em 1.6em;
+  font-size: 1em;
+  font-weight: 500;
+}
+.dropdown li.header.sub {
+  color: #9fb0b8;
+  font-size: 1em;
+  font-weight: 300;
+}
+.dropdown li.header + .header {
+  padding-top: 0;
 }
 .dropdown li:hover a {
   color: #00b3ff;
@@ -1463,7 +1473,7 @@ strong {
 .dropdown li a {
   color: #5a6670;
   display: block;
-  padding: 0.6em 1.06em;
+  padding: 0.3em 1.6em;
 }
 .dropdown.right .menu {
   left: auto;
@@ -2506,34 +2516,36 @@ ol.ordered li[value]:before {
 .module {
   position: relative;
   background-color: #fff;
-  -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
   border: 1px solid #dfe5ef;
-  border-radius: 5px;
-  margin: 1em 0;
-  padding: 1.3em;
+  border-radius: 5px 5px 0 0;
+  padding: 1.3em 2em 1.3em 3.5em;
 }
-.module .antiScroll {
-  overflow: hidden;
-  margin: 0 -1.8em;
-  *zoom: 1;
+.module p i {
+  position: absolute;
+  left: 1em;
+  top: 0.9em;
+  font-size: 1.4em;
 }
-.module .antiScroll:before,
-.module .antiScroll:after {
-  content: '';
-  display: table;
+.module a {
+  color: #444a4d;
+  font-weight: 600;
 }
-.module .antiScroll:after {
-  clear: both;
+.module a:hover {
+  color: #00b3ff;
 }
-.module .section {
-  margin: -1em 0;
-  padding: 1.3em;
-  overflow: auto;
-  display: block;
+.module + .module {
+  border-radius: 0;
+  border-top: 0;
 }
-.module .section + .section {
-  border-top: 1px solid #dfe5ef;
+.module:last-of-type {
+  border-radius: 0 0 5px 5px;
+}
+.module span {
+  color: #9fb0b8;
+  margin-left: 0.1em;
+  font-size: 0.875em;
+  letter-spacing: -0.4px;
+  float: right;
 }
 .circular {
   border-radius: 500em;
@@ -3722,31 +3734,32 @@ p.sub {
 nav.nav {
   display: block;
   width: 100%;
-  height: 3.9em;
+  height: 4.2em;
   background-color: #fff;
+  border-bottom: 1px solid #eff2f7;
 }
 nav.nav .float-right > * {
   display: inline-block;
   vertical-align: top;
 }
-nav.nav img.logo {
-  height: 1.4em;
+nav.nav .logo img {
+  height: 1.6em;
   position: relative;
-  top: 1.22em;
+  top: 1.32em;
   *zoom: 1;
 }
-nav.nav img.logo:before,
-nav.nav img.logo:after {
+nav.nav .logo img:before,
+nav.nav .logo img:after {
   content: '';
   display: table;
 }
-nav.nav img.logo:after {
+nav.nav .logo img:after {
   clear: both;
 }
 nav.nav .user {
-  line-height: 1.6em;
+  line-height: 1.7em;
   position: relative;
-  top: 1.1em;
+  top: 1.22em;
   cursor: pointer;
 }
 nav.nav .user:hover span {
@@ -3763,7 +3776,7 @@ nav.nav .user img {
   border-radius: 50%;
 }
 nav.nav ul.options {
-  line-height: 3.1em;
+  line-height: 3.4em;
   margin-right: 2em;
   padding-right: 2em;
   border-right: 1px solid #eff2f7;
@@ -3796,9 +3809,15 @@ ul.options li + li {
   margin-top: 3.6em;
   padding: 3.6em 0;
 }
-.inner .what {
-  font-weight: 300;
-  margin-bottom: 1em;
+.inner h2.what {
+  font-weight: 900;
+  margin-bottom: 1.2em;
+  font-size: 2.1em;
+}
+.inner h3.what {
+  font-weight: 400;
+  margin-bottom: 0.8em;
+  font-size: 1.1em;
 }
 .inner#settings .input h6 {
   font-size: 15px;
@@ -3837,5 +3856,45 @@ ul.options li + li {
   margin-top: 2em;
 }
 .section .button {
+  margin-top: 1.4em;
+}
+.section.note {
+  text-align: center;
+  font-weight: 600;
+  position: relative;
+  padding: 3em 4em 2.5em 4em;
+}
+.section.note:hover {
+  border-color: #00b3ff;
+  cursor: pointer;
+}
+.section.note h4 {
+  font-size: 1.8em;
+}
+.section.note p {
+  color: #9fb0b8;
+  font-weight: 400;
+  margin-top: 0.6em;
+}
+.section.note p.created {
+  margin-top: 1.6em;
+}
+.section.note .date {
+  position: absolute;
+  bottom: 1.2em;
+  right: 1.2em;
+}
+.section.note .date h3 {
+  font-weight: 900;
+  font-size: 1.7em;
+}
+.section.note .date h6 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size: 1em;
+  color: #9fb0b8;
+  text-transform: uppercase;
+}
+.recent + .recent {
   margin-top: 1.4em;
 }

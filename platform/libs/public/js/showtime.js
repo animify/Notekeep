@@ -1,4 +1,5 @@
 $(() => {
+	$('.dropdown').dropdown()
 	$('#newnotekeep').bind('click', () => {
 		$.ajax({
 			url: "/facets/endpoints/newnotekeep",

@@ -11,9 +11,10 @@ const config = require(libs + 'config')
 const User = require(libs + 'model/user')
 const notekeep = require(libs + 'controllers/notekeep')
 
-router.get('/dashboard', (req, res) => {
+router.get('/', (req, res) => {
 	return res.render('dashboard', {title: 'Dashboard - Notekeep', user: req.user})
 })
+
 router.get('/settings', (req, res) => {
 	return res.render('settings', {title: 'Dashboard - Notekeep', user: req.user, light:true})
 })

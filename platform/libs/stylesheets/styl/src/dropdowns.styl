@@ -17,14 +17,13 @@
 	.menu
 		background-color #fff
 		absolute top 2em left 0
-		border 1px solid background-light-gray
+		border 1px solid border-gray
 		border-radius border-radius-normal
-		min-width 180px
+		min-width 15em
 		z-index 2000
 		display none
 		padding .4em 0
-		box-shadow 0 2px 3px 0 rgba(34,36,38,.15)
-
+		box-shadow: 0 1px 1px 0 box-shadow-gray
 	li
 		font-size 1em
 		display block
@@ -41,18 +40,23 @@
 			pointer-events none
 			cursor default
 		&.header
-			text-transform uppercase
 			color body-dark
-			padding 1.1em 1.2em 0.5em 1.2em
-			font-size 0.8em
-			font-weight 900
+			padding 1.1em 1.6em 0.5em 1.6em
+			font-size 1em
+			font-weight 500
+			&.sub
+				color text-lighter-link
+				font-size 1em
+				font-weight 300
+			& + .header
+				padding-top 0
 		&:hover
 			a
 				color color-primary
 		a
 			color body-dark
 			display block
-			padding 0.6em 1.06em
+			padding 0.3em 1.6em
 	&.right
 		.menu
 			left auto

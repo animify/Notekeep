@@ -80,8 +80,8 @@ app.set('views', jt.path('views/modules'))
 app.set('view engine', 'pug')
 app.set('view options', { layout: false })
 
-app.use('/', routeAuth)
 app.use('/', authcontroller.isAuthenticatedLocal, routeAuthed)
+app.use('/', routeAuth)
 app.use('/facets/endpoints', endpoint)
 
 app.listen(app.get('port'), () => {

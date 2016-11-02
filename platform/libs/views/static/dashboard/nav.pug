@@ -1,13 +1,23 @@
 nav.nav.pin.top
 	.wrap
-		img.logo(src="images/logo_primary.png")
+		a.logo(href="/")
+			img(src="images/logo_primary.png")
 		.float-right
 			ul.options
+				li
+					a Dashboard
 				li
 					a Notes
 				li
 					a Teams
-			.user
-				img(src="images/avatar.png")
-				span= user.username
-					i.material-icons arrow_drop_down
+			.user.dropdown.right
+				a.toggle
+					img(src="images/avatar.png")
+					span= user.username
+						i.material-icons arrow_drop_down
+				ul.menu
+					li.header= user.firstname + ' ' + user.lastname
+					li.header.sub= user.email
+					li.divider
+					li #[a My account]
+					li #[a.text-red Sign out]
