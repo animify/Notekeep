@@ -2,9 +2,21 @@ extends ../layout
 
 block content
 	include ../static/dashboard/nav.pug
+	nav.nav.sub
+		.wrap
+			h4.what Dashboard
+			.float-right
+				.floating-icon
+					i.material-icons.text-blue account_circle
+					span Account
+				.floating-icon
+					i.material-icons.text-violet multiline_chart
+					span Statistics
+				.floating-icon
+					i.material-icons.text-green library_add
+					span New note
 	.wrap
 		.inner#dashboard
-			h2.what Dashboard
 			.grid-row
 				.l-5.xs-12
 					h3.what Recent notes

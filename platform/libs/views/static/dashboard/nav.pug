@@ -4,12 +4,12 @@ nav.nav.pin.top
 			img(src="images/logo_primary.png")
 		.float-right
 			ul.options
-				li
-					a Dashboard
-				li
-					a Notes
-				li
-					a Teams
+				li(class= selected == "dashboard" ? "active" : "")
+					a(href="/") Dashboard
+				li(class= selected == "notes" ? "active" : "")
+					a(href="/notes") Notes
+				li(class= selected == "teams" ? "active" : "")
+					a(href="/teams") Teams
 			.user.dropdown.right
 				a.toggle
 					img(src="images/avatar.png")
@@ -19,5 +19,7 @@ nav.nav.pin.top
 					li.header= user.firstname + ' ' + user.lastname
 					li.header.sub= user.email
 					li.divider
-					li #[a My account]
+					li #[a(href="/note/new") New note...]
+					li #[a(href="/settings") My account]
+					li #[a(href="/teams") Manage teams]
 					li #[a.text-red Sign out]

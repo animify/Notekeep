@@ -13,12 +13,13 @@
 	cursor pointer
 	transition all 0.2s ease
 	vertical-align top
-	font-weight 600
+	font-weight 400
 	height em-height
 	line-height 1.4em
-	for size in ('small' 'medium' 'large' 'big' 'massive')
-		&.{size}
-			btn-size(size)
+	&.sm
+		padding .7em 1.8em
+		height auto
+		line-height auto
 	&.outlined
 		box-sizing border-box
 		background-color transparent

@@ -1425,7 +1425,7 @@ strong {
   left: 0;
   border: 1px solid #dfe5ef;
   border-radius: 5px;
-  min-width: 15em;
+  min-width: 17em;
   z-index: 2000;
   display: none;
   padding: 0.4em 0;
@@ -1465,7 +1465,8 @@ strong {
   font-weight: 300;
 }
 .dropdown li.header + .header {
-  padding-top: 0;
+  padding: 0 1.6em 0.8em 1.6em;
+  margin-top: -0.8em;
 }
 .dropdown li:hover a {
   color: #00b3ff;
@@ -1555,24 +1556,14 @@ strong {
   -ms-transition: all 0.2s ease;
   transition: all 0.2s ease;
   vertical-align: top;
-  font-weight: 600;
+  font-weight: 400;
   height: 3.4em;
   line-height: 1.4em;
 }
-.button.small {
-  font-size: 0.8em;
-}
-.button.medium {
-  font-size: 1.1em;
-}
-.button.large {
-  font-size: 1.2em;
-}
-.button.big {
-  font-size: 1.4em;
-}
-.button.massive {
-  font-size: 1.6em;
+.button.sm {
+  padding: 0.7em 1.8em;
+  height: auto;
+  line-height: auto;
 }
 .button.outlined {
   -webkit-box-sizing: border-box;
@@ -3731,12 +3722,81 @@ p.sub {
 .passport .split + .split {
   margin-top: 1.6em;
 }
+ul.options {
+  margin-bottom: 1.4em;
+}
+ul.options li {
+  padding: 0.4em 0;
+  display: inline-block;
+  vertical-align: top;
+}
+ul.options li a {
+  color: #9fb0b8;
+  cursor: pointer;
+}
+ul.options li a:hover {
+  color: #78909b;
+}
+ul.options li.active a {
+  color: #00b3ff;
+}
+ul.options li + li {
+  margin-left: 2.8em;
+}
 nav.nav {
   display: block;
   width: 100%;
   height: 4.2em;
   background-color: #fff;
-  border-bottom: 1px solid #eff2f7;
+}
+nav.nav.sub {
+  margin-top: 4.2em;
+  height: 7em;
+  position: relative;
+  overflow: hidden;
+}
+nav.nav.sub h4.what {
+  padding: 1.5em 0;
+  vertical-align: top;
+  float: left;
+  font-weight: 400;
+}
+nav.nav.sub .floating-icon {
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  margin: 1.5em 0 0 0;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  -webkit-transition: all 0.14s ease;
+  -moz-transition: all 0.14s ease;
+  -o-transition: all 0.14s ease;
+  -ms-transition: all 0.14s ease;
+  transition: all 0.14s ease;
+}
+nav.nav.sub .floating-icon:hover {
+  cursor: pointer;
+}
+nav.nav.sub .floating-icon:hover i {
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+}
+nav.nav.sub .floating-icon + .floating-icon {
+  margin-left: 2.8em;
+}
+nav.nav.sub .floating-icon i {
+  display: block;
+  font-size: 1.8em;
+  margin-bottom: 0.32em;
+  opacity: 0.85;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
+  filter: alpha(opacity=85);
+}
+nav.nav.sub .floating-icon span {
+  color: #444a4d;
+  letter-spacing: -0.4px;
 }
 nav.nav .float-right > * {
   display: inline-block;
@@ -3777,40 +3837,20 @@ nav.nav .user img {
 }
 nav.nav ul.options {
   line-height: 3.4em;
-  margin-right: 2em;
+  margin-right: 1em;
   padding-right: 2em;
-  border-right: 1px solid #eff2f7;
+}
+nav.nav ul.options li.active a {
+  color: #444a4d;
 }
 nav.nav ul.options li + li {
-  margin-left: 2em !important;
-}
-ul.options {
-  margin-bottom: 1.4em;
-}
-ul.options li {
-  padding: 0.4em 0;
-  display: inline-block;
-  vertical-align: top;
-}
-ul.options li a {
-  color: #9fb0b8;
-  cursor: pointer;
-}
-ul.options li a:hover {
-  color: #78909b;
-}
-ul.options li.active a {
-  color: #00b3ff !important;
-}
-ul.options li + li {
-  margin-left: 2.8em;
+  margin-left: 2em;
 }
 .inner {
-  margin-top: 3.6em;
-  padding: 3.6em 0;
+  padding: 2.6em 0;
 }
 .inner h2.what {
-  font-weight: 900;
+  font-weight: 400;
   margin-bottom: 1.2em;
   font-size: 2.1em;
 }

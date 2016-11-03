@@ -42,12 +42,58 @@ p.sub
 		& + .split
 			margin-top 1.6em
 
+ul.options
+	margin-bottom 1.4em
+	li
+		padding .4em 0
+		display inline-block
+		vertical-align top
+		a
+			color text-lighter-link
+			cursor pointer
+			&:hover
+				color text-lighter-link-hover
+		&.active a
+			color primary-color
+		& + li
+			margin-left 2.8em
+
 nav.nav
 	display block
 	width 100%
 	height 4.2em
 	background-color #fff
-	border-bottom 1px solid color-smoke
+	&.sub
+		margin-top 4.2em
+		height 7em
+		position relative
+		overflow hidden
+		h4.what
+			padding 1.5em 0
+			vertical-align top
+			float left
+			font-weight 400
+		.floating-icon
+			display inline-block
+			vertical-align top
+			text-align center
+			margin 1.5em 0 0 0
+			opacity .8
+			transition all .14s ease
+			&:hover
+				cursor pointer
+				i
+					opacity 1
+			& + .floating-icon
+				margin-left 2.8em
+			i
+				display block
+				font-size 1.8em
+				margin-bottom .32em
+				opacity .85
+			span
+				color text-grey
+				letter-spacing -.4px
 	.float-right > *
 		display inline-block
 		vertical-align top
@@ -74,33 +120,18 @@ nav.nav
 
 	ul.options
 		line-height 3.4em
-		margin-right 2em
+		margin-right 1em
 		padding-right 2em
-		border-right 1px solid color-smoke
+		li.active
+			a
+				color text-grey
 		li + li
-			margin-left 2em !important
-
-ul.options
-	margin-bottom 1.4em
-	li
-		padding .4em 0
-		display inline-block
-		vertical-align top
-		a
-			color text-lighter-link
-			cursor pointer
-			&:hover
-				color text-lighter-link-hover
-		&.active a
-			color primary-color !important
-		& + li
-			margin-left 2.8em
+			margin-left 2em
 
 .inner
-	margin-top 3.6em
-	padding 3.6em 0
+	padding 2.6em 0
 	h2.what
-		font-weight 900
+		font-weight 400
 		margin-bottom 1.2em
 		font-size 2.1em
 	h3.what

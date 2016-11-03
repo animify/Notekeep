@@ -12,7 +12,15 @@ const User = require(libs + 'model/user')
 const notekeep = require(libs + 'controllers/notekeep')
 
 router.get('/', (req, res) => {
-	return res.render('dashboard', {title: 'Dashboard - Notekeep', user: req.user})
+	return res.render('dashboard', {title: 'Dashboard - Notekeep', user: req.user, selected: 'dashboard', light: true})
+})
+
+router.get('/notes', (req, res) => {
+	return res.render('notes', {title: 'Notes - Notekeep', user: req.user, selected: 'notes', light: true})
+})
+
+router.get('/teams', (req, res) => {
+	return res.render('teams', {title: 'Teams - Notekeep', user: req.user, selected: 'teams', light: true})
 })
 
 router.get('/settings', (req, res) => {
