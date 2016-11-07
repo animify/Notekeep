@@ -63,11 +63,14 @@ nav.nav
 	width 100%
 	height 4.2em
 	background-color #fff
+	relative top left
+	z-index 2000
 	&.sub
-		margin-top 4.2em
 		height 7em
 		position relative
 		overflow hidden
+		position relative
+		z-index 1800
 		h4.what
 			padding 1.5em 0
 			vertical-align top
@@ -78,7 +81,6 @@ nav.nav
 			vertical-align top
 			text-align center
 			margin 1.5em 0 0 0
-			opacity .8
 			transition all .14s ease
 			&:hover
 				cursor pointer
@@ -99,34 +101,42 @@ nav.nav
 		vertical-align top
 	.logo
 		img
-			height 1.6em
-			relative top 1.32em
+			height 1.4em
+			relative top 1.5em
 			cf()
 	.user
 		line-height 1.7em
 		relative top 1.22em
 		cursor pointer
-		&:hover span
-			color text-lighter-link-hover
+		&:hover span, &.open span
+			color text-grey
 		span
 			vertical-align top
 			text-transform capitalize
 			margin-left .6em
-			color text-lighter-link
-
+			color text-light
+			transition .14s ease all
 		img
-			height 1.7em
+			height 1.66em
 			border-radius 50%
 
 	ul.options
 		line-height 3.4em
-		margin-right 1em
 		padding-right 2em
-		li.active
+		margin 0
+		li
 			a
-				color text-grey
-		li + li
-			margin-left 2em
+				transition .14s ease all
+			i
+				color text-lighter
+				relative top .25em
+				&:hover
+					color inherit
+			&.active
+				a, i
+					color text-grey
+			& + li
+				margin-left 2.4em
 
 .inner
 	padding 2.6em 0
@@ -160,7 +170,7 @@ nav.nav
 		margin-bottom 1.4em
 	.input + .input
 		margin-top 2.2em
-	& + .section
+	& + h3.what
 		margin-top 2em
 	.button
 		margin-top 1.4em
@@ -168,29 +178,103 @@ nav.nav
 		text-align center
 		font-weight 600
 		position relative
-		padding 3em 4em 2.5em 4em
+		padding 3.5em 0 0 0
+		.type
+			margin .6em 0
+			display block
+			text-transform uppercase
+			color text-lighter
+			font-weight 900
+			font-size .8em
+		.body
+			padding 0 4em 3em 4em
+		.footer
+			text-align left
+			padding 1em 2em
+			font-size .8em
+			border-top 1px solid border-gray
+			cf()
+			.created
+				float left
+				vertical-align top
+			.date
+				float right
+				vertical-align top
 		&:hover
 			border-color color-primary
 			cursor pointer
+			h4
+				color color-primary
 		h4
 			font-size 1.8em
 		p
-			color text-lighter-link
+			color text-light
 			font-weight 400
-			margin-top .6em
-			&.created
-				margin-top 1.6em
-		.date
-			absolute bottom 1.2em right 1.2em
-			h3
-				font-weight 900
-				font-size 1.7em
-			h6
-				font-weight 900
-				letter-spacing 2px
-				font-size 1em
-				color text-lighter-link
-				text-transform uppercase
+			margin-top 1em
+
+.notes
+	width 26%
+	display inline-block
+	vertical-align top
+	height 100%
+	absolute top left
+	z-index 1000
+	min-width 18em
+	max-width 40em
+	border-right 1px solid color-smoke
+	.tip
+		padding 2em 3.6em
+		color text-light
+		font-size .86em
+	.note
+		padding 1.4em 2.6em
+		background-color #fff
+		position relative
+		&::after
+			absolute top left
+			width 100%
+			height 1px
+			background-color color-smoke
+			content ''
+		&.new
+			display none
+		&.open
+			border-right 3px solid color-primary
+		&:last-of-type
+			border-bottom 1px solid color-smoke
+		h3
+			font-size 1.2em
+		p
+			color text-light
+			overflow ellipsis
+			line-height 1.8em
+		small
+			color text-lighter
+
+.fit
+	margin-top 11.2em
+	background-color #fff
+	height calc(100% - 11.2em)
+	overflow-y scroll
+	position relative
+
+.display
+	width 74%
+	display inline-block
+	vertical-align top
+	height 100%
+	absolute top right
+	.empty
+		i
+			color color-red
+			margin-bottom .2em
+			font-size 4em
+		p
+			line-height 1.8em
+			color text-light
+	.fit
+		background-color color-smoke
+		border-top 1px solid color-smoke
 
 .recent + .recent
 	margin-top 1.4em

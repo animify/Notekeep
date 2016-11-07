@@ -7,33 +7,34 @@ block content
 			h4.what Settings
 			.float-right
 				.floating-icon
-					i.material-icons.text-blue supervisor_account
+					i.material-icons.text-blue account_circle
 					span Account
 				.floating-icon
-					i.material-icons.text-yellow supervisor_account
+					i.material-icons.text-yellow person_pin
 					span Team
 				.floating-icon
-					i.material-icons.text-green developer_mode
-					span Developer
+					i.material-icons.text-teal security
+					span Security
 	.wrap
 		.inner#settings
-			.section
-				h4.sub Account details
-				.input
-					h6 First name
-					input(type="text", value=user.firstname)
-				.input
-					h6 Last name
-					input(type="text", value=user.lastname)
-				.input
-					h6 Username
-					input(type="text", value=user.username)
-				.input
-					h6 Email
-					input(type="text", value=user.email)
-				a.button.primary Update preferences
+			.contain
+				h3.what Account Details
+				.section
+					.input
+						h6 First name
+						input(type="text", value=user.firstname)
+					.input
+						h6 Last name
+						input(type="text", value=user.lastname)
+					.input
+						h6 Username
+						input(type="text", value=user.username)
+					.input
+						h6 Email
+						input(type="text", value=user.email)
+					a.button.green Update preferences
 
-			.section
-				h4.sub Notifications
-				.input
-					input(type="text", value=user.firstname)
+				h3.what Notifications
+				.section
+					.input
+						input(type="text", value=user.firstname)

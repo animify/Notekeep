@@ -12,6 +12,23 @@ block content
 				.floating-icon
 					i.material-icons.text-yellow group_work
 					span Teams
-				.floating-icon
+				.floating-icon#in_newnote
 					i.material-icons.text-green library_add
-					span New note
+					span New Note
+	.notes
+		.fit
+			.note
+				h3 Note one
+				p Text should be truncated when min width
+				small 3 minutes ago
+			.note
+				h3 Note two
+				p Long note text should be truncated anyway when text is longer than the container
+				small 29th January 2016
+			p.tip.text-center Here is the list of all your private notes, click "#[strong New Note]" at the top right to add to add more to this workspace.
+	.display
+		.fit
+			.empty.centered.text-center
+				i.material-icons mood_bad
+				h4 Nothing selected
+				p Select a note to display

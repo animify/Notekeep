@@ -27,4 +27,8 @@ router.get('/settings', (req, res) => {
 	return res.render('settings', {title: 'Dashboard - Notekeep', user: req.user, light:true})
 })
 
+router.get('/activity', (req, res) => {
+	return res.render('activity', {title: 'Activity - Notekeep', selected: 'activity', user: req.user, light:true})
+})
+
 module.exports = router

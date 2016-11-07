@@ -10,6 +10,8 @@ nav.nav.pin.top
 					a(href="/notes") Notes
 				li(class= selected == "teams" ? "active" : "")
 					a(href="/teams") Teams
+				li(class= selected == "activity" ? "active" : "")
+					a(href="/activity") #[i.material-icons notifications]
 			.user.dropdown.right
 				a.toggle
 					img(src="images/avatar.png")
@@ -19,7 +21,7 @@ nav.nav.pin.top
 					li.header= user.firstname + ' ' + user.lastname
 					li.header.sub= user.email
 					li.divider
-					li #[a(href="/note/new") New note...]
-					li #[a(href="/settings") My account]
-					li #[a(href="/teams") Manage teams]
-					li #[a.text-red Sign out]
+					li #[a(href="/note/new") New Note...]
+					li #[a(href="/settings") My Account]
+					li #[a(href="/teams") Manage Teams]
+					li #[a.text-red Sign Out]

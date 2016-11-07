@@ -1,5 +1,17 @@
 $(() => {
 	$('.dropdown').dropdown()
+
+	$('#in_newnote').bind('click', () => {
+		$('.notes .fit').prepend(`
+			<div class="note open new">
+				<h3>New note</h3>
+				<p>Write something inspiring</p>
+				<small>A few seconds ago</small>
+			</div>
+		`)
+		$('.note.new').slideDown('fast')
+	})
+
 	$('#newnotekeep').bind('click', () => {
 		$.ajax({
 			url: "/facets/endpoints/newnotekeep",
