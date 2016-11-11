@@ -20,7 +20,7 @@ $(() => {
 			success: (data) => {
 				JSON.stringify(data)
 				if (data.statusCode == 200)
-					window.location.replace("/dashboard")
+					window.location.replace("/")
 			}
 		})
 	})
@@ -40,7 +40,7 @@ $(() => {
 			data: JSON.stringify(data),
 			success: (data) => {
 				if (data.statusCode == 200)
-					window.location.replace("/dashboard")
+					window.location.replace("/")
 			}
 		})
 	})
@@ -57,7 +57,7 @@ $(() => {
 			data: JSON.stringify(data),
 			success: (data) => {
 				if (data.statusCode == 200)
-					window.location.replace("/dashboard")
+					window.location.replace("/")
 			}
 		})
 	})

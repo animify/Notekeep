@@ -1,0 +1,79 @@
+.medium-toolbar-arrow
+	&-under
+		&:after
+			border-color invert-primary transparent transparent transparent
+			top 2.88em
+	&-over
+		&:before
+			border-color transparent transparent invert-primary transparent
+
+.medium-editor-toolbar
+	background-color invert-primary
+	border 0
+	border-radius border-radius-xl
+	li
+		& + li
+			border-left 1px solid lighten(invert-primary, 2%)
+		button
+			background-color transparent
+			border 0
+			color #fff
+			color rgba(#FFF,.65)
+			min-width 3em
+			height 3.3em
+			padding 1em 1.3em
+			&:hover
+				background-color lighten(invert-primary, 4%)
+				color #fff
+		.medium-editor-button-first
+			border-radius border-radius-xl 0 0 border-radius-xl
+			padding-left 1.5em
+		.medium-editor-button-last
+			border-radius 0 border-radius-xl border-radius-xl 0
+			padding-right 1.5em
+		.medium-editor-button-active
+			background-color lighten(invert-primary, 4%)
+			color #fff
+	&-form
+		background-color invert-primary
+		border-radius border-radius-xl
+		color text-lighter
+		overflow hidden
+		.medium-editor-toolbar-input
+			background-color invert-primary
+			box-sizing border-box
+			color #fff
+			padding-left 1em
+			width 14em
+			height 3.3em
+			+placeholder()
+				color #fff
+				opacity .5
+			a
+				color #fff
+		.medium-editor-toolbar-close
+			margin-left 0em
+		.medium-editor-toolbar-save,.medium-editor-toolbar-close
+			relative top .28em
+			i
+				color #fff
+				opacity .5
+			&:hover i
+				opacity 1
+				cursor pointer
+	&-anchor-preview
+		background-color invert-primary
+		border-radius border-radius-xl
+		padding 1em 1.3em
+
+.medium-editor-toolbar-anchor-preview
+	color text-lighter
+	text-decoration none
+	padding .3em 1em
+	a
+		font-size .8em
+		margin 0
+		padding .3em 1em
+		color rgba(#FFF,.65)
+		&:hover
+			color #fff

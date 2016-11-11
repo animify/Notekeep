@@ -11,10 +11,6 @@ const config = require(libs + 'config')
 const User = require(libs + 'model/user')
 const notekeep = require(libs + 'controllers/notekeep')
 
-router.get('/', (req, res) => {
-	return res.render('root', {title: 'Notekeep'})
-})
-
 router.get('/signin', (req, res) => {
 	return res.render('signin', {title: 'Sign in - Apse', gradient: 'true'})
 })

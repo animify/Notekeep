@@ -16,6 +16,17 @@ body
 p.sub
 	color body-color
 
+.select
+	box-shadow inset 0 0 2px border-gray
+	width 1.6em
+	height 1.6em
+	border-radius border-radius-normal
+	content ''
+	display inline-block
+	&.selected
+		box-shadow inset 0 0 20px color-green
+
+
 .passport
 	center(800px, 20px)
 	text-align center
@@ -28,7 +39,9 @@ p.sub
 		padding .7em 0 2.5em 0
 		letter-spacing .4px
 	.logo
-		padding 3em 0 3em 0
+		padding 4.6em 0 4em 0
+		img
+			height 2.4em
 	.split
 		.button
 			display block
@@ -162,15 +175,15 @@ nav.nav
 	box-shadow: 0 1px 1px 0 box-shadow-gray
 	.sub
 		display block
-		padding .3em 0 .6em 0
+		padding .3em 0 .7em 0
 		border-bottom 1px solid border-gray
 		width 100%
 		cf()
 		font-size 1.4em
-		margin-bottom 1.4em
+		margin-bottom 1.6em
 	.input + .input
 		margin-top 2.2em
-	& + h3.what
+	& + .section
 		margin-top 2em
 	.button
 		margin-top 1.4em
@@ -265,6 +278,7 @@ nav.nav
 	height 100%
 	absolute top right
 	.empty
+		display none
 		i
 			color color-red
 			margin-bottom .2em
@@ -275,6 +289,42 @@ nav.nav
 	.fit
 		background-color color-smoke
 		border-top 1px solid color-smoke
-
+	.filled
+		background-color #fff
+		height 100%
+		width 100%
+		padding 3.3em 4em
+		overflow-y auto
+		overflow-x hidden
+		.note_header
+			margin-bottom 2.4em
+			position relative
+			&::after
+				height 1px
+				width 4em
+				content ' '
+				absolute bottom -1.2em left 4.25em
+				background-color border-gray
+			& > *
+				display inline-block
+				vertical-align top
+			&-avatar
+				margin-right 1em
+			img
+				height 3.25em
+				width 3.25em
+				border-radius border-radius-xl
+			small
+				color text-lighter
+				line-height 1.4em
+			h3
+				font-weight 800
+				line-height 1em
+				&[contenteditable=true]:empty:before
+					content attr(placeholder)
+					display block
+				&:focus
+					&[contenteditable=true]:empty:before
+						color text-lightest
 .recent + .recent
 	margin-top 1.4em
