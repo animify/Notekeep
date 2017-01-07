@@ -11,24 +11,32 @@ block content
 			.float-right.actions
 				a.button.primary.sm New note
 		.inner
-			.notes.grid-row
-				.xs-12.m-4
+			.notes
+				.fit
 					.note
 						h6 Note one
 						p Text should be truncated when min width
 						small 3 minutes ago
-				.xs-12.m-4
 					.note
 						h6 Note two
 						p Long note text should be truncated anyway when text is longer than the container
 						small 29th January 2016
-				.xs-12.m-4
-					.note
-						h6 Note two
-						p Long note text should be truncated anyway when text is longer than the container
-						small 29th January 2016
-				p.tip.text-center Here is the list of all your private notes, click "#[strong New Note]" at the top right to add to add more to this workspace.
-
+					p.tip.text-center Here is the list of all your private notes, click "#[strong New Note]" at the top right to add to add more to this workspace.
+			.display
+				.fit
+					.empty.centered.text-center
+						i.material-icons mood_bad
+						h4 Nothing selected
+						p Select a note to display
+					.filled
+						.note_header
+							.note_header-avatar
+								img(src=user.avatar)
+							.note_header-desc
+								small= user.firstname + ' ' + user.lastname
+								h3(contenteditable="true", placeholder="Untitled")
+						.note_content
+							p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 block footer
 	script(src="/js/medium-editor.min.js")

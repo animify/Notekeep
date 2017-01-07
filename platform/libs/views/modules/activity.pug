@@ -2,20 +2,15 @@ extends ../layout
 
 block content
 	include ../static/dashboard/nav.pug
-	nav.nav.sub
-		.wrap
+	.contain
+		nav.nav.sub
 			h4.what All Activity
-			.float-right
-				.floating-icon
-					i.material-icons.text-yellow sort
-					span Sort
-				.floating-icon
-					i.material-icons.text-red clear_all
-					span Clear All
-	.wrap
+			.float-right.actions
+				a.button.yellow.sm Sort by
+				a.button.red.sm Clear all
 		.inner
 			.activity
-				.divider.horizontal.mt_null Today
+				.divider.horizontal Today
 				.module
 					p #[i.material-icons.text-green note_add] You created a #[a note] #[span 1 minute ago]
 				.module

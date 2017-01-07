@@ -2,39 +2,28 @@ extends ../layout
 
 block content
 	include ../static/dashboard/nav.pug
-	nav.nav.sub
-		.wrap
-			h4.what Settings
-			.float-right
-				.floating-icon
-					i.material-icons.text-blue account_circle
-					span Account
-				.floating-icon
-					i.material-icons.text-yellow person_pin
-					span Team
-				.floating-icon
-					i.material-icons.text-teal security
-					span Security
-	.wrap
+	.contain
+		nav.nav.sub
+			h4.what= user.firstname + ' ' + user.lastname
+			h6.what Account ID: #[span= user.id]
 		.inner#settings
-			.contain
-				.section
-					h3.sub Account details
-					.input
-						h6 First name
-						input(type="text", value=user.firstname)
-					.input
-						h6 Last name
-						input(type="text", value=user.lastname)
-					.input
-						h6 Username
-						input(type="text", value=user.username)
-					.input
-						h6 Email
-						input(type="text", value=user.email)
-					a.button.green Update preferences
+			.section
+				h3.sub Account details
+				.input
+					h6 First name
+					input(type="text", value=user.firstname)
+				.input
+					h6 Last name
+					input(type="text", value=user.lastname)
+				.input
+					h6 Username
+					input(type="text", value=user.username)
+				.input
+					h6 Email
+					input(type="text", value=user.email)
+				a.button.green Update preferences
 
-				.section
-					h3.sub Notifications
-					.input
-						input(type="text", value=user.firstname)
+			.section
+				h3.sub Notifications
+				.input
+					input(type="text", value=user.firstname)
