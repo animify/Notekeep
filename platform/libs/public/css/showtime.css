@@ -110,37 +110,37 @@ body {
 h1 {
   font-size: 3.8em;
   color: #2f4468;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7em;
 }
 h2 {
   font-size: 3em;
   color: #2f4468;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7em;
 }
 h3 {
   font-size: 2.2em;
   color: #2f4468;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7em;
 }
 h4 {
   font-size: 1.8em;
   color: #2f4468;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7em;
 }
 h5 {
   font-size: 1.4em;
   color: #2f4468;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7em;
 }
 h6 {
   font-size: 1.08em;
   color: #2f4468;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7em;
 }
 ::selection {
@@ -1483,9 +1483,10 @@ strong {
   cursor: default;
 }
 .dropdown li.header {
-  color: #4f5a62;
-  padding: 1.1em 1.6em 0.5em 1.6em;
-  font-size: 1em;
+  color: #2f4468;
+  padding: 0.8rem 1rem;
+  margin: 0 0.4rem;
+  font-size: 1.2em;
   font-weight: 500;
 }
 .dropdown li.header.sub {
@@ -1494,18 +1495,19 @@ strong {
   font-weight: 300;
 }
 .dropdown li.header + .header {
-  padding: 0 1.6em 0.8em 1.6em;
-  margin-top: -0.8em;
+  padding: 0.8rem 1rem;
+  margin: -1.4rem 0.4rem 0 0.4rem;
 }
 .dropdown li:hover a {
   background-color: #f2f5f7;
 }
 .dropdown li a {
-  color: #4f5a62;
+  color: #2f4468;
   display: block;
-  padding: 0.8em 1em;
-  margin: 0 0.6rem;
+  padding: 0.8rem 1rem;
+  margin: 0 0.4rem;
   font-size: 1.1em;
+  font-weight: 500;
   border-radius: 2px;
 }
 .dropdown.right .menu {
@@ -2166,19 +2168,19 @@ ol.ordered li[value]:before {
 }
 .input input::-webkit-input-placeholder,
 .input textarea::-webkit-input-placeholder {
-  color: #8d99a3;
+  color: #8d9ea6;
 }
 .input input:-moz-placeholder,
 .input textarea:-moz-placeholder {
-  color: #8d99a3;
+  color: #8d9ea6;
 }
 .input input::-moz-placeholder,
 .input textarea::-moz-placeholder {
-  color: #8d99a3;
+  color: #8d9ea6;
 }
 .input input:-ms-input-placeholder,
 .input textarea:-ms-input-placeholder {
-  color: #8d99a3;
+  color: #8d9ea6;
 }
 .input textarea {
   line-height: 1.2em;
@@ -3629,7 +3631,7 @@ section.display img {
 .name {
   padding: 2em 0;
   font-size: 1.1em;
-  color: #d4d9dd;
+  color: #d4dbde;
   letter-spacing: 0.03em;
 }
 .user.pinned {
@@ -3640,7 +3642,7 @@ section.display img {
 .user.pinned .toggle > * {
   display: inline-block;
   vertical-align: top;
-  color: #71808c;
+  color: #708690;
 }
 .user.pinned img {
   border-radius: 2px;
@@ -3663,7 +3665,7 @@ section.display img {
 }
 .user.pinned:hover .toggle > *,
 .user.pinned.open .toggle > * {
-  color: #d4d9dd;
+  color: #d4dbde;
   cursor: pointer;
   opacity: 1;
   -ms-filter: none;
@@ -3700,7 +3702,7 @@ body.light {
   background-color: #f2f5f7;
 }
 p.sub {
-  color: #71808c;
+  color: #708690;
 }
 .select {
   -webkit-box-shadow: inset 0 0 2px #e2e6e8;
@@ -3797,7 +3799,7 @@ nav.nav {
   display: block;
   width: 100%;
   height: 4em;
-  background-color: #32547c;
+  background-color: #fff;
   position: relative;
   top: 0;
   left: 0;
@@ -3823,6 +3825,9 @@ nav.nav.sub h6.what {
   vertical-align: top;
   float: right;
   font-weight: 400;
+}
+nav.nav.sub h6.what span {
+  font-weight: 500;
 }
 nav.nav.sub .actions {
   position: relative;
@@ -3885,7 +3890,8 @@ nav.nav ul.options li a {
   -o-transition: 0.14s ease all;
   -ms-transition: 0.14s ease all;
   transition: 0.14s ease all;
-  color: #fff;
+  color: #b0bec4;
+  font-weight: 500;
 }
 nav.nav ul.options li i {
   color: #b0bec4;
@@ -3914,10 +3920,39 @@ nav.nav ul.options li + li {
   margin-bottom: 0.8em;
   font-size: 1.1em;
 }
+.inner#settings .list {
+  margin-top: 1.1rem;
+  border-top: 1px solid #e2e6e8;
+  padding-top: 1em;
+}
+.inner#settings .item {
+  padding: 1rem 0;
+}
+.inner#settings .item.active a {
+  color: #1fb4fc;
+}
+.inner#settings .item.active a:before {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  background-color: #1fb4fc;
+  content: '';
+  display: block;
+}
+.inner#settings .item a {
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 0.4em 0 0.4em 1.6em;
+  position: relative;
+}
 .inner#settings .input h6 {
   font-size: 14px;
   line-height: 1em;
-  margin-bottom: 0.8em;
+  color: #708690;
+  font-weight: 400;
+  margin-bottom: 0.6rem;
 }
 .section {
   padding: 2.3em 3em;
@@ -4007,16 +4042,50 @@ nav.nav ul.options li + li {
   font-weight: 400;
   margin-top: 1em;
 }
+.nosub {
+  margin-top: 4.2em;
+}
 @media only screen and (max-width: 768px) {
   .notes .xs-12 + .xs-12 {
     margin-top: 1.5rem;
   }
 }
+.notes + .notes {
+  margin-top: 2.6rem;
+}
+.notes .desc {
+  margin-bottom: 1.6rem;
+}
+.notes .desc > * {
+  display: inline-block;
+  vertical-align: top;
+}
+.notes .desc .button {
+  margin-top: 0.3rem;
+  float: right;
+}
+.notes .desc span {
+  height: 2.6rem;
+  background-color: #ff4949;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  line-height: 2.7rem;
+  text-transform: uppercase;
+  font-size: 1.3em;
+  border-radius: 2px;
+  width: 2.6rem;
+  margin-right: 1.3rem;
+}
 .notes .note {
-  padding: 1.5rem 1.6rem;
+  padding: 1.3rem 1.6rem 1.5rem 1.6rem;
   background-color: #fff;
   position: relative;
   border-radius: 2px;
+  border: 1px solid #fff;
+}
+.notes .note:hover {
+  border-color: #1fb4fc;
 }
 .notes .note.new {
   display: none;

@@ -6,12 +6,13 @@ block head
 block content
 	include ../static/dashboard/nav.pug
 	.contain
-		nav.nav.sub
-			h4.what Notes overview
-			.float-right.actions
-				a.button.primary.sm New note
-		.inner
+		.inner.nosub
 			.notes.grid-row
+				.xs-12
+					.desc
+						span V
+						h4 Visual design
+						a.button.primary.sm New note
 				.xs-12.m-4
 					.note
 						h6 Note one
@@ -27,7 +28,27 @@ block content
 						h6 Note two
 						p Long note text should be truncated anyway when text is longer than the container
 						small 29th January 2016
-				p.tip.text-center Here is the list of all your private notes, click "#[strong New Note]" at the top right to add to add more to this workspace.
+			.notes.grid-row
+				.xs-12
+					.desc
+						span D
+						h4 Development
+						a.button.primary.sm New note
+				.xs-12.m-4
+					.note
+						h6 Note one
+						p Text should be truncated when min width
+						small 3 minutes ago
+				.xs-12.m-4
+					.note
+						h6 Note two
+						p Long note text should be truncated anyway when text is longer than the container
+						small 29th January 2016
+				.xs-12.m-4
+					.note
+						h6 Note two
+						p Long note text should be truncated anyway when text is longer than the container
+						small 29th January 2016
 
 
 block footer

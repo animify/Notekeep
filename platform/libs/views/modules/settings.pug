@@ -3,27 +3,32 @@ extends ../layout
 block content
 	include ../static/dashboard/nav.pug
 	.contain
-		nav.nav.sub
-			h4.what= user.firstname + ' ' + user.lastname
-			h6.what Account ID: #[span= user.id]
-		.inner#settings
-			.section
-				h3.sub Account details
-				.input
-					h6 First name
-					input(type="text", value=user.firstname)
-				.input
-					h6 Last name
-					input(type="text", value=user.lastname)
-				.input
-					h6 Username
-					input(type="text", value=user.username)
-				.input
-					h6 Email
-					input(type="text", value=user.email)
-				a.button.green Update preferences
+		.inner.nosub#settings
+			.grid-row
+				.xs-12.m-3
+					h4.what= user.firstname + ' ' + user.lastname
+					h6.what= user.id
+					ul.list
+						li.item.active #[a Account details]
+						li.item #[a Notifications]
+				.xs-12.m-9
+					.section#account
+						h3.sub Account details
+						.input
+							h6 First name
+							input(type="text", value=user.firstname)
+						.input
+							h6 Last name
+							input(type="text", value=user.lastname)
+						.input
+							h6 Username
+							input(type="text", value=user.username)
+						.input
+							h6 Email
+							input(type="text", value=user.email)
+						a.button.green Update preferences
 
-			.section
-				h3.sub Notifications
-				.input
-					input(type="text", value=user.firstname)
+					.section#notifications
+						h3.sub Notifications
+						.input
+							input(type="text", value=user.firstname)

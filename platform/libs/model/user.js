@@ -46,28 +46,29 @@ var	User = new Schema({
 		resetPasswordToken: String,
 		resetPasswordExpires: Date
 	});
-User.plugin(passportLocalMongoose);
 
-User.methods.generateHash = function(password) {
-		return bcrypt.hashSync(password, this.salt, null);
-};
+User.plugin(passportLocalMongoose);
 
 User.virtual('userId')
 .get(function () {
-	return this.id;
+	return this.id
 });
+
+User.methods.generateHash = function(password) {
+	return bcrypt.hashSync(password, this.salt, null)
+}
 
 User.virtual('password')
 	.set(function(password) {
-		this._plainPassword = password;
-		this.salt = bcrypt.genSaltSync(64);
-		this.hashedPassword = this.generateHash(password);
+		this._plainPassword = password
+		this.salt = bcrypt.genSaltSync(64)
+		this.hashedPassword = this.generateHash(password)
 	})
-	.get(function() { return this.hashedPassword; });
+	.get(function() { return this.hashedPassword })
 
 
 User.methods.checkPassword = function(password) {
-		return bcrypt.compareSync(password, this.hashedPassword);
-};
+	return bcrypt.compareSync(password, this.hashedPassword)
+}
 
 module.exports = mongoose.model('User', User);
