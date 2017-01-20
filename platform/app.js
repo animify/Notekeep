@@ -49,7 +49,7 @@ app.use(validator({
 		onlyLetters: (str) => {
 			return /^\w+$/.test(str)
 		}
- }
+	}
 }))
 
 app.use(validator({

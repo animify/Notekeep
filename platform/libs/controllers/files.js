@@ -1,5 +1,5 @@
 var libs = process.cwd() + '/libs/'
-var log = require(libs + 'logs/log')(module);
+var log = require(libs + 'logs/log')(module)
 var config = require(libs + 'config')
 
 var file = require(libs + 'model/file')

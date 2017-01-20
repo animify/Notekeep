@@ -1,16 +1,24 @@
 const mongoose = require('mongoose')
-const	Schema = mongoose.Schema
+const Schema = mongoose.Schema
+const shortid = require('shortid')
 const User = require('./user')
 
-let	File = new Schema({
-	filename: {
+let	Note = new Schema({
+	_id: {
 		type: String,
-		required: true
+		'default': shortid.generate
 	},
 	owner: {
 		type: String,
 		required: true,
 		ref: 'User'
+	},
+	team: {
+		type: String,
+		trim: true
+	},
+	content : {
+		type: String
 	},
 	updated: {
 		type: Date,
@@ -24,4 +32,4 @@ let	File = new Schema({
 })
 
 
-module.exports = mongoose.model('File', File)
+module.exports = mongoose.model('Note', Note)

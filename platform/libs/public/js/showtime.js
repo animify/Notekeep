@@ -1,6 +1,19 @@
 $(() => {
 	$('.dropdown').dropdown()
 
+	document.onkeydown = function(evt) {
+		evt = evt || window.event
+		let isEscape = false
+		if ("key" in evt) {
+			isEscape = (evt.key == "Escape" || evt.key == "Esc")
+		} else {
+			isEscape = (evt.keyCode == 27)
+		}
+		if (isEscape) {
+			closeModal()
+		}
+	}
+
 	$('#in_newnote').bind('click', () => {
 		$('.notes .fit').prepend(`
 			<div class="note open new">
@@ -14,7 +27,7 @@ $(() => {
 
 	$('#newnotekeep').bind('click', () => {
 		$.ajax({
-			url: "/facets/endpoints/newnotekeep",
+			url: "/facets/endpoints/notes/new",
 			type: "POST",
 			contentType: 'application/json',
 			success: (data) => {
@@ -45,11 +58,11 @@ $(() => {
 		})
 	})
 
-	$('#signin').click(() => {
+	$('#signin').bind('click', () => {
 		let data = {}
 		data.username = $('#username').val()
 		data.password = $('#password').val()
-		console.log(data);
+		console.log(data)
 		$.ajax({
 			url: "/signin",
 			type: "POST",
@@ -61,4 +74,16 @@ $(() => {
 			}
 		})
 	})
+
+	$('[data-modal="open"]').bind('click', function() {
+		openModal($(this).attr('data-modal-name'))
+	})
+
+	openModal = (modalID) => {
+		$(`#${modalID}`).addClass('active')
+	}
+
+	closeModal = (modalID) => {
+		$(`.modal`).removeClass('active')
+	}
 })
