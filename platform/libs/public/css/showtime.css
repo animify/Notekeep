@@ -1601,7 +1601,7 @@ strong {
   width: 100%;
 }
 .button.sm {
-  padding: 0.7em 1.4em;
+  padding: 0.8em 1.5em;
   height: auto;
   line-height: auto;
 }
@@ -1623,7 +1623,7 @@ strong {
 .button:hover {
   -webkit-box-shadow: none;
   box-shadow: none;
-  background-color: #f2f5f7;
+  background-color: #e6ecf0;
 }
 .button.red {
   color: #fff;
@@ -1837,6 +1837,26 @@ strong {
 .button:hover {
   color: #404040;
   background-color: hover-background-light-gray;
+}
+.button-group {
+  *zoom: 1;
+}
+.button-group:before,
+.button-group:after {
+  content: '';
+  display: table;
+}
+.button-group:after {
+  clear: both;
+}
+.button-group.to-right .button {
+  float: right;
+}
+.button-group.to-right .button + .button {
+  margin-right: 1em;
+}
+.button-group .button + .button {
+  margin-left: 1em;
 }
 ul.list,
 ol.list {
@@ -4210,22 +4230,40 @@ nav.nav ul.options li + li {
   border-right: 1px solid #eaeff3;
   position: relative;
   width: 100%;
-  display: block;
+  display: inline-block;
+  *zoom: 1;
+}
+.unit:before,
+.unit:after {
+  content: '';
+  display: table;
+}
+.unit:after {
+  clear: both;
+}
+.unit.new {
+  display: none;
 }
 .unit .content {
   padding-left: 3.5rem;
 }
-.unit .content h6 {
+.unit .content .title {
+  display: block;
+}
+.unit .content .title a {
   line-height: 1.4em;
   font-size: 1.2em;
-}
-.unit .content h6.title {
+  color: #444a4d;
   font-weight: 600;
+}
+.unit .content .title a:hover {
+  cursor: pointer;
+  color: #1fb4fc;
 }
 .unit .content h6.members {
   color: #b0bec4;
   float: right;
-  font-size: 0.875em;
+  font-size: 1em;
   position: relative;
   top: -0.8rem;
 }
@@ -4257,12 +4295,6 @@ nav.nav ul.options li + li {
 }
 .unit + .unit {
   border-top: 1px solid #eaeff3;
-}
-.unit:hover {
-  cursor: pointer;
-}
-.unit:hover h6 {
-  color: #1fb4fc;
 }
 .modal {
   width: 100%;

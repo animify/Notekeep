@@ -11,13 +11,14 @@ block content
 		.inner#teams
 			if (teams.length)
 				.grid-row
-					.xs-12
+					.xs-12#ls-teams
 						for team in teams
-							a.unit(href=`/team/${team._id}`)
+							.unit
 								.text-preview(style=`background-color:${team.color}`)
 									span= team.name.substr(0,1)
 								.content
-									h6.title= team.name
+									.title
+										a(href=`/team/${team._id}`)= 	team.name
 									small= `Created by ${team.creator.firstname} ${team.creator.lastname}`
 									h6.members= `${team.userlist.length + 1} members`
 			else

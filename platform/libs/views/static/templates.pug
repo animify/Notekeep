@@ -1,0 +1,9 @@
+script(type='text/html', id='tpl-teams')
+	.unit.new
+		.text-preview(style!="background-color:<%= color %>")
+			span!= '<%= initial %>'
+		.content
+			.title
+				a(href!="/team/<%= _id %>")!= '<%= name %>'
+			small!='Created by <%= firstname %> <%= lastname %>'
+			h6.members!= '<%= members %> members'

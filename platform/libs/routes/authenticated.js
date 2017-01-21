@@ -24,7 +24,6 @@ router.get('/notes', (req, res) => {
 router.get('/teams', (req, res) => {
 	teamsController.findUserTeams(req, res, (err, teams) => {
 		if (err) return res.redirect('/')
-		console.log(teams);
 		res.render('teams', {title: 'Teams - Notekeep', user: req.user, selected: 'teams', teams: teams, light: true})
 	})
 })

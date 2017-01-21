@@ -24,9 +24,8 @@ router.post('/teams/new', (req, res) => {
 	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
 
 	teamsController.newTeam(req, res, req.body.name, (err, ret) => {
-		console.log(ret);
 		if (err) return res.send({error: err, message: ret[0].description})
-		res.send({Message: ret})
+		res.send({team: ret, fn: req.user.firstname, ln: req.user.lastname})
 	})
 })
 

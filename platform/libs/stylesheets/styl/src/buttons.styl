@@ -19,7 +19,7 @@
 	&.block
 		width 100%
 	&.sm
-		padding .7em 1.4em
+		padding .8em 1.5em
 		height auto
 		line-height auto
 	&.outlined
@@ -33,7 +33,7 @@
 				color text-button-default
 	&:hover
 		box-shadow none
-		background-color background-light-gray
+		background-color darken(background-light-gray, 4%)
 	for clr in ('red' 'orange' 'yellow' 'green' 'teal' 'blue' 'violet' 'purple' 'pink' 'brown' 'grey' 'black' 'primary')
 		&.{clr}
 			btn-color(clr)
@@ -66,3 +66,13 @@
 	&:hover
 		color hover-text-button-default
 		background-color hover-background-light-gray
+
+.button-group
+	cf()
+	&.to-right
+		.button
+			float right
+			& + .button
+				margin-right 1em
+	.button + .button
+		margin-left 1em

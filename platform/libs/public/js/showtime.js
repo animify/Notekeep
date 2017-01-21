@@ -1,3 +1,9 @@
+_.mixin({
+	isBlank: (string) => {
+		return (_.isUndefined(string) || _.isNull(string) || string.trim().length === 0)
+	}
+})
+
 $(() => {
 	$('.dropdown').dropdown()
 
@@ -54,7 +60,7 @@ $(() => {
 		modal.open($(this).attr('data-modal-name'))
 	})
 
-	$('.modal .close').bind('click', function() {
+	$('.modal .close, [data-modal="close"]').bind('click', function() {
 		modal.close()
 	})
 
@@ -64,6 +70,7 @@ $(() => {
 		switch (_type) {
 			case 'new_team':
 				let teamname = $('#input-new_team').val()
+				if(_(teamname).isBlank()) return errorHandler.modal("You'll need to enter a name for the team to continue.")
 				if(teamname.length < 6) return errorHandler.modal('A team name needs to be at least 6 characters long.')
 				let _data = JSON.stringify({name: teamname})
 				endpoint.call('/facets/endpoints/teams/new', 'POST', _data, (res) => {
@@ -85,7 +92,7 @@ $(() => {
 let errorHandler = {
 	modal: (msg) => {
 		let _oldheight = $(`.modal .content`).height()
-		let _newheight = $(`.modal .content`).height() + 53
+		let _newheight = $(`.modal .content`).height() + 50
 		$(`.modal .content`).animate({
 			height: _newheight
 		}, 300, () => {
@@ -99,8 +106,11 @@ let errorHandler = {
 				})
 			})
 		})
-
 	}
+}
+
+let templates = {
+	teams: $('#tpl-teams').html()
 }
 
 let endpoint = {
@@ -120,12 +130,20 @@ let endpoint = {
 let teams = {
 	append: (res) => {
 		let _team = {
-			color: res.color,
-			created: res.created_at,
-			creator: res.creator,
-			modified: res.modified_at,
-			name: res.name
+			color: res.team.color,
+			created: res.team.created_at,
+			firstname: res.fn,
+			lastname: res.ln,
+			modified: res.team.modified_at,
+			name: res.team.name,
+			initial: res.team.name.substr(0,1),
+			members: res.team.userlist.length + 1,
+			_id: res.team._id
 		}
+
+		modal.close()
+		$("#ls-teams").prepend(_.template(templates.teams)(_team))
+		$('.unit.new').slideDown()
 	}
 }
 

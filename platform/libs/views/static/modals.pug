@@ -5,11 +5,12 @@
 		.cell
 			.content
 				.inside
-					h5 Create new team
+					h5 Create a new team
 					p A team is a group of people amomg who notes are shared between and allows live collaboration between members.
 					.input.block.form
 						input#input-new_team(type="text", placeholder="Enter your team name eg: 'Design Team'")
-					.button-group.clearfix
-						a.button.green.float-right(data-run="new_team") Create Team
+					.button-group.clearfix.to-right
+						a.button.green(data-run="new_team") Create Team
+						a.button(data-modal="close") Cancel
 				.error.text-center
 					.why.text-red You'll need to enter a name for your team!

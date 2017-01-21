@@ -355,18 +355,27 @@ nav.nav
 	border-right 1px solid border-gray
 	position relative
 	width 100%
-	display block
+	display inline-block
+	cf()
+	&.new
+		display none
 	.content
 		padding-left 3.5rem
-		h6
-			line-height 1.4em
-			font-size 1.2em
-			&.title
+		.title
+			display block
+			a
+				line-height 1.4em
+				font-size 1.2em
+				color text-grey
 				font-weight 600
+				&:hover
+					cursor pointer
+					color color-primary
+		h6
 			&.members
 				color text-lighter
 				float right
-				font-size .875em
+				font-size 1em
 				relative top -.8rem
 		small
 			color text-light
@@ -391,7 +400,3 @@ nav.nav
 		border-bottom 1px solid border-gray
 	& + .unit
 		border-top 1px solid border-gray
-	&:hover
-		cursor pointer
-		h6
-			color color-primary
