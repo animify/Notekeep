@@ -87,6 +87,8 @@ $(() => {
 
 		$(this).removeClass('error')
 	})
+
+	$('.unit', '#ls-teams').sort(teams.sortAlpha).appendTo('#ls-teams')
 })
 
 let errorHandler = {
@@ -142,8 +144,12 @@ let teams = {
 		}
 
 		modal.close()
-		$("#ls-teams").prepend(_.template(templates.teams)(_team))
+		let newTeam = _.template(templates.teams)(_team)
+		$('.unit', '#ls-teams').add($(newTeam)).sort(teams.sortAlpha).appendTo('#ls-teams')
 		$('.unit.new').slideDown()
+	},
+	sortAlpha: (a,b) => {
+		return $(a).find('.title a').text().toLowerCase().localeCompare($(b).find('.title a').text().toLowerCase())
 	}
 }
 
