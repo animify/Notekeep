@@ -74,9 +74,9 @@ router.post('/signup', (req, res) => {
 
 			user.save((err, user) => {
 				if(!err) {
-						passport.authenticate('local')(req, res, () => {
-							return res.json({status: 'OK', statusCode : 200})
-						})
+					passport.authenticate('local')(req, res, () => {
+						return res.json({status: 'OK', statusCode : 200})
+					})
 				} else {
 					return res.json({ error: '404', message : err })
 				}

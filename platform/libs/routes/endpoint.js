@@ -21,9 +21,11 @@ router.post('/notes/new', (req, res) => {
 })
 
 router.post('/teams/new', (req, res) => {
-	teamsController.newTeam(req, res, (err, ret) => {
-		if (err) return res.send({Error: err})
+	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
+
+	teamsController.newTeam(req, res, req.body.name, (err, ret) => {
 		console.log(ret);
+		if (err) return res.send({error: err, message: ret[0].description})
 		res.send({Message: ret})
 	})
 })

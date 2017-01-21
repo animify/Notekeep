@@ -346,3 +346,52 @@ nav.nav
 						color text-lightest
 .recent + .recent
 	margin-top 1.4em
+
+.unit
+	background-color #fff
+	border-radius 0
+	padding 1.2rem 1.4rem
+	border-left 1px solid border-gray
+	border-right 1px solid border-gray
+	position relative
+	width 100%
+	display block
+	.content
+		padding-left 3.5rem
+		h6
+			line-height 1.4em
+			font-size 1.2em
+			&.title
+				font-weight 600
+			&.members
+				color text-lighter
+				float right
+				font-size .875em
+				relative top -.8rem
+		small
+			color text-light
+			font-weight 500
+			line-height 1.4em
+	.text-preview
+		height 2.5rem
+		width 2.5rem
+		absolute left 1.4rem
+		line-height 2.5rem
+		font-size 1.2em
+		text-shadow rgba(0,0,0,0.4) 1px 1px 8px
+		color #fff
+		font-weight 800
+		text-align center
+		border-radius border-radius-normal
+	&:first-of-type
+		border-radius border-radius-normal border-radius-normal 0 0
+		border-top 1px solid border-gray
+	&:last-of-type
+		border-radius 0 0 border-radius-normal border-radius-normal
+		border-bottom 1px solid border-gray
+	& + .unit
+		border-top 1px solid border-gray
+	&:hover
+		cursor pointer
+		h6
+			color color-primary

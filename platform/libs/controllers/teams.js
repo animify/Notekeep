@@ -8,14 +8,18 @@ const Notes = require(jt.path('model/notes'))
 const auth = require(jt.path('auth/auth'))
 const randomColor = require('randomcolor')
 
-exports.newTeam = (req, res, callback) => {
+exports.newTeam = (req, res, name, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
 		'name' :{
 			notEmpty: true,
 			isLength: {
+				options: [{ min: 6 }],
+				errorMessage: 'A team name needs to be at least 6 characters long.'
+			},
+			isLength: {
 				options: [{ max: 30 }],
-				errorMessage: 'Team name can only be up to 30 characters long'
+				errorMessage: 'A team name can only be 30 characters long.'
 			}
 		}
 	})
@@ -24,7 +28,7 @@ exports.newTeam = (req, res, callback) => {
 	if (errors) return callback('500', errors)
 
 	let team = new Team({
-		name: req.body.name,
+		name: name,
 		color: randomColor(),
 		creator: req.user._id
 	})
@@ -35,11 +39,23 @@ exports.newTeam = (req, res, callback) => {
 			return callback(null, team)
 		} else {
 			if(err.name === 'ValidationError') {
-				return callback('400', 'Validation error')
+				return callback('400', 'There was an error validating your team name.')
 			} else {
-				return callback('500', 'Server error')
+				return callback('500', 'Server error! Please try again soon.')
 			}
 			log.error('Internal error(%d): %s', '500', err.message)
 		}
+	})
+}
+
+exports.findUserTeams = (req, res, callback) => {
+	Team.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+	.populate({ path: 'creator'})
+	.lean()
+	.exec((err, teams) => {
+		if (!err) return callback(null, teams)
+
+		log.error('Internal error(%d): %s', '500',err.message)
+		callback('500', 'Server error! Please try again soon.')
 	})
 }

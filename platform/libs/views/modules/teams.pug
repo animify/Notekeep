@@ -8,3 +8,19 @@ block content
 			.float-right.actions
 				a.button.grey.outlined.sm Settings
 				a.button.primary.sm(data-modal="open", data-modal-name="modal_team") New team
+		.inner#teams
+			if (teams.length)
+				.grid-row
+					.xs-12
+						for team in teams
+							a.unit(href=`/team/${team._id}`)
+								.text-preview(style=`background-color:${team.color}`)
+									span= team.name.substr(0,1)
+								.content
+									h6.title= team.name
+									small= `Created by ${team.creator.firstname} ${team.creator.lastname}`
+									h6.members= `${team.userlist.length + 1} members`
+			else
+				.grid-row
+					.xs-12
+						.text-red No teams yet! #[a(data-modal="open", data-modal-name="modal_team") Create one]

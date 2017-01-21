@@ -1,9 +1,15 @@
 .modal#modal_team
 	.overlay
+		.close
+			i.ion-close-round
 		.cell
 			.content
-				h4 Create new team
-				.input.block
-					input(type="text", placeholder="name")
-				.button-group.clearfix
-					a.button.green.float-right Create Team
+				.inside
+					h5 Create new team
+					p A team is a group of people amomg who notes are shared between and allows live collaboration between members.
+					.input.block.form
+						input#input-new_team(type="text", placeholder="Enter your team name eg: 'Design Team'")
+					.button-group.clearfix
+						a.button.green.float-right(data-run="new_team") Create Team
+				.error.text-center
+					.why.text-red You'll need to enter a name for your team!
