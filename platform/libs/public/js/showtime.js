@@ -4,6 +4,85 @@ _.mixin({
 	}
 })
 
+let nk = {
+	init: () => {
+		$('.unit', '#ls-teams').sort(teams.sortAlpha).appendTo('#ls-teams')
+	}
+}
+
+let errorHandler = {
+	modal: (msg) => {
+		let _oldheight = $(`.modal .content`).height()
+		let _newheight = $(`.modal .content`).height() + 50
+		$(`.modal .content`).animate({
+			height: _newheight
+		}, 300, () => {
+			$(`.modal.active .error .why`).text(msg).parent().show('slide', {direction: 'down'}, 300)
+			$(`.modal.active input`).delay(300).addClass('error').delay(4000).queue(function() {
+				$(this).delay(300).removeClass('error').dequeue()
+				$(`.modal.active .error`).show('slide', {direction: 'down'}, 300, () => {
+					$(`.modal .content`).animate({
+						height: _oldheight
+					}, 300)
+				})
+			})
+		})
+	}
+}
+
+let templates = {
+	teams: $('#tpl-teams').html()
+}
+
+let endpoint = {
+	call: (url, type, data, callback) => {
+		$.ajax({
+			url: url,
+			type: type,
+			data: data,
+			contentType: 'application/json',
+			success: (res) => {
+				callback(res)
+			}
+		})
+	}
+}
+
+let teams = {
+	append: (res) => {
+		let _team = {
+			color: res.team.color,
+			created: res.team.created_at,
+			firstname: res.fn,
+			lastname: res.ln,
+			modified: res.team.modified_at,
+			name: res.team.name,
+			initial: res.team.name.substr(0,1),
+			members: res.team.userlist.length + 1,
+			_id: res.team._id
+		}
+
+		modal.close()
+		let newTeam = _.template(templates.teams)(_team)
+		$('.unit', '#ls-teams').add($(newTeam)).sort(teams.sortAlpha).appendTo('#ls-teams')
+		$('.unit.new').slideDown()
+	},
+	sortAlpha: (a,b) => {
+		return $(a).find('.title a').text().toLowerCase().localeCompare($(b).find('.title a').text().toLowerCase())
+	}
+}
+
+let modal = {
+	open: (modalID) => {
+		$('body').addClass('noscroll')
+		$(`#${modalID}`).addClass('active')
+	},
+	close: () => {
+		$('body').removeClass('noscroll')
+		$(`.modal`).removeClass('active')
+	}
+}
+
 $(() => {
 	$('.dropdown').dropdown()
 
@@ -88,78 +167,5 @@ $(() => {
 		$(this).removeClass('error')
 	})
 
-	$('.unit', '#ls-teams').sort(teams.sortAlpha).appendTo('#ls-teams')
+	nk.init()
 })
-
-let errorHandler = {
-	modal: (msg) => {
-		let _oldheight = $(`.modal .content`).height()
-		let _newheight = $(`.modal .content`).height() + 50
-		$(`.modal .content`).animate({
-			height: _newheight
-		}, 300, () => {
-			$(`.modal.active .error .why`).text(msg).parent().show('slide', {direction: 'down'}, 300)
-			$(`.modal.active input`).delay(300).addClass('error').delay(4000).queue(function() {
-				$(this).delay(300).removeClass('error').dequeue()
-				$(`.modal.active .error`).show('slide', {direction: 'down'}, 300, () => {
-					$(`.modal .content`).animate({
-						height: _oldheight
-					}, 300)
-				})
-			})
-		})
-	}
-}
-
-let templates = {
-	teams: $('#tpl-teams').html()
-}
-
-let endpoint = {
-	call: (url, type, data, callback) => {
-		$.ajax({
-			url: url,
-			type: type,
-			data: data,
-			contentType: 'application/json',
-			success: (res) => {
-				callback(res)
-			}
-		})
-	}
-}
-
-let teams = {
-	append: (res) => {
-		let _team = {
-			color: res.team.color,
-			created: res.team.created_at,
-			firstname: res.fn,
-			lastname: res.ln,
-			modified: res.team.modified_at,
-			name: res.team.name,
-			initial: res.team.name.substr(0,1),
-			members: res.team.userlist.length + 1,
-			_id: res.team._id
-		}
-
-		modal.close()
-		let newTeam = _.template(templates.teams)(_team)
-		$('.unit', '#ls-teams').add($(newTeam)).sort(teams.sortAlpha).appendTo('#ls-teams')
-		$('.unit.new').slideDown()
-	},
-	sortAlpha: (a,b) => {
-		return $(a).find('.title a').text().toLowerCase().localeCompare($(b).find('.title a').text().toLowerCase())
-	}
-}
-
-let modal = {
-	open: (modalID) => {
-		$('body').addClass('noscroll')
-		$(`#${modalID}`).addClass('active')
-	},
-	close: () => {
-		$('body').removeClass('noscroll')
-		$(`.modal`).removeClass('active')
-	}
-}

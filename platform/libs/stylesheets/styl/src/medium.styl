@@ -9,21 +9,22 @@
 
 .medium-editor-toolbar
 	background-color invert-primary
-	border 0
+	border 1px solid darken(invert-primary, 5%)
 	border-radius border-radius-xl
+	z-index 9600
 	li
 		& + li
-			border-left 1px solid lighten(invert-primary, 2%)
+			border-left 1px solid darken(invert-primary, 5%)
 		button
 			background-color transparent
 			border 0
 			color #fff
-			color rgba(#FFF,.65)
+			color rgba(#fff, .75)
 			min-width 3em
 			height 3.3em
 			padding 1em 1.3em
 			&:hover
-				background-color lighten(invert-primary, 4%)
+				background-color lighten(invert-primary, 5%)
 				color #fff
 		.medium-editor-button-first
 			border-radius border-radius-xl 0 0 border-radius-xl
@@ -32,7 +33,7 @@
 			border-radius 0 border-radius-xl border-radius-xl 0
 			padding-right 1.5em
 		.medium-editor-button-active
-			background-color lighten(invert-primary, 4%)
+			background-color lighten(invert-primary, 15%)
 			color #fff
 	&-form
 		background-color invert-primary
@@ -46,6 +47,7 @@
 			padding-left 1em
 			width 14em
 			height 3.3em
+			font-family font-family-standard
 			+placeholder()
 				color #fff
 				opacity .5

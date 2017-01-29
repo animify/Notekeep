@@ -54,14 +54,41 @@ block content
 block footer
 	script(src="/js/medium-editor.min.js")
 	script.
-		var editor = new MediumEditor('.note_content', {
+		let editor = new MediumEditor('.note_content', {
+			spellcheck: false,
 			placeholder: {
 				text: 'Start typing...',
 				hideOnClick: true
 			},
 			toolbar: {
 				allowMultiParagraphSelection: true,
-				buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+				buttons: ['bold',
+				'italic',
+				'underline',
+				'anchor',
+				{
+					name: 'h4',
+					action: 'append-h4',
+					aria: 'main heading',
+					tagNames: ['h4'],
+					contentDefault: '<b>H4</b>',
+					classList: ['custom-class-h4'],
+					attrs: {
+						'data-custom-attr': 'attr-value-h4'
+					}
+				},
+				{
+					name: 'h5',
+					action: 'append-h5',
+					aria: 'sub heading',
+					tagNames: ['h5'],
+					contentDefault: '<b>H5</b>',
+					classList: ['custom-class-h5'],
+					attrs: {
+						'data-custom-attr': 'attr-value-h5'
+					}
+				},
+				'quote'],
 				firstButtonClass: 'medium-editor-button-first',
 				lastButtonClass: 'medium-editor-button-last',
 				align: 'center',

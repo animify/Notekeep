@@ -14,3 +14,30 @@
 						a.button(data-modal="close") Cancel
 				.error.text-center
 					.why.text-red You'll need to enter a name for your team!
+
+.editor
+	.options
+		.float-left
+			h6.team Design Team
+			h6 Created just now
+		.float-right
+			a.button.slim.green Share
+			.dropdown.right
+				a.toggle.button.slim.outlined Options #[i.material-icons keyboard_arrow_down]
+				ul.menu
+					li #[a Keyboard shortcuts]
+					li #[a Learn more]
+					li.divider
+					li #[a Copy link]
+					li #[a Create public link]
+					li.divider
+					li #[a.color-red Delete post]
+			.close
+				a.button.slim.default Back to notes
+
+	.editable
+		.note_headroom
+			small Stefan Mansson
+			h3(contenteditable="true") Untitled
+		.note_content
+			p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

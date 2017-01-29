@@ -20,7 +20,9 @@ block content
 									.title
 										a(href=`/team/${team._id}`)= 	team.name
 									small= `Created by ${team.creator.firstname} ${team.creator.lastname}`
-									h6.members= `${team.userlist.length + 1} members`
+								.info
+									h6.members #[i.material-icons person_outline]#{team.userlist.length + 1}
+									h6.notes #[i.material-icons book]0
 			else
 				.grid-row
 					.xs-12

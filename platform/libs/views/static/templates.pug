@@ -6,4 +6,8 @@ script(type='text/html', id='tpl-teams')
 			.title
 				a(href!="/team/<%= _id %>")!= '<%= name %>'
 			small!='Created by <%= firstname %> <%= lastname %>'
-			h6.members!= '<%= members %> members'
+		.info
+			h6.members #[i.material-icons person_outline]
+				| <%= members %>
+			h6.notes #[i.material-icons book]
+				| 0
