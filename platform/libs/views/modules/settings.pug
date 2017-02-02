@@ -6,14 +6,18 @@ block content
 		.inner.nosub#settings
 			.grid-row
 				.xs-12.m-3
-					h4.what= user.firstname + ' ' + user.lastname
-					h6.what= user.id
+					h4.what Settings
+					h6.what= user.firstname + ' ' + user.lastname
 					ul.list
-						li.item.active #[a Account details]
-						li.item #[a Notifications]
+						li.item.active(data-target="profile") #[a Profile information]
+						li.item(data-target="account") #[a Account details]
+						li.item(data-target="security") #[a Security]
+						li.item(data-target="notifications") #[a Notifications]
 				.xs-12.m-9
-					.section#account
-						h3.sub Account details
+					.section#profile
+						.sub
+							h3 Profile information
+							p General information about your account
 						.input
 							h6 First name
 							input(type="text", value=user.firstname)
@@ -28,7 +32,34 @@ block content
 							input(type="text", value=user.email)
 						a.button.green Update preferences
 
-					.section#notifications
-						h3.sub Notifications
+					.section#account
+						.sub
+							h3 Account details
+							p Change your password and email settings
 						.input
-							input(type="text", value=user.firstname)
+							h6 Email
+							input(type="text", value=user.email)
+						.input
+							h6 Old password
+							input(type="password")
+						.input
+							h6 New password
+							input(type="password")
+						.input
+							h6 Re-enter new password
+							input(type="password")
+						a.button.green Update preferences
+
+					.section#security
+						.sub
+							h3 Security
+							p Control and manage your account security
+						.input
+							p Security pane will be here
+
+					.section#notifications
+						.sub
+							h3 Notifications
+							p Manage your notifications and alerts
+						.input
+							p Notifications pane will be here

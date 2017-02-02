@@ -3979,16 +3979,33 @@ nav.nav ul.options li + li {
   margin-bottom: 0.8em;
   font-size: 1.1em;
 }
+.inner h4.what {
+  font-weight: 800;
+}
+.inner h6.what {
+  color: #97a2b2;
+}
+.inner#settings .section {
+  display: none;
+  margin-top: 0 !important;
+}
+.inner#settings .section#profile {
+  display: block;
+}
 .inner#settings .list {
   margin-top: 1.1rem;
   border-top: 1px solid #eceef1;
   padding-top: 1em;
 }
 .inner#settings .item {
-  padding: 1rem 0;
+  padding: 0.8rem 0;
 }
 .inner#settings .item.active a {
   color: #1192f0;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  padding: 0.14em 0 0.14em 1.3em;
 }
 .inner#settings .item.active a:before {
   height: 100%;
@@ -4001,10 +4018,19 @@ nav.nav ul.options li + li {
   display: block;
 }
 .inner#settings .item a {
-  font-size: 1.2em;
   font-weight: 500;
-  padding: 0.4em 0 0.4em 1.6em;
+  padding: 0.14em 0 0.14em 0;
   position: relative;
+  font-size: 1.1em;
+  opacity: 0.6;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  filter: alpha(opacity=60);
+}
+.inner#settings .item a:hover {
+  color: #1192f0;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
 }
 .inner#settings .input h6 {
   font-size: 14px;
@@ -4036,6 +4062,13 @@ nav.nav ul.options li + li {
 }
 .section .sub:after {
   clear: both;
+}
+.section .sub > h3 {
+  font-size: 1em;
+}
+.section .sub > p {
+  font-size: 1rem;
+  color: #97a2b2;
 }
 .section .input + .input {
   margin-top: 2.2em;
@@ -4120,7 +4153,7 @@ nav.nav ul.options li + li {
   vertical-align: top;
 }
 .notes .desc .button {
-  margin-top: 0.3rem;
+  margin-top: 0.08rem;
   float: right;
 }
 .notes .desc span {
@@ -4343,7 +4376,7 @@ nav.nav ul.options li + li {
 }
 .editor {
   background-color: #fff;
-  display: block;
+  display: none;
   height: 100%;
   width: 100%;
   position: fixed;

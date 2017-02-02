@@ -6,7 +6,7 @@ _.mixin({
 
 let nk = {
 	init: () => {
-		$('.unit', '#ls-teams').sort(teams.sortAlpha).appendTo('#ls-teams')
+		$('.unit', '#ls-teams').sort(team.sortAlpha).appendTo('#ls-teams')
 	}
 }
 
@@ -48,7 +48,7 @@ let endpoint = {
 	}
 }
 
-let teams = {
+let team = {
 	append: (res) => {
 		let _team = {
 			color: res.team.color,
@@ -64,7 +64,7 @@ let teams = {
 
 		modal.close()
 		let newTeam = _.template(templates.teams)(_team)
-		$('.unit', '#ls-teams').add($(newTeam)).sort(teams.sortAlpha).appendTo('#ls-teams')
+		$('.unit', '#ls-teams').add($(newTeam)).sort(team.sortAlpha).appendTo('#ls-teams')
 		$('.unit.new').slideDown()
 	},
 	sortAlpha: (a,b) => {
@@ -145,7 +145,7 @@ $(() => {
 
 	$('[data-run]').bind('click', function() {
 		let _type = $(this).data('run')
-
+		console.log(_type);
 		switch (_type) {
 			case 'new_team':
 				let teamname = $('#input-new_team').val()
@@ -153,8 +153,14 @@ $(() => {
 				if(teamname.length < 6) return errorHandler.modal('A team name needs to be at least 6 characters long.')
 				let _data = JSON.stringify({name: teamname})
 				endpoint.call('/facets/endpoints/teams/new', 'POST', _data, (res) => {
-					res.error ? errorHandler.modal(res.message) : teams.append(res)
+					res.error ? errorHandler.modal(res.message) : team.append(res)
 				})
+				break
+			case 'open_editor':
+				$('.editor').show('slide', {direction: 'down'}, 500)
+				break
+			case 'close_editor':
+				$('.editor').hide('slide', {direction: 'down'}, 500)
 				break
 			default:
 				console.error('Notekeep: Something went wrong')
@@ -165,6 +171,13 @@ $(() => {
 		if (!$(this).hasClass('error')) return
 
 		$(this).removeClass('error')
+	})
+
+	$('#settings .item a').bind('click', function(e) {
+		$('#settings .item').removeClass('active')
+		$(this).parent().addClass('active')
+		$('#settings .section').hide()
+		$(`#${$(this).parent().data('target')}`).show()
 	})
 
 	nk.init()
