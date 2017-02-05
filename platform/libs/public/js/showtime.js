@@ -6,6 +6,8 @@ _.mixin({
 
 let nk = {
 	init: () => {
+		$('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>')
+		$('.medium-editor-toolbar-close').html('<i class="material-icons">clear</i>')
 		$('.unit', '#ls-teams').sort(team.sortAlpha).appendTo('#ls-teams')
 	}
 }
@@ -72,6 +74,52 @@ let team = {
 	}
 }
 
+let editor = new MediumEditor('.note_content', {
+	spellcheck: false,
+	placeholder: {
+		text: 'Start typing your note here',
+		hideOnClick: true
+	},
+	toolbar: {
+		allowMultiParagraphSelection: true,
+		buttons: ['bold',
+		'italic',
+		'underline',
+		'anchor',
+		{
+			name: 'h4',
+			action: 'append-h4',
+			aria: 'main heading',
+			tagNames: ['h4'],
+			contentDefault: '<b>H4</b>',
+			classList: ['custom-class-h4'],
+			attrs: {
+				'data-custom-attr': 'attr-value-h4'
+			}
+		},
+		{
+			name: 'h5',
+			action: 'append-h5',
+			aria: 'sub heading',
+			tagNames: ['h5'],
+			contentDefault: '<b>H5</b>',
+			classList: ['custom-class-h5'],
+			attrs: {
+				'data-custom-attr': 'attr-value-h5'
+			}
+		},
+		'quote'],
+		firstButtonClass: 'medium-editor-button-first',
+		lastButtonClass: 'medium-editor-button-last',
+		align: 'center',
+		autoLink: true
+	},
+	anchor: {
+	 placeholderText: 'Type a link'
+	 }
+})
+
+
 let modal = {
 	open: (modalID) => {
 		$('body').addClass('noscroll')
@@ -80,24 +128,41 @@ let modal = {
 	close: () => {
 		$('body').removeClass('noscroll')
 		$(`.modal`).removeClass('active')
+	},
+	openEditor: (team) => {
+		$('body').addClass('noscroll')
+		$('.editor h6.team').text(team.team[0].name)
+		$('.editor').show('slide', {direction: 'down'}, 300)
+	},
+	closeEditor: () => {
+		$('body').removeClass('noscroll')
+		$('.editor').hide('slide', {direction: 'down'}, 300)
 	}
 }
 
 $(() => {
 	$('.dropdown').dropdown()
 
-	document.onkeydown = function(evt) {
-		evt = evt || window.event
-		let isEscape = false
-		if ("key" in evt) {
-			isEscape = (evt.key == "Escape" || evt.key == "Esc")
-		} else {
-			isEscape = (evt.keyCode == 27)
-		}
-		if (isEscape) {
-			modal.close()
-		}
-	}
+	$(document).bind('click', function(e) {
+		if (! $(e.target).parents().hasClass('switches'))
+			$('.switches.open').hide()
+			$('.switches').removeClass('open')
+	 }).bind('onkeydown', function(e) {
+		 e = e || window.event
+		 let isEscape = false
+		 if ("key" in e) {
+			 isEscape = (e.key == "Escape" || e.key == "Esc")
+		 } else {
+			 isEscape = (e.keyCode == 27)
+		 }
+		 (isEscape) && modal.close()
+	 }).bind('open:editor', function(e, teamid) {
+		 let _data = JSON.stringify(teamid)
+		 endpoint.call(`/facets/endpoints/teams/find`, 'POST', _data, (res) => {
+			 console.log(res);
+			 modal.openEditor(res)
+		 })
+	 })
 
 	$('#signup').bind('click', function() {
 		let data = {
@@ -145,7 +210,6 @@ $(() => {
 
 	$('[data-run]').bind('click', function() {
 		let _type = $(this).data('run')
-		console.log(_type);
 		switch (_type) {
 			case 'new_team':
 				let teamname = $('#input-new_team').val()
@@ -157,10 +221,10 @@ $(() => {
 				})
 				break
 			case 'open_editor':
-				$('.editor').show('slide', {direction: 'down'}, 500)
+				modal.openEditor()
 				break
 			case 'close_editor':
-				$('.editor').hide('slide', {direction: 'down'}, 500)
+				modal.closeEditor()
 				break
 			default:
 				console.error('Notekeep: Something went wrong')
@@ -173,10 +237,29 @@ $(() => {
 		$(this).removeClass('error')
 	})
 
+	$('.switch_trigger').bind('click', function(e) {
+		e.preventDefault()
+		console.log('a', `.${$(this).data('switch')}`);
+		$(`#${$(this).data('switch')}`).slideDown(300, () => $(`#${$(this).data('switch')}`).addClass('open'))
+	})
+
+	$('.switches#switch_note .switch').bind('click', function(e) {
+		const selectedName = $(this).find('b').text()
+		$('#notes h4.what span').text(selectedName)
+		$('.switches').hide()
+	})
+
+	$('.switches#switch_teams .switch').bind('click', function(e) {
+		$('.switches').hide()
+		$('.switches').removeClass('open')
+		$(document).trigger('open:editor', [{team: $(this).data('teamid')}])
+	})
+
 	$('#settings .item a').bind('click', function(e) {
 		$('#settings .item').removeClass('active')
 		$(this).parent().addClass('active')
 		$('#settings .section').hide()
+		$('.switches').removeClass('open')
 		$(`#${$(this).parent().data('target')}`).show()
 	})
 

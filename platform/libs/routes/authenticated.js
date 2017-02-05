@@ -18,13 +18,22 @@ router.get('/', (req, res) => {
 })
 
 router.get('/notes', (req, res) => {
-	return res.render('notes', {title: 'Notes - Notekeep', user: req.user, selected: 'notes', light: true})
+	teamsController.findUserTeams(req, res, (err, teams) => {
+		return res.render('notes', {title: 'Notes - Notekeep', teams: teams, user: req.user, selected: 'notes', light: true})
+	})
 })
 
 router.get('/teams', (req, res) => {
 	teamsController.findUserTeams(req, res, (err, teams) => {
 		if (err) return res.redirect('/')
 		res.render('teams', {title: 'Teams - Notekeep', user: req.user, selected: 'teams', teams: teams, light: true})
+	})
+})
+
+router.get('/team/:team', (req, res) => {
+	teamsController.findTeam(req, res, req.params.team, (err, team) => {
+		if (err) return res.redirect('/')
+		res.render('team', {title: 'Team - Notekeep', user: req.user, selected: 'team', team: team, light: true})
 	})
 })
 

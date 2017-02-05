@@ -1,6 +1,17 @@
 .input
 	position relative
 	font-style normal
+	&.sm
+		margin-right 1.4rem
+		input
+			padding 0.84em 4em 0.84em 1.3em
+			height auto
+			min-width 17em
+		a
+			absolute right 1em top .8em
+			color text-light
+			i
+				font-size 1.4em
 	input[disabled], &.disabled
 		opacity .45
 		cursor default
@@ -15,18 +26,23 @@
 		outline 0
 		border-radius border-radius-normal
 		text-align left
-		border 1px solid border-gray
+		border 1px solid color-smoke
 		transition border-color 0.14s ease
 		padding 1em 1.3em
-		background-color #fff
+		background-color color-smoke
 		height em-height
 		min-width 28em
+		transition all .14s ease
+		text-shadow 1px 1px 1px 1px rgba(0,0,0,0.005)
+		text-rendering optimizeLegibility !important
+		-webkit-font-smoothing antialiased !important
 		&.lg
 			min-width 24em
 		&.error
 			border-color color-red
 		&:focus
-			border-color color-primary
+			border-color dark-color-smoke
+			background-color #fff
 		+placeholder()
 			color lighten(body-color, 20%)
 

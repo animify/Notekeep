@@ -15,13 +15,26 @@
 				.error.text-center
 					.why.text-red You'll need to enter a name for your team!
 
+.modal#modal_publish
+	.overlay
+		.close
+			i.ion-close-round
+		.cell
+			.content
+				.inside
+					h5 Publish your note
+					p Publishing a team note will make it available to your team or private notes immediately. Once published, you can't reverse the note to a draft again.
+					.button-group.clearfix.to-right
+						a.button.green Publish
+						a.button(data-modal="close") Cancel
+
 .editor
 	.options
 		.float-left
-			h6.team Design Team
-			h6 Created just now
+			h6.team
+			h6.draft
 		.float-right
-			a.button.slim.green Share
+			a.button.slim.primary Share
 			.dropdown.right
 				a.toggle.button.slim.outlined Options #[i.material-icons keyboard_arrow_down]
 				ul.menu
@@ -32,12 +45,18 @@
 					li #[a Create public link]
 					li.divider
 					li #[a.color-red Delete post]
-			.close
-				a.button.slim.default(data-run="close_editor") Back to notes
+			.publish
+				a.button.slim.green(data-modal="open", data-modal-name="modal_publish") Publish
 
 	.editable
 		.note_headroom
 			small Stefan Mansson
-			h3(contenteditable="true") Untitled
+			h3(contenteditable="true")
 		.note_content
-			p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+	.options.bottom
+		.float-left
+			h6 Created just now
+		.float-right
+			.close
+				a.button.slim.default(data-run="close_editor") Back to notes

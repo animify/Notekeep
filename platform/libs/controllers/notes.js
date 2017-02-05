@@ -13,17 +13,11 @@ exports.newNote = (req, res, callback) => {
 		return callback('500', errors)
 	}
 
-	if (req.isAuthenticated()) {
-		let notekeep = new Notes({
-			owner: req.user._id
-		})
-	} else {
-		let notekeep = new Notes({
-			owner: 0
-		})
-	}
+	let note = new Notes({
+		owner: req.user._id
+	})
 
-	notekeep.save((err) => {
+	note.save((err) => {
 		if (!err) {
 			log.info("New notekeep created with id: %s", notekeep._id)
 			return callback(null, notekeep)

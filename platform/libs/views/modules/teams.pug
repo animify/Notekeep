@@ -6,7 +6,9 @@ block content
 		nav.nav.sub
 			h4.what Teams
 			.float-right.actions
-				a.button.grey.outlined.sm Settings
+				.input.sm
+					input(type="search", placeholder="Search for a team")
+					a #[i.material-icons search]
 				a.button.primary.sm(data-modal="open", data-modal-name="modal_team") New team
 		.inner#teams
 			if (teams.length)

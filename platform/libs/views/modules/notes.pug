@@ -1,102 +1,50 @@
 extends ../layout
 
-block head
-	link(rel="stylesheet", type="text/css", href="/css/medium-editor.min.css")
-
 block content
 	include ../static/dashboard/nav.pug
-	.contain
-		.inner.nosub
-			.notes.grid-row
-				.xs-12
-					.desc
-						span V
-						h4 Visual design
-						a.button.primary.sm(data-run="open_editor") New note
-				.xs-12.m-4
-					.note
-						h6 Note one
-						p Text should be truncated when min width
-						small 3 minutes ago
-				.xs-12.m-4
-					.note
-						h6 Note two
-						p Long note text should be truncated anyway when text is longer than the container
-						small 29th January 2016
-				.xs-12.m-4
-					.note
-						h6 Note two
-						p Long note text should be truncated anyway when text is longer than the container
-						small 29th January 2016
-			.notes.grid-row
-				.xs-12
-					.desc
-						span D
-						h4 Development
-						a.button.primary.sm(data-run="open_editor") New note
-				.xs-12.m-4
-					.note
-						h6 Note one
-						p Text should be truncated when min width
-						small 3 minutes ago
-				.xs-12.m-4
-					.note
-						h6 Note two
-						p Long note text should be truncated anyway when text is longer than the container
-						small 29th January 2016
-				.xs-12.m-4
-					.note
-						h6 Note two
-						p Long note text should be truncated anyway when text is longer than the container
-						small 29th January 2016
-
-
-block footer
-	script(src="/js/medium-editor.min.js")
-	script.
-		let editor = new MediumEditor('.note_content', {
-			spellcheck: false,
-			placeholder: {
-				text: 'Start typing...',
-				hideOnClick: true
-			},
-			toolbar: {
-				allowMultiParagraphSelection: true,
-				buttons: ['bold',
-				'italic',
-				'underline',
-				'anchor',
-				{
-					name: 'h4',
-					action: 'append-h4',
-					aria: 'main heading',
-					tagNames: ['h4'],
-					contentDefault: '<b>H4</b>',
-					classList: ['custom-class-h4'],
-					attrs: {
-						'data-custom-attr': 'attr-value-h4'
-					}
-				},
-				{
-					name: 'h5',
-					action: 'append-h5',
-					aria: 'sub heading',
-					tagNames: ['h5'],
-					contentDefault: '<b>H5</b>',
-					classList: ['custom-class-h5'],
-					attrs: {
-						'data-custom-attr': 'attr-value-h5'
-					}
-				},
-				'quote'],
-				firstButtonClass: 'medium-editor-button-first',
-				lastButtonClass: 'medium-editor-button-last',
-				align: 'center',
-				autoLink: true
-			},
-			anchor: {
-			 placeholderText: 'Type a link'
-			 }
-		})
-		$('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>')
-		$('.medium-editor-toolbar-close').html('<i class="material-icons">clear</i>')
+	.contain#notes
+		nav.nav.sub
+			h4.what #[span Team Notes] #[i.material-icons.switch_trigger(data-switch="switch_note") keyboard_arrow_down]
+			.switches#switch_note
+				a.switch #[b Team Notes]
+					span All team notes
+				a.switch #[b Private Notes]
+					span Notes available only to you
+				a.switch #[b Draft Notes]
+					span Unpublished saved notes
+			.float-right.actions
+				.input.sm
+					input(type="search", placeholder="Search for a team")
+					a #[i.material-icons search]
+				a.switch_trigger.button.green.sm(data-switch="switch_teams") New note
+			.switches.right#switch_teams
+				for team in teams
+					a.switch(data-teamid=team._id) #[b= team.name]
+						span All team notes
+		.inner
+			for team in teams
+				.notes.grid-row
+					.xs-12
+						.desc
+							span(style=`background-color:${team.color}`)= team.name.substr(0,1)
+							h5= team.name
+					if (team.notes)
+						for note in notes
+							.xs-12.m-4
+								.note
+									h6 Note one
+									p Text should be truncated when min width
+									small 3 minutes ago
+							.xs-12.m-4
+								.note
+									h6 Note two
+									p Long note text should be truncated anyway when text is longer than the container
+									small 29th January 2016
+							.xs-12.m-4
+								.note
+									h6 Note two
+									p Long note text should be truncated anyway when text is longer than the container
+									small 29th January 2016
+					else
+						.xs-12
+								h6 No notes

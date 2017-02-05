@@ -59,3 +59,21 @@ exports.findUserTeams = (req, res, callback) => {
 		callback('500', 'Server error! Please try again soon.')
 	})
 }
+
+exports.findTeam = (req, res, teamid, callback) => {
+	Team.find({_id: teamid, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+	.populate({ path: 'creator',
+		populate: {
+			path: 'userlist',
+			model: 'User'
+		}
+	})
+	.lean()
+	.exec((err, team) => {
+		console.log(team);
+		if (!err) return callback(null, team)
+
+		log.error('Internal error(%d): %s', '500',err.message)
+		callback('500', 'Server error! Please try again soon.')
+	})
+}

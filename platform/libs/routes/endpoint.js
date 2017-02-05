@@ -29,4 +29,13 @@ router.post('/teams/new', (req, res) => {
 	})
 })
 
+router.post('/teams/find', (req, res) => {
+	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team found.'})
+
+	teamsController.findTeam(req, res, req.body.team, (err, team) => {
+		if (err) return res.send({error: err})
+		res.send({team: team})
+	})
+})
+
 module.exports = router

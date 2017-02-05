@@ -10,8 +10,11 @@ body
 	min-height 100%
 	height 100%
 	color text-grey
+	text-shadow 1px 1px 1px rgba(0,0,0,0.004)
+	text-rendering optimizeLegibility !important
+	-webkit-font-smoothing antialiased !important
 	&.light
-		background-color color-smoke
+		background-color #fff
 
 p.sub
 	color body-color
@@ -79,6 +82,8 @@ nav.nav
 	relative top left
 	z-index 2000
 	fixed top left
+	border-bottom 1px solid border-gray
+	padding 0 standard-page-padding
 	&.sub
 		background-color transparent
 		position relative
@@ -87,13 +92,22 @@ nav.nav
 		display block
 		cf()
 		height auto
-		margin 4.2em 0 0 0
+		margin 5em 0 0 0
+		border 0
+		padding 0
 		h4.what
 			padding 2.1rem 0 0 0
 			vertical-align top
 			float left
-			font-size 2em
-			font-weight 800
+			font-size 2.1em
+			i
+				font-size 1em
+				relative top 6px
+				color text-light
+				cursor pointer
+				&:hover
+					color text-grey
+
 		h6.what
 			padding 2.8rem 0
 			display block
@@ -107,7 +121,7 @@ nav.nav
 			.button + .button
 				margin-left 1.3rem
 	.float-right
-		& > *
+		& > *:not(.switches)
 			display inline-block
 			vertical-align top
 	.logo
@@ -204,11 +218,38 @@ nav.nav
 			font-weight 400
 			margin-bottom .6rem
 
+.strip
+	margin-top 4em
+	padding 6em 0 1.6em 0
+	width 100%
+	display block
+	position relative
+	background-color color-primary
+	h4
+		font-weight 800
+		color #fff
+	small
+		color text-primary-light
+		font-weight 800
+		font-size 1em
+
+#ls-teams
+	.unit
+		h6
+			line-height 1.4em
+		p
+			line-height 1.4em
+		img
+			height 2.5rem
+			absolute left 1.4rem
+			border-radius border-radius-normal
 .section
 	padding 2.3em 3em
 	border-radius border-radius-normal
 	background-color #fff
-	box-shadow: 0 1px 1px 0 box-shadow-gray
+	box-shadow 0 1px 1px 0 box-shadow-gray
+	border 1px solid border-gray
+
 	.sub
 		display block
 		padding .3em 0 .7em 0
@@ -279,29 +320,35 @@ nav.nav
 		& > *
 			display inline-block
 			vertical-align top
-		.button
-			margin-top .08rem
+		h5
+			font-weight 600
+			color text-grey
+		a
+			margin-top .6rem
+			font-weight 600
 			float right
+			color color-green
 		span
-			height 2.6rem
+			height 2rem
 			background-color color-red
 			text-align center
 			color #fff
-			font-weight 600
-			line-height 2.7rem
+			font-weight 800
+			line-height 2.1rem
 			text-transform uppercase
-			font-size 1.3em
+			font-size 1em
 			border-radius border-radius-normal
-			width 2.6rem
+			width 2rem
 			margin-right 1.3rem
 	.note
 		padding 1.3rem 1.6rem 1.5rem 1.6rem
 		background-color #fff
 		position relative
 		border-radius border-radius-normal
-		border 1px solid #fff
+		border 1px solid border-gray
 		&:hover
 			border-color color-primary
+			cursor pointer
 		&.new
 			display none
 		&.open
@@ -315,6 +362,10 @@ nav.nav
 			margin-top 1em
 			display block
 			color text-lighter
+
+.activity
+	.activities + .activities
+		margin-top 2rem
 
 .display
 	.empty
@@ -372,11 +423,10 @@ nav.nav
 .unit
 	background-color #fff
 	border-radius 0
-	padding 1.2rem 1.4rem
-	border-left 1px solid border-gray
-	border-right 1px solid border-gray
+	padding 1.1rem 1.4rem
 	position relative
 	width 100%
+	border-top 1px solid border-gray
 	cf()
 	&.new
 		display none
@@ -434,14 +484,8 @@ nav.nav
 		font-weight 800
 		text-align center
 		border-radius border-radius-normal
-	&:first-of-type
-		border-radius border-radius-normal border-radius-normal 0 0
-		border-top 1px solid border-gray
 	&:last-of-type
-		border-radius 0 0 border-radius-normal border-radius-normal
 		border-bottom 1px solid border-gray
-	& + .unit
-		border-top 1px solid border-gray
 
 .editor
 	background-color #fff
@@ -454,12 +498,20 @@ nav.nav
 		border-bottom 1px solid border-gray
 		padding .7em 2em
 		cf()
-		.close
+		background-color #fff
+		.close, .publish
 			margin-left 1em
 			padding-left 1em
 			border-left 1px solid border-gray
 			display inline-block
 			vertical-align top
+		.close
+			border-left 0
+		&.bottom
+			background-color color-smoke
+			border-bottom 0
+			absolute bottom 0
+			width 100%
 		& > *
 			a.button
 				& + .dropdown
@@ -478,6 +530,16 @@ nav.nav
 					margin-left 1em
 					padding-left 1em
 					border-left 1px solid border-gray
+				&.draft
+					color color-yellow
+					&:before
+						content 'Draft'
+						display block
+				&.published
+					color color-green
+					&:before
+						content 'Published'
+						display block
 
 .editable
 	width 100%
@@ -493,3 +555,11 @@ nav.nav
 		h3
 			line-height 1em
 			font-weight 800
+			&:empty:before
+				content 'Untitled'
+				display block
+				color text-grey
+			&:focus:empty:before
+				content 'Untitled'
+				display block
+				color text-light

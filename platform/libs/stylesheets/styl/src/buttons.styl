@@ -1,3 +1,42 @@
+.switches
+	absolute top 2em left -.2em
+	font-size 1.2em
+	display none
+	max-width 16em
+	width 100%
+	background-color #fff
+	box-shadow 0 1px 6px 1px rgba(0,0,0,0.05)
+	border-radius border-radius-normal
+	overflow hidden
+	&.right
+		right -.2em
+		left auto
+	.switch
+		font-size 1em
+		display block
+		padding 1.2em 1.5em
+		height auto
+		line-height auto
+		border 1px solid border-gray
+		border-radius 0
+		color text-button-default
+		cursor pointer
+		font-weight 600
+		line-height 1.3em
+		span
+			color text-light
+			font-size .8em
+			display block
+			font-weight 400
+		&:hover
+			background-color background-light-gray
+		& + .switch
+			border-top 0
+		&:first-of-type
+			border-radius border-radius-normal border-radius-normal 0 0
+		&:last-of-type
+			border-radius 0 0 border-radius-normal border-radius-normal
+
 .button
 	display inline-block
 	position relative
@@ -40,11 +79,12 @@
 				color text-button-default
 	&:hover
 		box-shadow none
-		background-color darken(background-light-gray, 4%)
+		background-color darken(background-light-gray, 6%)
 	for clr in ('red' 'orange' 'yellow' 'green' 'teal' 'blue' 'violet' 'purple' 'pink' 'brown' 'grey' 'black' 'primary')
 		&.{clr}
 			btn-color(clr)
 			btn-background(clr)
+			btn-o-border(clr)
 			&.outlined
 				btn-color-outlined(clr)
 				background-color transparent
@@ -52,6 +92,7 @@
 			&:hover
 				btn-color(clr)
 				btn-background-hover(clr)
+				btn-o-border(clr)
 	&.labeled
 		padding 0 1.4em 0 4em
 		i
