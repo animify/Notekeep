@@ -4721,14 +4721,6 @@ nav.nav ul.options li + li {
 .modal div.error:after {
   clear: both;
 }
-.modal div.error .why {
-  padding-left: 2em;
-}
-.modal div.error i.i-error {
-  position: absolute;
-  left: 0;
-  color: text-red;
-}
 .modal div.error > * {
   font-weight: 600;
 }

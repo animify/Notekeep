@@ -5,6 +5,7 @@ const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
 const auth = require(jt.path('auth/auth'))
+const teams = require(jt.path('controllers/teams'))
 
 exports.newNote = (req, res, drafttype, callback) => {
 	req.sanitizeBody()
@@ -27,16 +28,28 @@ exports.newNote = (req, res, drafttype, callback) => {
 	})
 
 	req.getValidationResult().then(function(errors) {
-		 if (!errors.isEmpty()) {
-			 console.log(errors);
-			 return callback('100', errors.useFirstErrorOnly().array())
-		 }
+		if (!errors.isEmpty()) {
+			console.log(errors);
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
 
-		saveNote().then((note) => {
-			return callback(null, note)
-		}).catch((err) => {
-			return callback('404', err)
-		})
+		if (req.body.team != 0) {
+			teams.findTeam(req, res, req.body.team, (err, team) => {
+				if (err) return callback('404', [{msg: 'Note could not be published'}])
+				saveNote().then((note) => {
+					return callback(null, note)
+				}).catch((err) => {
+					return callback('404', err)
+				})
+			})
+		} else {
+			saveNote().then((note) => {
+				return callback(null, note)
+			}).catch((err) => {
+				return callback('404', err)
+			})
+		}
+
 	})
 
 	let saveNote = () => {
@@ -46,7 +59,8 @@ exports.newNote = (req, res, drafttype, callback) => {
 				title: req.body.title,
 				content: req.body.content,
 				team: req.body.team,
-				draft: drafttype
+				draft: drafttype,
+				private: (req.body.team == 0) ? true : false
 			})
 
 			note.save((err) => {

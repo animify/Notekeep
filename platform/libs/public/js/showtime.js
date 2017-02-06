@@ -19,7 +19,7 @@ let errorHandler = {
 		let _oldheight = $(`.modal.active .content`).height()
 		let _newheight = $(`.modal.active .content`).height() + 50
 
-		$(`.modal .content`).animate({height: _newheight}, 300)
+		$(`.modal.active .content`).animate({height: _newheight}, 300)
 		.queue(function() {
 			$(this).find('.error .why').text(msg).parent().show('slide', {direction: 'down'}, 300).parent().dequeue()
 		})
@@ -36,19 +36,19 @@ let templates = {
 	teams: $('#tpl-teams').html(),
 	escape: (str) => {
 		return str
-				.replace(/&/g, '&amp;')
-				.replace(/"/g, '&quot;')
-				.replace(/'/g, '&#39;')
-				.replace(/</g, '&lt;')
-				.replace(/>/g, '&gt;')
+			.replace(/&/g, '&amp;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
 	},
 	unescape: (str) => {
 		return str
-				.replace(/&quot;/g, '"')
-				.replace(/&#39;/g, "'")
-				.replace(/&lt;/g, '<')
-				.replace(/&gt;/g, '>')
-				.replace(/&amp;/g, '&')
+			.replace(/&quot;/g, '"')
+			.replace(/&#39;/g, "'")
+			.replace(/&lt;/g, '<')
+			.replace(/&gt;/g, '>')
+			.replace(/&amp;/g, '&')
 	}
 }
 
@@ -67,6 +67,7 @@ let endpoint = {
 }
 
 let team = {
+	selected: null,
 	append: (res) => {
 		let _team = {
 			color: res.team.color,
@@ -145,8 +146,16 @@ let modal = {
 		$('body').removeClass('noscroll')
 		$(`.modal`).removeClass('active')
 	},
-	openEditor: (team) => {
-		(team.private == 1) ? $('.editor h6.team').text('Private note') : $('.editor h6.team').text(team.team[0].name)
+	openEditor: (teamSelect) => {
+		if (teamSelect.private == 1) {
+			team.selected = 0
+			$('.editor h6.team').text('Private note')
+		} else {
+			team.selected = teamSelect.team[0]._id
+			$('.editor h6.team').text(teamSelect.team[0].name)
+		}
+		console.log(team.selected);
+
 		$('body').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'down'}, 300)
 	},
@@ -182,7 +191,8 @@ $(() => {
 		 } else {
 			 modal.openEditor(teamid)
 		 }
-
+	 }).bind('saved:editor', function(e, msg) {
+			modal.close()
 	 })
 
 	$('#signup').bind('click', function() {
@@ -235,10 +245,12 @@ $(() => {
 				})
 				break
 			case 'publish_note':
-				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape($('.note_content').html()), team: 0})
+				console.log(editor.serialize());
+				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), team: team.selected})
 				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
 					console.log(res);
-					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : console.log(res)
+					let errMsg = ''
+					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
 				})
 				break
 			case 'open_editor':
@@ -286,6 +298,14 @@ $(() => {
 		$('#settings .section').hide()
 		$('.switches').removeClass('open')
 		$(`#${$(this).parent().data('target')}`).show()
+	})
+
+	$('.note_headroom h3[contenteditable]').on('paste',function(e) {
+		e.preventDefault()
+		let plain_text = (e.originalEvent || e).clipboardData.getData('text/plain')
+		if(typeof plain_text !== undefined){
+			document.execCommand('insertText', false, plain_text)
+		}
 	})
 
 	nk.init()

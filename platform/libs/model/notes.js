@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const shortid = require('shortid')
 const User = require('./user')
+const Team = require('./team')
 
 let	Note = new Schema({
 	_id: {
@@ -34,10 +35,9 @@ let	Note = new Schema({
 	},
 	private: {
 		type: Boolean,
-		default: true,
+		default: false,
 		required: true
 	}
 })
-
 
 module.exports = mongoose.model('Note', Note)

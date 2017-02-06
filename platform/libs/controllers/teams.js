@@ -70,10 +70,13 @@ exports.findTeam = (req, res, teamid, callback) => {
 	})
 	.lean()
 	.exec((err, team) => {
-		console.log(team);
-		if (!err) return callback(null, team)
+		if (!err && !(team.length == 0)) {
+			return callback(null, team)
+		} else {
+			return callback('404', 'Team could not be found')
+		}
 
-		log.error('Internal error(%d): %s', '500',err.message)
-		callback('500', 'Server error! Please try again soon.')
+		return callback('500', 'Internal server error')
+		log.error('Internal error(%d): %s', '500', err.message)
 	})
 }
