@@ -6,30 +6,66 @@ const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
 const auth = require(jt.path('auth/auth'))
 
-exports.newNote = (req, res, callback) => {
+exports.newNote = (req, res, drafttype, callback) => {
 	req.sanitizeBody()
-	let errors = req.validationErrors()
-	if (errors) {
-		return callback('500', errors)
-	}
-
-	let note = new Notes({
-		owner: req.user._id
-	})
-
-	note.save((err) => {
-		if (!err) {
-			log.info("New notekeep created with id: %s", notekeep._id)
-			return callback(null, notekeep)
-		} else {
-			if(err.name === 'ValidationError') {
-				return callback('400', 'Validation error')
-			} else {
-				return callback('500', 'Server error')
-			}
-			log.error('Internal error(%d): %s', '500', err.message)
+	req.checkBody({
+	 'title': {
+			notEmpty: true,
+			isLength: {
+				options: [{ min: 2, max: 30 }],
+				errorMessage: 'Note title must be between 2 and 30 chars long'
+			},
+			errorMessage: `You'll need to enter a title for this note`
+		},
+	 'content': {
+			notEmpty: true,
+			errorMessage: `Why make a note with no content?!`
+		},
+	 'team': {
+			notEmpty: true
 		}
 	})
+
+	req.getValidationResult().then(function(errors) {
+		 if (!errors.isEmpty()) {
+			 console.log(errors);
+			 return callback('100', errors.useFirstErrorOnly().array())
+		 }
+
+		saveNote().then((note) => {
+			return callback(null, note)
+		}).catch((err) => {
+			return callback('404', err)
+		})
+	})
+
+	let saveNote = () => {
+		return new Promise(function(resolve, reject) {
+			let note = new Notes({
+				owner: req.user._id,
+				title: req.body.title,
+				content: req.body.content,
+				team: req.body.team,
+				draft: drafttype
+			})
+
+			note.save((err) => {
+				if (!err) {
+					log.info("New note created with id: %s", note._id)
+					return resolve(note)
+				} else {
+					if(err.name === 'ValidationError') {
+						return reject('Validation error')
+					} else {
+						return reject('Server error')
+					}
+					log.error('Internal error(%d): %s', '500', err.message)
+				}
+			})
+		})
+
+	}
+
 }
 
 exports.findNote = (req, res, callback) => {

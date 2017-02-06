@@ -4144,16 +4144,16 @@ nav.nav ul.options li + li {
   width: 100%;
   display: block;
   position: relative;
-  background-color: #1496ff;
+  text-align: center;
 }
-.strip h4 {
+.strip h2 {
   font-weight: 800;
-  color: #fff;
+  color: #3f5169;
 }
 .strip small {
-  color: #c5dff3;
-  font-weight: 800;
-  font-size: 1em;
+  color: #97a2b2;
+  font-weight: 400;
+  font-size: 1.2em;
 }
 #ls-teams .unit h6 {
   line-height: 1.4em;
@@ -4635,7 +4635,8 @@ nav.nav ul.options li + li {
 }
 .modal .close i {
   color: #6f8ea8;
-  font-size: 1.1em;
+  font-size: 1.5em;
+  line-height: 2em;
 }
 .modal .close:hover {
   background-color: #1496ff;
@@ -4710,6 +4711,7 @@ nav.nav ul.options li + li {
   padding: 1.3em 0;
   width: 100%;
   background-color: #ffe2e2;
+  position: relative;
 }
 .modal div.error:before,
 .modal div.error:after {
@@ -4718,6 +4720,14 @@ nav.nav ul.options li + li {
 }
 .modal div.error:after {
   clear: both;
+}
+.modal div.error .why {
+  padding-left: 2em;
+}
+.modal div.error i.i-error {
+  position: absolute;
+  left: 0;
+  color: text-red;
 }
 .modal div.error > * {
   font-weight: 600;

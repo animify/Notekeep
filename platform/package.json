@@ -20,7 +20,7 @@
     "errors": "^0.3.0",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
-    "express-validator": "^2.20.8",
+    "express-validator": "^3.1.2",
     "fs": "0.0.1-security",
     "mongoose": "^4.6.0",
     "nconf": "^0.8.4",

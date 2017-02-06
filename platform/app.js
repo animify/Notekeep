@@ -41,6 +41,12 @@ app.use(bodyParser())
 app.use(passport.initialize())
 app.use(passport.session())
 
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
 app.use(validator({
 	customValidators: {
 		isArray: (value) => {
@@ -51,29 +57,6 @@ app.use(validator({
 		}
 	}
 }))
-
-app.use(validator({
-	errorFormatter: (param, msg, value) => {
-		let namespace = param.split('.')
-		let root = namespace.shift()
-		let formParam = root
-
-		while(namespace.length) {
-			formParam += '[' + namespace.shift() + ']'
-		}
-		return {
-			parameter: formParam,
-			description: msg
-		}
-	}
-}))
-
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
 
 app.set('port', process.env.PORT || config.get('port') || 80)
 app.set('views', jt.path('views/modules'))

@@ -1,7 +1,7 @@
 .modal#modal_team
 	.overlay
 		.close
-			i.ion-close-round
+			i.material-icons clear
 		.cell
 			.content
 				.inside
@@ -13,20 +13,40 @@
 						a.button.green(data-run="new_team") Create Team
 						a.button(data-modal="close") Cancel
 				.error.text-center
-					.why.text-red You'll need to enter a name for your team!
+					i.i-error.material-icons error_outline
+					.why.text-red
 
 .modal#modal_publish
 	.overlay
 		.close
-			i.ion-close-round
+			i.material-icons clear
 		.cell
 			.content
 				.inside
 					h5 Publish your note
 					p Publishing a team note will make it available to your team or private notes immediately. Once published, you can't reverse the note to a draft again.
 					.button-group.clearfix.to-right
-						a.button.green Publish
+						a.button.green(data-run="publish_note") Publish
 						a.button(data-modal="close") Cancel
+				.error.text-center
+					i.i-error.material-icons error_outline
+					.why.text-red
+
+.modal#modal_about
+	.overlay
+		.close
+			i.material-icons clear
+		.cell
+			.content
+				.inside
+					h5 About the note editor
+					p The note editor is an area where you can collaborate on notes together with the team assigned to the note or just use it for personal notes.
+					br
+					p Within the editor, you can drag in images to your document and amend text just by selecting what you want to edit.
+					br
+					p When notes are not published, they are automatically saved as drafts and will not be made available to teams. Once you are ready to publish your note, just tap the green "Publish" button in the top right of the editor.
+					.button-group.clearfix.to-right
+						a.button(data-modal="close") Close
 
 .editor
 	.options
@@ -39,7 +59,7 @@
 				a.toggle.button.slim.outlined Options #[i.material-icons keyboard_arrow_down]
 				ul.menu
 					li #[a Keyboard shortcuts]
-					li #[a Learn more]
+					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
 					li.divider
 					li #[a Copy link]
 					li #[a Create public link]

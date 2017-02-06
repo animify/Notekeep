@@ -4,19 +4,19 @@ block content
 	include ../static/dashboard/nav.pug
 	.strip
 		.contain
-			h4.what= team[0].name
+			h2.what= team[0].name
 			small= `${team[0].userlist.length + 1} member(s)`
 	.contain
 		.inner#teams
 			.grid-row
-				.xs-12.s-5#ls-notes
+				.xs-12.s-8#ls-notes
 					h3.what Updates
 					.unit
 						.content
 							img(src=`${team[0].creator.avatar}`, height="30")
 							h6= `${team[0].creator.firstname} ${team[0].creator.lastname}`
 							p= team[0].creator.email
-				.xs-12.s-7#ls-teams
+				.xs-12.s-4#ls-teams
 					h3.what Members
 					.unit
 						.content

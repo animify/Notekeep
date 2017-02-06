@@ -18,9 +18,10 @@ block content
 					a #[i.material-icons search]
 				a.switch_trigger.button.green.sm(data-switch="switch_teams") New note
 			.switches.right#switch_teams
+				a.switch(data-teamid="0") #[b Private]
+					span Only available to you
 				for team in teams
 					a.switch(data-teamid=team._id) #[b= team.name]
-						span All team notes
 		.inner
 			for team in teams
 				.notes.grid-row

@@ -17,6 +17,14 @@ let	Note = new Schema({
 		type: String,
 		trim: true
 	},
+	title : {
+		type: String
+	},
+	draft : {
+		type: Boolean,
+		default: true,
+		required: true
+	},
 	content : {
 		type: String
 	},
@@ -26,7 +34,7 @@ let	Note = new Schema({
 	},
 	private: {
 		type: Boolean,
-		default: false,
+		default: true,
 		required: true
 	}
 })

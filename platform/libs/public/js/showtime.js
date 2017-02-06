@@ -13,27 +13,43 @@ let nk = {
 }
 
 let errorHandler = {
-	modal: (msg) => {
-		let _oldheight = $(`.modal .content`).height()
-		let _newheight = $(`.modal .content`).height() + 50
-		$(`.modal .content`).animate({
-			height: _newheight
-		}, 300, () => {
-			$(`.modal.active .error .why`).text(msg).parent().show('slide', {direction: 'down'}, 300)
-			$(`.modal.active input`).delay(300).addClass('error').delay(4000).queue(function() {
-				$(this).delay(300).removeClass('error').dequeue()
-				$(`.modal.active .error`).show('slide', {direction: 'down'}, 300, () => {
-					$(`.modal .content`).animate({
-						height: _oldheight
-					}, 300)
-				})
-			})
+	modal: (msg, title) => {
+		if ($('.modal.active .error').is(':visible')) return
+
+		let _oldheight = $(`.modal.active .content`).height()
+		let _newheight = $(`.modal.active .content`).height() + 50
+
+		$(`.modal .content`).animate({height: _newheight}, 300)
+		.queue(function() {
+			$(this).find('.error .why').text(msg).parent().show('slide', {direction: 'down'}, 300).parent().dequeue()
 		})
+		.delay(4000)
+		.animate({height: _oldheight}, 300)
+		.queue(function() {
+			$(this).find('.error').hide('slide', {direction: 'down'}, 300).parent().dequeue()
+		})
+
 	}
 }
 
 let templates = {
-	teams: $('#tpl-teams').html()
+	teams: $('#tpl-teams').html(),
+	escape: (str) => {
+		return str
+				.replace(/&/g, '&amp;')
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+	},
+	unescape: (str) => {
+		return str
+				.replace(/&quot;/g, '"')
+				.replace(/&#39;/g, "'")
+				.replace(/&lt;/g, '<')
+				.replace(/&gt;/g, '>')
+				.replace(/&amp;/g, '&')
+	}
 }
 
 let endpoint = {
@@ -130,8 +146,8 @@ let modal = {
 		$(`.modal`).removeClass('active')
 	},
 	openEditor: (team) => {
+		(team.private == 1) ? $('.editor h6.team').text('Private note') : $('.editor h6.team').text(team.team[0].name)
 		$('body').addClass('noscroll')
-		$('.editor h6.team').text(team.team[0].name)
 		$('.editor').show('slide', {direction: 'down'}, 300)
 	},
 	closeEditor: () => {
@@ -157,11 +173,16 @@ $(() => {
 		 }
 		 (isEscape) && modal.close()
 	 }).bind('open:editor', function(e, teamid) {
-		 let _data = JSON.stringify(teamid)
-		 endpoint.call(`/facets/endpoints/teams/find`, 'POST', _data, (res) => {
-			 console.log(res);
-			 modal.openEditor(res)
-		 })
+		 if (teamid.private != 1) {
+			 let _data = JSON.stringify(teamid)
+			 endpoint.call(`/facets/endpoints/teams/find`, 'POST', _data, (res) => {
+				 console.log(res);
+				 modal.openEditor(res)
+			 })
+		 } else {
+			 modal.openEditor(teamid)
+		 }
+
 	 })
 
 	$('#signup').bind('click', function() {
@@ -192,14 +213,6 @@ $(() => {
 		})
 	})
 
-
-	$('#newnotekeep').bind('click', () => {
-		// let _data = JSON.stringify(data)
-		// endpoint.call('/facets/endpoints/notes/new', 'POST', _data, (res) => {
-			// res.statusCode == 200 && window.location.replace("/")
-		// })
-	})
-
 	$('[data-modal="open"]').bind('click', function() {
 		modal.open($(this).attr('data-modal-name'))
 	})
@@ -210,14 +223,22 @@ $(() => {
 
 	$('[data-run]').bind('click', function() {
 		let _type = $(this).data('run')
+		let _data = null
 		switch (_type) {
 			case 'new_team':
 				let teamname = $('#input-new_team').val()
 				if(_(teamname).isBlank()) return errorHandler.modal("You'll need to enter a name for the team to continue.")
 				if(teamname.length < 6) return errorHandler.modal('A team name needs to be at least 6 characters long.')
-				let _data = JSON.stringify({name: teamname})
+				_data = JSON.stringify({name: teamname})
 				endpoint.call('/facets/endpoints/teams/new', 'POST', _data, (res) => {
 					res.error ? errorHandler.modal(res.message) : team.append(res)
+				})
+				break
+			case 'publish_note':
+				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape($('.note_content').html()), team: 0})
+				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
+					console.log(res);
+					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : console.log(res)
 				})
 				break
 			case 'open_editor':
@@ -252,7 +273,11 @@ $(() => {
 	$('.switches#switch_teams .switch').bind('click', function(e) {
 		$('.switches').hide()
 		$('.switches').removeClass('open')
-		$(document).trigger('open:editor', [{team: $(this).data('teamid')}])
+		if ($(this).data('teamid') != 0) {
+			$(document).trigger('open:editor', [{private: 0, team: $(this).data('teamid')}])
+		} else {
+			$(document).trigger('open:editor', [{private: 1}])
+		}
 	})
 
 	$('#settings .item a').bind('click', function(e) {

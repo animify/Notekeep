@@ -13,9 +13,9 @@ const User = require(jt.path('model/user'))
 const notesController = require(jt.path('controllers/notes'))
 const teamsController = require(jt.path('controllers/teams'))
 
-router.post('/notes/new', (req, res) => {
-	notesController.newNote(req, res, (err, ret) => {
-		if (err) return res.send({Error: err})
+router.post('/notes/publish', (req, res) => {
+	notesController.newNote(req, res, false, (err, ret) => {
+		if (err) return res.send({error: err, message: ret})
 		res.send({Message: ret})
 	})
 })
