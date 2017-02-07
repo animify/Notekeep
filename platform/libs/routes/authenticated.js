@@ -12,6 +12,7 @@ const config = require(jt.path('config'))
 const User = require(jt.path('model/user'))
 const notesController = require(jt.path('controllers/notes'))
 const teamsController = require(jt.path('controllers/teams'))
+const async = require('async')
 
 router.get('/', (req, res) => {
 	return res.render('dashboard', {title: 'Dashboard - Notekeep', user: req.user, selected: 'dashboard', light: true})
@@ -19,7 +20,15 @@ router.get('/', (req, res) => {
 
 router.get('/notes', (req, res) => {
 	teamsController.findUserTeams(req, res, (err, teams) => {
-		return res.render('notes', {title: 'Notes - Notekeep', teams: teams, user: req.user, selected: 'notes', light: true})
+		async.eachOf(teams, (team, key, cb) => {
+			notesController.findPublishedTeamNotes(req, res, team._id, (err, notes) => {
+				teams[key].notes = notes
+				cb()
+			})
+		}, (err) => {
+			console.log(teams);
+			return res.render('notes', {title: 'Notes - Notekeep', teams: teams, user: req.user, selected: 'notes', light: true})
+		})
 	})
 })
 

@@ -34,6 +34,7 @@ const eSession = session({
 	saveUninitialized: true
 })
 
+app.locals.moment = require('moment')
 app.use(eSession)
 app.use(express.static("libs/public"))
 app.use(bodyParser())

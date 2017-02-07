@@ -1,3 +1,20 @@
+.modal#modal_invite
+	.overlay
+		.close
+			i.material-icons clear
+		.cell
+			.content
+				.inside
+					h5 Invite a member
+					p A new member will have access to all team notes and will be instantly allowed to collaborate within the editor.
+					.input.block.form
+						input#member-email(type="text", placeholder="Members email address")
+					.button-group.clearfix.to-right
+						a.button.green(data-run="invite_member") Invite Member
+						a.button(data-modal="close") Cancel
+				.error.text-center
+					.why.text-red
+
 .modal#modal_team
 	.overlay
 		.close
@@ -13,7 +30,6 @@
 						a.button.green(data-run="new_team") Create Team
 						a.button(data-modal="close") Cancel
 				.error.text-center
-					//- i.i-error.material-icons error_outline
 					.why.text-red
 
 .modal#modal_publish
@@ -29,7 +45,6 @@
 						a.button.green(data-run="publish_note") Publish
 						a.button(data-modal="close") Cancel
 				.error.text-center
-					//- i.i-error.material-icons error_outline
 					.why.text-red
 
 .modal#modal_about
@@ -49,10 +64,11 @@
 .editor
 	.options
 		.float-left
+			a.toggle.button.slim.transparent.hasicon(data-run="close_editor") #[i.material-icons arrow_back]
 			h6.team
-			h6.draft
+			h6 Created just now
 		.float-right
-			a.button.slim.primary Share
+			a.button.slim.outlined Share
 			.dropdown.right
 				a.toggle.button.slim.outlined.hasicon #[i.material-icons more_horiz]
 				ul.menu
@@ -68,13 +84,6 @@
 
 	.editable
 		.note_headroom
-			p Stefan Mansson
+			p Stefan Mansson #[span.draft]
 			h3(contenteditable="true")
 		.note_content
-
-	.options.bottom
-		.float-left
-			h6 Created just now
-		.float-right
-			.close
-				a.button.slim.default(data-run="close_editor") Back to notes

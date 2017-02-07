@@ -29,6 +29,12 @@ let	Note = new Schema({
 	content : {
 		type: String
 	},
+	plain : {
+		type: String
+	},
+	created: {
+		type: Date
+	},
 	updated: {
 		type: Date,
 		default: Date.now

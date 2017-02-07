@@ -79,7 +79,6 @@ nav.nav
 	width 100%
 	height 4em
 	background-color #fff
-	relative top left
 	z-index 2000
 	fixed top left
 	border-bottom 1px solid border-gray
@@ -95,6 +94,7 @@ nav.nav
 		margin 5em 0 0 0
 		border 0
 		padding 0
+		box-shadow none
 		h4.what
 			padding 2.1rem 0 0 0
 			vertical-align top
@@ -131,7 +131,7 @@ nav.nav
 			cf()
 	.user
 		line-height 1.5em
-		relative top 1.22em
+		relative top 1.2em
 		cursor pointer
 		&:hover span, &.open span
 			color text-grey
@@ -140,9 +140,10 @@ nav.nav
 			text-transform capitalize
 			margin-left .6em
 			color text-light
+			font-weight 600
 			transition .14s ease all
 		img
-			height 1.66em
+			height 1.6em
 			border-radius 50%
 
 	ul.options
@@ -152,17 +153,18 @@ nav.nav
 		li
 			a
 				transition .14s ease all
-				color text-lighter
-				font-weight 500
+				color text-light
+				font-weight 600
+				&:hover
+					color text-grey
 			i
 				color text-lighter
-				relative top .25em
+				relative top .28em
 				&:hover
 					color inherit
 			&.active
 				a, i
-					color primary-color
-					font-weight 600
+					color color-primary
 			& + li
 				margin-left 2.4em
 
@@ -219,19 +221,47 @@ nav.nav
 			margin-bottom .6rem
 
 .strip
-	margin-top 4em
-	padding 6em 0 1.6em 0
+	margin-top 4rem
+	padding 4rem 0 1.6rem 0
 	width 100%
 	display block
 	position relative
 	text-align center
-	h2
-		font-weight 800
-		color text-grey
+	.members
+		margin-top .6rem
+		margin-left .3rem
+		.member_ci
+			display inline-block
+			vertical-align top
+			margin-left -.3rem
+			&.add
+				height 2.3em
+				width 2.3em
+				border 2px dashed border-gray
+				box-shadow 0 0 0 4px #fff
+				border-radius 50%
+				background-color #fff
+				cursor pointer
+				transition all .14s ease
+				i
+					color text-light
+					line-height 1.44em
+					font-size 1.4em
+				&:hover
+					border 2px solid color-green
+					i
+						color color-green
+			img
+				height 2.3em
+				width 2.3em
+				border-radius 50%
+				box-shadow 0 0 0 4px #fff
 	small
 		color text-light
-		font-weight 400
-		font-size 1.2em
+		font-weight 500
+		font-size 1em
+		margin-top .6rem
+		display block
 
 #ls-teams
 	.unit
@@ -314,7 +344,7 @@ nav.nav
 		.xs-12 + .xs-12
 			margin-top 1.5rem
 	& + .notes
-		margin-top 2.6rem
+		margin-top 4rem
 	.desc
 		margin-bottom 1.6rem
 		& > *
@@ -323,6 +353,7 @@ nav.nav
 		h5
 			font-weight 600
 			color text-grey
+			line-height 1.4em
 		a
 			margin-top .6rem
 			font-weight 600
@@ -341,13 +372,14 @@ nav.nav
 			width 2rem
 			margin-right 1.3rem
 	.note
-		padding 1.3rem 1.6rem 1.5rem 1.6rem
-		background-color #fff
+		padding 0 1.4rem
 		position relative
-		border-radius border-radius-normal
-		border 1px solid border-gray
+		border-left 2px solid border-gray
+		&.published
+			border-color color-green
+			h6
+				color color-green
 		&:hover
-			border-color color-primary
 			cursor pointer
 		&.new
 			display none
@@ -355,11 +387,13 @@ nav.nav
 			border-right 3px solid color-primary
 		h6
 			font-weight 600
+			line-height 1.3em
 		p
 			color text-light
 			overflow ellipsis
+			font-weight 500
 		small
-			margin-top 1em
+			margin-top .3em
 			display block
 			color text-lighter
 
@@ -438,14 +472,14 @@ nav.nav
 		h6
 			display inline-block
 			font-size 1em
-			color text-light
+			color text-grey
 			& + h6
-				margin-left .7em
+				margin-left .9em
 			i
 				relative top 3px
 				font-size 1em
-				margin 0 .2em
-				color text-lightest
+				margin 0 .3em
+				color text-lighter
 	.content
 		padding-left 3.5rem
 		display inline-block
@@ -523,23 +557,14 @@ nav.nav
 				vertical top
 				color text-light
 				line-height 1.9em
+				margin-left 1em
 				&.team
 					font-weight 600
 					color text-grey
 				& + h6
-					margin-left 1em
 					padding-left 1em
 					border-left 1px solid border-gray
-				&.draft
-					color color-yellow
-					&:before
-						content 'Draft'
-						display block
-				&.published
-					color color-green
-					&:before
-						content 'Published'
-						display block
+
 
 .editable
 	width 100%
@@ -552,6 +577,15 @@ nav.nav
 			color text-light
 			line-height 1.7em
 			font-weight 600
+			span
+				&.draft
+					color color-yellow
+					&:before
+						content '- Draft'
+				&.published
+					color color-green
+					&:before
+						content '- Published'
 		h3
 			line-height 1em
 			font-weight 800

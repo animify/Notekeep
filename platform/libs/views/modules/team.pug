@@ -4,18 +4,27 @@ block content
 	include ../static/dashboard/nav.pug
 	.strip
 		.contain
-			h2.what= team[0].name
+			h3.what= team[0].name
+			.members
+				for user in team[0].userlist
+					.member_ci
+						img(src=user.avatar)
+				.member_ci
+					img(src=team[0].creator.avatar)
+				.member_ci.add(data-modal="open", data-modal-name="modal_invite")
+					i.material-icons add
 			small= `${team[0].userlist.length + 1} member(s)`
 	.contain
 		.inner#teams
 			.grid-row
 				.xs-12.s-8#ls-notes
 					h3.what Updates
-					.unit
-						.content
-							img(src=`${team[0].creator.avatar}`, height="30")
-							h6= `${team[0].creator.firstname} ${team[0].creator.lastname}`
-							p= team[0].creator.email
+					.module
+						p #[i.material-icons.text-green note_add] You created a #[a note] #[span 1 minute ago]
+					.module
+						p #[i.material-icons.text-purple person_pin] #[a John Appleseed] has joined #[a Development team] #[span 3 minutes ago]
+					.module
+						p #[i.material-icons.text-yellow person_pin] #[a Christina Snow] has edited a #[a note] #[span 8 minutes ago]
 				.xs-12.s-4#ls-teams
 					h3.what Members
 					.unit

@@ -157,11 +157,11 @@ let modal = {
 		console.log(team.selected);
 
 		$('body').addClass('noscroll')
-		$('.editor').show('slide', {direction: 'down'}, 300)
+		$('.editor').show('slide', {direction: 'left'}, 300)
 	},
 	closeEditor: () => {
 		$('body').removeClass('noscroll')
-		$('.editor').hide('slide', {direction: 'down'}, 300)
+		$('.editor').hide('slide', {direction: 'left'}, 300)
 	}
 }
 
@@ -246,7 +246,7 @@ $(() => {
 				break
 			case 'publish_note':
 				console.log(editor.serialize());
-				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), team: team.selected})
+				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), plain: ($('.note_content').text()).substr(0,40), team: team.selected})
 				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
 					console.log(res);
 					let errMsg = ''

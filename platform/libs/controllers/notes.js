@@ -6,6 +6,7 @@ const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
 const auth = require(jt.path('auth/auth'))
 const teams = require(jt.path('controllers/teams'))
+const moment = require('moment')
 
 exports.newNote = (req, res, drafttype, callback) => {
 	req.sanitizeBody()
@@ -58,7 +59,9 @@ exports.newNote = (req, res, drafttype, callback) => {
 				owner: req.user._id,
 				title: req.body.title,
 				content: req.body.content,
+				plain: req.body.plain,
 				team: req.body.team,
+				created: moment().format(),
 				draft: drafttype,
 				private: (req.body.team == 0) ? true : false
 			})
@@ -87,12 +90,30 @@ exports.findNote = (req, res, callback) => {
 
 	Notes.findOne({'_id': req.params.note})
 	.populate(populateQuery)
-	.exec((err, notekeep) => {
-		if(!notekeep) {
+	.exec((err, note) => {
+		if(!note) {
 			return callback('400', 'Validation error')
 		}
 		if (!err) {
-			return callback(null, notekeep)
+			return callback(null, note)
+		} else {
+			log.error('Internal error(%d): %s', '500' , err.message)
+			return callback('500', 'Internal error')
+		}
+	})
+}
+
+exports.findPublishedTeamNotes = (req, res, teamid, callback) => {
+	const populateQuery = [{path:'owner', select:'_id username fullname email'}]
+
+	Notes.find({team: teamid, draft: false, private: false})
+	.populate(populateQuery)
+	.exec((err, notes) => {
+		if(!notes) {
+			return callback('400', 'Validation error')
+		}
+		if (!err) {
+			return callback(null, notes)
 		} else {
 			log.error('Internal error(%d): %s', '500' , err.message)
 			return callback('500', 'Internal error')

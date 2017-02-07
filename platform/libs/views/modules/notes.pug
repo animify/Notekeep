@@ -16,7 +16,7 @@ block content
 				.input.sm
 					input(type="text", placeholder="Search notes")
 					a #[i.material-icons search]
-				a.switch_trigger.button.green.sm(data-switch="switch_teams") New note
+				a.switch_trigger.button.green.sm(data-switch="switch_teams") New Note
 			.switches.right#switch_teams
 				a.switch(data-teamid="0") #[b Private]
 					span Only available to you
@@ -24,28 +24,16 @@ block content
 					a.switch(data-teamid=team._id) #[b= team.name]
 		.inner
 			for team in teams
-				.notes.grid-row
-					.xs-12
-						.desc
-							span(style=`background-color:${team.color}`)= team.name.substr(0,1)
-							h5= team.name
-					if (team.notes)
-						for note in notes
-							.xs-12.m-4
-								.note
-									h6 Note one
-									p Text should be truncated when min width
-									small 3 minutes ago
-							.xs-12.m-4
-								.note
-									h6 Note two
-									p Long note text should be truncated anyway when text is longer than the container
-									small 29th January 2016
-							.xs-12.m-4
-								.note
-									h6 Note two
-									p Long note text should be truncated anyway when text is longer than the container
-									small 29th January 2016
-					else
+				if (team.notes.length != 0)
+					.notes.grid-row
 						.xs-12
-								h6 No notes
+							.desc
+								span(style=`background-color:${team.color}`)= team.name.substr(0,1)
+								h5= team.name
+
+						for note in team.notes
+							.xs-12.m-6.l-3
+								.note(class=(note.draft == false)?'published':'draft', data-note=note._id)
+									h6= note.title
+									p= note.plain
+									small= `Updated ${moment(note.updated).fromNow()}`
