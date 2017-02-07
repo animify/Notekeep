@@ -26,7 +26,6 @@ router.get('/notes', (req, res) => {
 				cb()
 			})
 		}, (err) => {
-			console.log(teams);
 			return res.render('notes', {title: 'Notes - Notekeep', teams: teams, user: req.user, selected: 'notes', light: true})
 		})
 	})

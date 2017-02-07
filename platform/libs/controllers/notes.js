@@ -7,6 +7,7 @@ const Notes = require(jt.path('model/notes'))
 const auth = require(jt.path('auth/auth'))
 const teams = require(jt.path('controllers/teams'))
 const moment = require('moment')
+const _ = require('underscore')
 
 exports.newNote = (req, res, drafttype, callback) => {
 	req.sanitizeBody()
@@ -86,25 +87,46 @@ exports.newNote = (req, res, drafttype, callback) => {
 }
 
 exports.findNote = (req, res, callback) => {
-	const populateQuery = [{path:'owner', select:'_id username fullname email'}]
 
-	Notes.findOne({'_id': req.params.note})
-	.populate(populateQuery)
-	.exec((err, note) => {
-		if(!note) {
-			return callback('400', 'Validation error')
+	req.sanitizeParams()
+	req.checkParams({
+	 'note': {
+			notEmpty: true,
+			errorMessage: `Note ID is empty`
 		}
-		if (!err) {
-			return callback(null, note)
-		} else {
-			log.error('Internal error(%d): %s', '500' , err.message)
-			return callback('500', 'Internal error')
+	})
+
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
 		}
+
+		const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
+
+		Notes.findOne({'_id': req.params.note})
+		.populate(populateQuery)
+		.exec((err, note) => {
+			if(!note) {
+				return callback('400', 'Validation error')
+			}
+			if (!err) {
+				teams.findTeam(req, res, note.team, (err, team) => {
+					if (team[0]._id) {
+						return callback(null, [{note:note, team:team[0]}])
+					}
+
+					return callback('400', 'Validation error')
+				})
+			} else {
+				log.error('Internal error(%d): %s', '500' , err.message)
+				return callback('500', 'Internal error')
+			}
+		})
 	})
 }
 
 exports.findPublishedTeamNotes = (req, res, teamid, callback) => {
-	const populateQuery = [{path:'owner', select:'_id username fullname email'}]
+	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
 
 	Notes.find({team: teamid, draft: false, private: false})
 	.populate(populateQuery)

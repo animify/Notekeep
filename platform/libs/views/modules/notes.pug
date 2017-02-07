@@ -33,7 +33,7 @@ block content
 
 						for note in team.notes
 							.xs-12.m-6.l-3
-								.note(class=(note.draft == false)?'published':'draft', data-note=note._id)
+								.note(class=(note.draft == false)?'published':'draft', data-note=note._id, data-run="get_note")
 									h6= note.title
 									p= note.plain
 									small= `Updated ${moment(note.updated).fromNow()}`

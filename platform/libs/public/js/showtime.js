@@ -34,6 +34,7 @@ let errorHandler = {
 
 let templates = {
 	teams: $('#tpl-teams').html(),
+	editorStatus: $('#tpl-editor_status').html(),
 	escape: (str) => {
 		return str
 			.replace(/&/g, '&amp;')
@@ -159,6 +160,20 @@ let modal = {
 		$('body').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
 	},
+	editEditor: (info) => {
+		(info.note.draft) ? $('.publish').show() : $('.publish').hide()
+		$('.editor h6.team').text(info.team.name)
+
+		$('.note_headroom h3').text(info.note.title)
+
+		let editorStatus = _.template(templates.editorStatus)({firstname: info.note.owner.firstname, lastname: info.note.owner.lastname, status: (info.note.draft) ? 'draft' : 'published'})
+		$('.note_headroom p').html($(editorStatus))
+
+		editor.setContent(templates.unescape(info.note.content), 0)
+
+		$('body').addClass('noscroll')
+		$('.editor').show('slide', {direction: 'left'}, 300)
+	},
 	closeEditor: () => {
 		$('body').removeClass('noscroll')
 		$('.editor').hide('slide', {direction: 'left'}, 300)
@@ -185,7 +200,6 @@ $(() => {
 		 if (teamid.private != 1) {
 			 let _data = JSON.stringify(teamid)
 			 endpoint.call(`/facets/endpoints/teams/find`, 'POST', _data, (res) => {
-				 console.log(res);
 				 modal.openEditor(res)
 			 })
 		 } else {
@@ -245,10 +259,18 @@ $(() => {
 				})
 				break
 			case 'publish_note':
-				console.log(editor.serialize());
 				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), plain: ($('.note_content').text()).substr(0,40), team: team.selected})
 				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
 					console.log(res);
+					let errMsg = ''
+					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
+				})
+				break
+			case 'get_note':
+				_data = JSON.stringify({})
+				endpoint.call(`/facets/endpoints/notes/get/${$(this).data('note')}`, 'GET', _data, (res) => {
+					console.log(res[0]);
+					modal.editEditor(res[0])
 					let errMsg = ''
 					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
 				})

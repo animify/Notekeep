@@ -20,6 +20,13 @@ router.post('/notes/publish', (req, res) => {
 	})
 })
 
+router.get('/notes/get/:note', (req, res) => {
+	notesController.findNote(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: 'Internal Error'})
+		res.send(ret)
+	})
+})
+
 router.post('/teams/new', (req, res) => {
 	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
 

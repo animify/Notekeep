@@ -11,3 +11,7 @@ script(type='text/html', id='tpl-teams')
 				| <%= members %>
 			h6.notes #[i.material-icons book]
 				| 0
+
+script(type='text/html', id='tpl-editor_status')
+	span.user!='<%= firstname %> <%= lastname %>'
+	span(class!="<%= status %>")

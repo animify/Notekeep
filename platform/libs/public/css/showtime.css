@@ -4376,11 +4376,14 @@ nav.nav ul.options li + li {
 .notes .note:hover {
   cursor: pointer;
 }
+.notes .note:hover.published {
+  border-color: #1aa87e;
+}
+.notes .note:hover.published h6 {
+  color: #1aa87e;
+}
 .notes .note.new {
   display: none;
-}
-.notes .note.open {
-  border-right: 3px solid #1496ff;
 }
 .notes .note h6 {
   font-weight: 600;
@@ -4395,8 +4398,9 @@ nav.nav ul.options li + li {
   font-weight: 500;
 }
 .notes .note small {
-  margin-top: 0.3em;
+  margin-top: 0.7em;
   display: block;
+  line-height: 1.3em;
   color: #b0bec4;
 }
 .activity .activities + .activities {
@@ -4490,10 +4494,10 @@ nav.nav ul.options li + li {
   display: none;
 }
 .unit .info {
+  *zoom: 1;
   display: inline-block;
   float: right;
-  padding: 0.4rem 0;
-  *zoom: 1;
+  padding: 0.5rem 0;
 }
 .unit .info:before,
 .unit .info:after {
@@ -4643,6 +4647,9 @@ nav.nav ul.options li + li {
   color: #97a2b2;
   line-height: 1.7em;
   font-weight: 600;
+}
+.editable .note_headroom p span + span {
+  margin-left: 0.3rem;
 }
 .editable .note_headroom p span.draft {
   color: #ffc82c;

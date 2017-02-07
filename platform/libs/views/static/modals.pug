@@ -84,6 +84,8 @@
 
 	.editable
 		.note_headroom
-			p Stefan Mansson #[span.draft]
+			p
+				span.user= user.firstname + ' ' + user.lastname
+				span.draft
 			h3(contenteditable="true")
 		.note_content
