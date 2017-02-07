@@ -9,6 +9,13 @@ let nk = {
 		$('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>')
 		$('.medium-editor-toolbar-close').html('<i class="material-icons">clear</i>')
 		$('.unit', '#ls-teams').sort(team.sortAlpha).appendTo('#ls-teams')
+	},
+	resetEditor: () => {
+		editor.resetContent()
+		$('.note_headroom h3').text('')
+		$('.editor h6.team').text('')
+		$('.note_headroom p').find('span.type').removeClass('draft published').addClass('draft')
+		$('publish').show()
 	}
 }
 
@@ -155,7 +162,6 @@ let modal = {
 			team.selected = teamSelect.team[0]._id
 			$('.editor h6.team').text(teamSelect.team[0].name)
 		}
-		console.log(team.selected);
 
 		$('body').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
@@ -200,9 +206,11 @@ $(() => {
 		 if (teamid.private != 1) {
 			 let _data = JSON.stringify(teamid)
 			 endpoint.call(`/facets/endpoints/teams/find`, 'POST', _data, (res) => {
+				 nk.resetEditor()
 				 modal.openEditor(res)
 			 })
 		 } else {
+			 nk.resetEditor()
 			 modal.openEditor(teamid)
 		 }
 	 }).bind('saved:editor', function(e, msg) {
@@ -270,12 +278,14 @@ $(() => {
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/get/${$(this).data('note')}`, 'GET', _data, (res) => {
 					console.log(res[0]);
+					nk.resetEditor()
 					modal.editEditor(res[0])
 					let errMsg = ''
 					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
 				})
 				break
 			case 'open_editor':
+				nk.resetEditor()
 				modal.openEditor()
 				break
 			case 'close_editor':
