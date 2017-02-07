@@ -65,9 +65,13 @@
 		padding .4em 1.1em
 		height auto
 		line-height auto
-		i
-			font-size 1em
-			relative top 3px
+		&.hasicon
+			height 2.2em
+			padding .4em 1.4em
+			cf()
+			i
+				font-size 1.4em
+				absolute top 5px left .7rem
 	&.outlined
 		box-sizing border-box
 		background-color transparent
@@ -84,7 +88,6 @@
 		&.{clr}
 			btn-color(clr)
 			btn-background(clr)
-			btn-o-border(clr)
 			&.outlined
 				btn-color-outlined(clr)
 				background-color transparent
@@ -92,7 +95,6 @@
 			&:hover
 				btn-color(clr)
 				btn-background-hover(clr)
-				btn-o-border(clr)
 	&.labeled
 		padding 0 1.4em 0 4em
 		i

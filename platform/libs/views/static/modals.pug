@@ -45,8 +45,6 @@
 					p Within the editor, you can drag in images to your document and amend text just by selecting what you want to edit.
 					br
 					p When notes are not published, they are automatically saved as drafts and will not be made available to teams. Once you are ready to publish your note, just tap the green "Publish" button in the top right of the editor.
-					.button-group.clearfix.to-right
-						a.button(data-modal="close") Close
 
 .editor
 	.options
@@ -56,7 +54,7 @@
 		.float-right
 			a.button.slim.primary Share
 			.dropdown.right
-				a.toggle.button.slim.outlined Options #[i.material-icons keyboard_arrow_down]
+				a.toggle.button.slim.outlined.hasicon #[i.material-icons more_horiz]
 				ul.menu
 					li #[a Keyboard shortcuts]
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
@@ -70,7 +68,7 @@
 
 	.editable
 		.note_headroom
-			small Stefan Mansson
+			p Stefan Mansson
 			h3(contenteditable="true")
 		.note_content
 

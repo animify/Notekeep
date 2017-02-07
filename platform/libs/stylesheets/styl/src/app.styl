@@ -547,14 +547,22 @@ nav.nav
 	display block
 	margin 0 auto
 	.note_headroom
-		padding 2em 0
-		margin-top 2em
-		small
+		padding 3em 0
+		p
 			color text-light
-			line-height 1.5em
+			line-height 1.7em
+			font-weight 600
 		h3
 			line-height 1em
 			font-weight 800
+			position relative
+			&:after
+				content ''
+				width 2.4em
+				height 1px
+				border-bottom 1px solid border-gray
+				display block
+				absolute bottom -1.4rem left 0
 			&:empty:before
 				content 'Untitled'
 				display block
@@ -563,3 +571,6 @@ nav.nav
 				content 'Untitled'
 				display block
 				color text-light
+	.note_content
+		font-size 1.2em
+		line-height 1.6em

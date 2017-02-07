@@ -100,8 +100,8 @@ html {
 }
 body {
   font-family: 'Avenir Next W00', 'Open Sans', caption, sans-serif;
-  font-size: 14px;
-  color: #3f5169;
+  font-size: 15px;
+  color: #2d3b4e;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -110,38 +110,44 @@ body {
 h1 {
   font-size: 3.8em;
   color: #2f4468;
-  font-weight: 500;
+  font-weight: 800;
   line-height: 1.7em;
+  letter-spacing: -0.02em;
 }
 h2 {
-  font-size: 3em;
+  font-size: 2.8em;
   color: #2f4468;
-  font-weight: 500;
+  font-weight: 800;
   line-height: 1.7em;
+  letter-spacing: -0.02em;
 }
 h3 {
-  font-size: 2.2em;
+  font-size: 2.4em;
   color: #2f4468;
-  font-weight: 500;
+  font-weight: 800;
   line-height: 1.7em;
+  letter-spacing: -0.02em;
 }
 h4 {
-  font-size: 1.8em;
+  font-size: 2em;
   color: #2f4468;
-  font-weight: 500;
+  font-weight: 800;
   line-height: 1.7em;
+  letter-spacing: -0.02em;
 }
 h5 {
   font-size: 1.4em;
   color: #2f4468;
-  font-weight: 500;
+  font-weight: 800;
   line-height: 1.7em;
+  letter-spacing: -0.02em;
 }
 h6 {
   font-size: 1.08em;
   color: #2f4468;
-  font-weight: 500;
+  font-weight: 800;
   line-height: 1.7em;
+  letter-spacing: -0.02em;
 }
 ::selection {
   color: #000;
@@ -1659,10 +1665,24 @@ strong {
   height: auto;
   line-height: auto;
 }
-.button.slim i {
-  font-size: 1em;
-  position: relative;
-  top: 3px;
+.button.slim.hasicon {
+  height: 2.2em;
+  padding: 0.4em 1.4em;
+  *zoom: 1;
+}
+.button.slim.hasicon:before,
+.button.slim.hasicon:after {
+  content: '';
+  display: table;
+}
+.button.slim.hasicon:after {
+  clear: both;
+}
+.button.slim.hasicon i {
+  font-size: 1.4em;
+  position: absolute;
+  top: 5px;
+  left: 0.7rem;
 }
 .button.outlined {
   -webkit-box-sizing: border-box;
@@ -1687,197 +1707,184 @@ strong {
 .button.red {
   color: #fff;
   background: #ff4949;
-  border: 1px solid #ff4949;
 }
 .button.red.outlined {
   color: #ff4949;
   background-color: transparent;
-  border: 1px solid #ff4949;
+  -webkit-box-shadow: inset 0 0 0 1px #ff4949;
+  box-shadow: inset 0 0 0 1px #ff4949;
 }
 .button.red:hover {
   color: #fff;
   background: #ff2828;
-  border: 1px solid #ff4949;
 }
 .button.orange {
   color: #fff;
   background: #ff7c1d;
-  border: 1px solid #ff7c1d;
 }
 .button.orange.outlined {
   color: #ff7c1d;
   background-color: transparent;
-  border: 1px solid #ff7c1d;
+  -webkit-box-shadow: inset 0 0 0 1px #ff7c1d;
+  box-shadow: inset 0 0 0 1px #ff7c1d;
 }
 .button.orange:hover {
   color: #fff;
   background: #ff6c01;
-  border: 1px solid #ff7c1d;
 }
 .button.yellow {
   color: #fff;
   background: #ffc82c;
-  border: 1px solid #ffc82c;
 }
 .button.yellow.outlined {
   color: #ffc82c;
   background-color: transparent;
-  border: 1px solid #ffc82c;
+  -webkit-box-shadow: inset 0 0 0 1px #ffc82c;
+  box-shadow: inset 0 0 0 1px #ffc82c;
 }
 .button.yellow:hover {
   color: #fff;
   background: #ffc00e;
-  border: 1px solid #ffc82c;
 }
 .button.green {
   color: #fff;
   background: #20d29e;
-  border: 1px solid #20d29e;
 }
 .button.green.outlined {
   color: #20d29e;
   background-color: transparent;
-  border: 1px solid #20d29e;
+  -webkit-box-shadow: inset 0 0 0 1px #20d29e;
+  box-shadow: inset 0 0 0 1px #20d29e;
 }
 .button.green:hover {
   color: #fff;
   background: #1dbd8e;
-  border: 1px solid #20d29e;
 }
 .button.teal {
   color: #fff;
   background: #00baa9;
-  border: 1px solid #00baa9;
 }
 .button.teal.outlined {
   color: #00baa9;
   background-color: transparent;
-  border: 1px solid #00baa9;
+  -webkit-box-shadow: inset 0 0 0 1px #00baa9;
+  box-shadow: inset 0 0 0 1px #00baa9;
 }
 .button.teal:hover {
   color: #fff;
   background: #00a798;
-  border: 1px solid #00baa9;
 }
 .button.blue {
   color: #fff;
   background: #1877ff;
-  border: 1px solid #1877ff;
 }
 .button.blue.outlined {
   color: #1877ff;
   background-color: transparent;
-  border: 1px solid #1877ff;
+  -webkit-box-shadow: inset 0 0 0 1px #1877ff;
+  box-shadow: inset 0 0 0 1px #1877ff;
 }
 .button.blue:hover {
   color: #fff;
   background: #0067fb;
-  border: 1px solid #1877ff;
 }
 .button.violet {
   color: #fff;
   background: #a104e0;
-  border: 1px solid #a104e0;
 }
 .button.violet.outlined {
   color: #a104e0;
   background-color: transparent;
-  border: 1px solid #a104e0;
+  -webkit-box-shadow: inset 0 0 0 1px #a104e0;
+  box-shadow: inset 0 0 0 1px #a104e0;
 }
 .button.violet:hover {
   color: #fff;
   background: #9104ca;
-  border: 1px solid #a104e0;
 }
 .button.purple {
   color: #fff;
   background: #6435c9;
-  border: 1px solid #6435c9;
 }
 .button.purple.outlined {
   color: #6435c9;
   background-color: transparent;
-  border: 1px solid #6435c9;
+  -webkit-box-shadow: inset 0 0 0 1px #6435c9;
+  box-shadow: inset 0 0 0 1px #6435c9;
 }
 .button.purple:hover {
   color: #fff;
   background: #5a30b5;
-  border: 1px solid #6435c9;
 }
 .button.pink {
   color: #fff;
   background: #e03997;
-  border: 1px solid #e03997;
 }
 .button.pink.outlined {
   color: #e03997;
   background-color: transparent;
-  border: 1px solid #e03997;
+  -webkit-box-shadow: inset 0 0 0 1px #e03997;
+  box-shadow: inset 0 0 0 1px #e03997;
 }
 .button.pink:hover {
   color: #fff;
   background: #db228a;
-  border: 1px solid #e03997;
 }
 .button.brown {
   color: #fff;
   background: #ad5e37;
-  border: 1px solid #ad5e37;
 }
 .button.brown.outlined {
   color: #ad5e37;
   background-color: transparent;
-  border: 1px solid #ad5e37;
+  -webkit-box-shadow: inset 0 0 0 1px #ad5e37;
+  box-shadow: inset 0 0 0 1px #ad5e37;
 }
 .button.brown:hover {
   color: #fff;
   background: #9c5531;
-  border: 1px solid #ad5e37;
 }
 .button.grey {
   color: #fff;
   background: #798083;
-  border: 1px solid #798083;
 }
 .button.grey.outlined {
   color: #798083;
   background-color: transparent;
-  border: 1px solid #798083;
+  -webkit-box-shadow: inset 0 0 0 1px #798083;
+  box-shadow: inset 0 0 0 1px #798083;
 }
 .button.grey:hover {
   color: #fff;
   background: #6d7376;
-  border: 1px solid #798083;
 }
 .button.black {
   color: #fff;
   background: #000;
-  border: 1px solid #000;
 }
 .button.black.outlined {
   color: #000;
   background-color: transparent;
-  border: 1px solid #000;
+  -webkit-box-shadow: inset 0 0 0 1px #000;
+  box-shadow: inset 0 0 0 1px #000;
 }
 .button.black:hover {
   color: #fff;
   background: #000;
-  border: 1px solid #000;
 }
 .button.primary {
   color: #fff;
   background: #1496ff;
-  border: 1px solid #1496ff;
 }
 .button.primary.outlined {
   color: #1496ff;
   background-color: transparent;
-  border: 1px solid #1496ff;
+  -webkit-box-shadow: inset 0 0 0 1px #1496ff;
+  box-shadow: inset 0 0 0 1px #1496ff;
 }
 .button.primary:hover {
   color: #fff;
   background: #0089f8;
-  border: 1px solid #1496ff;
 }
 .button.labeled {
   padding: 0 1.4em 0 4em;
@@ -1998,7 +2005,7 @@ ol.list {
   transition: opacity 0.14s ease;
 }
 .list.links > .item a {
-  color: #3f5169;
+  color: #2d3b4e;
 }
 .list.links > .item:hover {
   opacity: 1;
@@ -2162,7 +2169,7 @@ ol.ordered li[value]:before {
 }
 .divider {
   margin: 1em 0;
-  color: #3f5169;
+  color: #2d3b4e;
   font-size: 1em;
   text-align: center;
 }
@@ -2255,15 +2262,17 @@ ol.ordered li[value]:before {
 .input input,
 .input textarea {
   font-family: 'Avenir Next W00', 'Open Sans', caption, sans-serif;
-  font-size: 14px;
-  color: #3f5169;
+  font-size: 15px;
+  color: #2d3b4e;
   margin: 0;
   font-size: 1em;
   max-width: 100%;
   outline: 0;
+  border: 0;
   border-radius: 5px;
   text-align: left;
-  border: 1px solid #f2f5f7;
+  -webkit-box-shadow: inset 0 0 0 1px #f2f5f7;
+  box-shadow: inset 0 0 0 1px #f2f5f7;
   -webkit-transition: border-color 0.14s ease;
   -moz-transition: border-color 0.14s ease;
   -o-transition: border-color 0.14s ease;
@@ -2292,7 +2301,8 @@ ol.ordered li[value]:before {
 }
 .input input:focus,
 .input textarea:focus {
-  border-color: #e3e9ee;
+  -webkit-box-shadow: inset 0 0 0 1px #e3e9ee;
+  box-shadow: inset 0 0 0 1px #e3e9ee;
   background-color: #fff;
 }
 .input input::-webkit-input-placeholder,
@@ -2339,13 +2349,13 @@ ol.ordered li[value]:before {
   border-radius: 0 5px 5px 0;
   display: inline-block;
   vertical-align: top;
-  font-size: 14px;
+  font-size: 15px;
 }
 .action .button {
   border-radius: 5px 0 0 5px;
   display: inline-block;
   vertical-align: top;
-  font-size: 14px;
+  font-size: 15px;
 }
 .action .button + input {
   border-radius: 0 5px 5px 0;
@@ -2401,7 +2411,7 @@ ol.ordered li[value]:before {
   display: inline-block;
   position: relative;
   padding: 0.7em 1.1em;
-  color: #3f5169;
+  color: #2d3b4e;
   cursor: pointer;
 }
 .menu .item .label {
@@ -2431,8 +2441,8 @@ ol.ordered li[value]:before {
   padding: 0.85em 1.14em;
 }
 .menu.underlined .item.active {
-  border-bottom: 2px #3f5169 solid;
-  color: #3f5169;
+  border-bottom: 2px #2d3b4e solid;
+  color: #2d3b4e;
   font-weight: 700;
 }
 .menu.underlined.vertical.show {
@@ -2451,7 +2461,7 @@ ol.ordered li[value]:before {
 }
 .menu.underlined.vertical .item.active {
   border: 0;
-  border-right: 2px #3f5169 solid;
+  border-right: 2px #2d3b4e solid;
 }
 .menu.pills .item {
   border-radius: 5px;
@@ -2668,7 +2678,7 @@ ol.ordered li[value]:before {
 }
 .loader.dark {
   border-color: rgba(0,0,0,0.2);
-  border-left-color: #3f5169;
+  border-left-color: #2d3b4e;
 }
 .module {
   position: relative;
@@ -2926,7 +2936,7 @@ ol.ordered li[value]:before {
 }
 .comments .comment .content .creator {
   font-weight: 600;
-  color: #3f5169 !important;
+  color: #2d3b4e !important;
   line-height: 1.62em;
 }
 .comments .comment .content .creator:hover {
@@ -3096,7 +3106,7 @@ ol.ordered li[value]:before {
   font-weight: 400;
   font-size: 1.1em;
   margin-bottom: 0.2em;
-  color: #3f5169;
+  color: #2d3b4e;
 }
 .stages .stage:last-child:before,
 .stages .stage:last-child:after {
@@ -3816,7 +3826,7 @@ body {
   *zoom: 1;
   min-height: 100%;
   height: 100%;
-  color: #3f5169;
+  color: #2d3b4e;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -3975,7 +3985,7 @@ nav.nav.sub h4.what i {
   cursor: pointer;
 }
 nav.nav.sub h4.what i:hover {
-  color: #3f5169;
+  color: #2d3b4e;
 }
 nav.nav.sub h6.what {
   padding: 2.8rem 0;
@@ -4020,7 +4030,7 @@ nav.nav .user {
 }
 nav.nav .user:hover span,
 nav.nav .user.open span {
-  color: #3f5169;
+  color: #2d3b4e;
 }
 nav.nav .user span {
   vertical-align: top;
@@ -4132,7 +4142,7 @@ nav.nav ul.options li + li {
   filter: none;
 }
 .inner#settings .input h6 {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1em;
   color: #708690;
   font-weight: 400;
@@ -4148,7 +4158,7 @@ nav.nav ul.options li + li {
 }
 .strip h2 {
   font-weight: 800;
-  color: #3f5169;
+  color: #2d3b4e;
 }
 .strip small {
   color: #97a2b2;
@@ -4283,7 +4293,7 @@ nav.nav ul.options li + li {
 }
 .notes .desc h5 {
   font-weight: 600;
-  color: #3f5169;
+  color: #2d3b4e;
 }
 .notes .desc a {
   margin-top: 0.6rem;
@@ -4465,7 +4475,7 @@ nav.nav ul.options li + li {
 .unit .content .title a {
   line-height: 1.4em;
   font-size: 1.2em;
-  color: #3f5169;
+  color: #2d3b4e;
   font-weight: 600;
 }
 .unit .content .title a:hover {
@@ -4560,7 +4570,7 @@ nav.nav ul.options li + li {
 }
 .editor .options > * h6.team {
   font-weight: 600;
-  color: #3f5169;
+  color: #2d3b4e;
 }
 .editor .options > * h6 + h6 {
   margin-left: 1em;
@@ -4588,26 +4598,41 @@ nav.nav ul.options li + li {
   margin: 0 auto;
 }
 .editable .note_headroom {
-  padding: 2em 0;
-  margin-top: 2em;
+  padding: 3em 0;
 }
-.editable .note_headroom small {
+.editable .note_headroom p {
   color: #97a2b2;
-  line-height: 1.5em;
+  line-height: 1.7em;
+  font-weight: 600;
 }
 .editable .note_headroom h3 {
   line-height: 1em;
   font-weight: 800;
+  position: relative;
+}
+.editable .note_headroom h3:after {
+  content: '';
+  width: 2.4em;
+  height: 1px;
+  border-bottom: 1px solid #eceef1;
+  display: block;
+  position: absolute;
+  bottom: -1.4rem;
+  left: 0;
 }
 .editable .note_headroom h3:empty:before {
   content: 'Untitled';
   display: block;
-  color: #3f5169;
+  color: #2d3b4e;
 }
 .editable .note_headroom h3:focus:empty:before {
   content: 'Untitled';
   display: block;
   color: #97a2b2;
+}
+.editable .note_content {
+  font-size: 1.2em;
+  line-height: 1.6em;
 }
 .modal {
   width: 100%;

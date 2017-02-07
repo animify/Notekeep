@@ -24,9 +24,10 @@
 		font-size 1em
 		max-width 100%
 		outline 0
+		border 0
 		border-radius border-radius-normal
 		text-align left
-		border 1px solid color-smoke
+		box-shadow inset 0 0 0 1px color-smoke
 		transition border-color 0.14s ease
 		padding 1em 1.3em
 		background-color color-smoke
@@ -41,7 +42,7 @@
 		&.error
 			border-color color-red
 		&:focus
-			border-color dark-color-smoke
+			box-shadow inset 0 0 0 1px dark-color-smoke
 			background-color #fff
 		+placeholder()
 			color lighten(body-color, 20%)
