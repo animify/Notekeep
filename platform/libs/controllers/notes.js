@@ -4,9 +4,11 @@ const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
+const Team = require(jt.path('model/team'))
 const auth = require(jt.path('auth/auth'))
 const teams = require(jt.path('controllers/teams'))
 const moment = require('moment')
+const async = require('async')
 const _ = require('underscore')
 
 exports.newNote = (req, res, drafttype, callback) => {
@@ -140,5 +142,91 @@ exports.findPublishedTeamNotes = (req, res, teamid, callback) => {
 			log.error('Internal error(%d): %s', '500' , err.message)
 			return callback('500', 'Internal error')
 		}
+	})
+}
+
+exports.findTeamNotes = (req, res, callback) => {
+	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
+
+	Team.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+	.populate({ path: 'creator'})
+	.lean()
+	.exec((err, teams) => {
+		let retrievedNotes = []
+
+		if (err) {
+			log.error('Internal error(%d): %s', '500', err.message)
+			callback('500', 'Server error! Please try again soon.')
+		}
+
+		let teamObj = {}
+		async.each(teams, function (tm, cb) {
+			Notes.find({team: tm._id, draft: false, private: false})
+			.populate(populateQuery)
+			.lean()
+			.exec((err, notes) => {
+				if(notes.length > 0) {
+					teamObj[tm._id] = {}
+					teamObj[tm._id]._id = tm._id
+					teamObj[tm._id].color = tm.color
+					teamObj[tm._id].name = tm.name
+					teamObj[tm._id].short = tm.name.substr(0, 1)
+					teamObj[tm._id].notes = []
+					_.each(notes, (note) => {
+						teamObj[tm._id].notes.push(note)
+						if (notes.indexOf(note) + 1 == notes.length)
+							cb()
+					})
+				} else {
+					cb()
+				}
+			})
+		}, function (err) {
+			if (err) return callback(400, err.message)
+			callback(null, teamObj)
+		})
+	})
+}
+
+exports.findDraftNotes = (req, res, callback) => {
+	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
+
+	Team.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+	.populate({ path: 'creator'})
+	.lean()
+	.exec((err, teams) => {
+		let retrievedNotes = []
+
+		if (err) {
+			log.error('Internal error(%d): %s', '500', err.message)
+			callback('500', 'Server error! Please try again soon.')
+		}
+
+		let teamObj = {}
+		async.each(teams, function (tm, cb) {
+			Notes.find({team: tm._id, draft: true})
+			.populate(populateQuery)
+			.lean()
+			.exec((err, notes) => {
+				if(notes.length > 0) {
+					teamObj[tm._id] = {}
+					teamObj[tm._id]._id = tm._id
+					teamObj[tm._id].color = tm.color
+					teamObj[tm._id].name = tm.name
+					teamObj[tm._id].short = tm.name.substr(0, 1)
+					teamObj[tm._id].notes = []
+					_.each(notes, (note) => {
+						teamObj[tm._id].notes.push(note)
+						if (notes.indexOf(note) + 1 == notes.length)
+							cb()
+					})
+				} else {
+					cb()
+				}
+			})
+		}, function (err) {
+			if (err) return callback(400, err.message)
+			callback(null, teamObj)
+		})
 	})
 }

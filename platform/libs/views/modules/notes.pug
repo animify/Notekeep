@@ -6,11 +6,11 @@ block content
 		nav.nav.sub
 			h4.what #[span Team Notes] #[i.material-icons.switch_trigger(data-switch="switch_note") keyboard_arrow_down]
 			.switches#switch_note
-				a.switch #[b Team Notes]
+				a.switch(data-run="switch_note_mode", data-type="team") #[b Team Notes]
 					span All team notes
-				a.switch #[b Private Notes]
+				a.switch(data-run="switch_note_mode", data-type="private") #[b Private Notes]
 					span Notes available only to you
-				a.switch #[b Draft Notes]
+				a.switch(data-run="switch_note_mode", data-type="draft") #[b Draft Notes]
 					span Unpublished saved notes
 			.float-right.actions
 				.input.sm

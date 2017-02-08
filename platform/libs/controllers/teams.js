@@ -80,3 +80,37 @@ exports.findTeam = (req, res, teamid, callback) => {
 		log.error('Internal error(%d): %s', '500', err.message)
 	})
 }
+
+exports.inviteToTeam = (req, res, callback) => {
+
+	req.sanitizeBody()
+	req.checkBody({
+	 'user': {
+			notEmpty: true,
+			errorMessage: `User ID is empty`,
+			isEmail: {
+				errorMessage: 'That isnt a valid email address'
+			}
+		},
+	 'team': {
+			notEmpty: true,
+			errorMessage: `No team selected`
+		}
+	})
+
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
+
+		Team.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+		.populate({ path: 'creator'})
+		.lean()
+		.exec((err, teams) => {
+			if (!err) return callback(null, teams)
+
+			log.error('Internal error(%d): %s', '500',err.message)
+			callback('500', 'Server error! Please try again soon.')
+		})
+	})
+}

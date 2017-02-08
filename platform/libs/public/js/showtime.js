@@ -41,6 +41,7 @@ let errorHandler = {
 
 let templates = {
 	teams: $('#tpl-teams').html(),
+	notes: $('#tpl-note').html(),
 	editorStatus: $('#tpl-editor_status').html(),
 	escape: (str) => {
 		return str
@@ -193,7 +194,7 @@ $(() => {
 		if (! $(e.target).parents().hasClass('switches'))
 			$('.switches.open').hide()
 			$('.switches').removeClass('open')
-	 }).bind('onkeydown', function(e) {
+	 }).on('keydown', function(e) {
 		 e = e || window.event
 		 let isEscape = false
 		 if ("key" in e) {
@@ -280,6 +281,24 @@ $(() => {
 					console.log(res[0]);
 					nk.resetEditor()
 					modal.editEditor(res[0])
+					let errMsg = ''
+					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
+				})
+				break
+			case 'switch_note_mode':
+				const newType = $(this).data('type')
+				console.log(newType);
+				_data = JSON.stringify({})
+				endpoint.call(`/facets/endpoints/notes/retrieve/${newType}`, 'GET', _data, (res) => {
+					console.log(res);
+					let newNote = null
+					$('.inner').empty()
+					_.each(res, function(arr) {
+						newNote = _.template(templates.notes)(arr)
+						console.log(newNote);
+						$('.inner').append($(newNote))
+					})
+
 					let errMsg = ''
 					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
 				})

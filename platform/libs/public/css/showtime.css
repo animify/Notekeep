@@ -4382,6 +4382,21 @@ nav.nav ul.options li + li {
 .notes .note:hover.published h6 {
   color: #1aa87e;
 }
+.notes .note.draft {
+  border-color: #ffc82c;
+}
+.notes .note.draft h6 {
+  color: #ffc82c;
+}
+.notes .note:hover {
+  cursor: pointer;
+}
+.notes .note:hover.draft {
+  border-color: #efb100;
+}
+.notes .note:hover.draft h6 {
+  color: #efb100;
+}
 .notes .note.new {
   display: none;
 }

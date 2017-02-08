@@ -27,12 +27,41 @@ router.get('/notes/get/:note', (req, res) => {
 	})
 })
 
+router.get('/notes/retrieve/:type', (req, res) => {
+	switch (req.params.type) {
+		case 'team':
+			notesController.findTeamNotes(req, res, (err, ret) => {
+				if (err) return res.send({error: err, message: 'Internal Error'})
+				res.send(ret)
+			})
+			break
+		case 'draft':
+			notesController.findDraftNotes(req, res, (err, ret) => {
+				if (err) return res.send({error: err, message: 'Internal Error'})
+				res.send(ret)
+			})
+			break
+		default:
+			res.send('error')
+	}
+
+})
+
 router.post('/teams/new', (req, res) => {
 	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
 
 	teamsController.newTeam(req, res, req.body.name, (err, ret) => {
 		if (err) return res.send({error: err, message: ret[0].description})
 		res.send({team: ret, fn: req.user.firstname, ln: req.user.lastname})
+	})
+})
+
+router.post('/teams/invite', (req, res) => {
+	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
+
+	teamsController.inviteToTeam(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: ret[0].description})
+		res.send(ret)
 	})
 })
 
