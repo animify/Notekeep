@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+	include ../static/dashboard/nav.pug
+	.contain
+		nav.nav.sub
+			h4.what Invites
+		.inner#invites
+			for inv in invites
+				.module
+					p #[i.material-icons.text-green group_add] #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.team.name}]
+						span
+							a Accept
+							a Decline

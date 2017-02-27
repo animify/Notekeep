@@ -12,14 +12,6 @@ const config = require(jt.path('config'))
 const User = require(jt.path('model/user'))
 const notesController = require(jt.path('controllers/notes'))
 
-router.get('/signin', (req, res) => {
-	return res.render('signin', {title: 'Sign in - Apse', gradient: 'true'})
-})
-
-router.get('/signup', (req, res) => {
-	return res.render('signup', {title: 'Sign up - Apse', gradient: 'true'})
-})
-
 router.post('/signup', (req, res) => {
 	req.sanitizeBody()
 	req.checkBody({
@@ -74,9 +66,11 @@ router.post('/signup', (req, res) => {
 
 			user.save((err, user) => {
 				if(!err) {
-					passport.authenticate('local')(req, res, () => {
+					req.login(user, function(err) {
+						if (err) return res.json({err})
 						return res.json({status: 'OK', statusCode : 200})
 					})
+
 				} else {
 					return res.json({ error: '404', message : err })
 				}
@@ -90,6 +84,14 @@ router.post('/signup', (req, res) => {
 
 router.post('/signin', passport.authenticate('local'), (req, res) => {
 	return res.json({status: 'OK', statusCode : 200})
+})
+
+router.get('/signin', (req, res) => {
+	return res.render('signin', {title: 'Sign in - Apse', gradient: 'true'})
+})
+
+router.get('/signup', (req, res) => {
+	return res.render('signup', {title: 'Sign up - Apse', gradient: 'true'})
 })
 
 module.exports = router

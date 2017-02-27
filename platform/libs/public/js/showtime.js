@@ -24,7 +24,7 @@ let errorHandler = {
 		if ($('.modal.active .error').is(':visible')) return
 
 		let _oldheight = $(`.modal.active .content`).height()
-		let _newheight = $(`.modal.active .content`).height() + 50
+		let _newheight = $(`.modal.active .content`).height() + 54
 
 		$(`.modal.active .content`).animate({height: _newheight}, 300)
 		.queue(function() {
@@ -69,6 +69,7 @@ let endpoint = {
 			data: data,
 			contentType: 'application/json',
 			success: (res) => {
+				console.log(url, type, data, res);
 				callback(res)
 			}
 		})
@@ -230,6 +231,7 @@ $(() => {
 
 		let _data = JSON.stringify(data)
 		endpoint.call('/signup', 'POST', _data, (res) => {
+			console.log(res);
 			res.statusCode == 200 && window.location.replace("/")
 		})
 	})
@@ -301,6 +303,13 @@ $(() => {
 
 					let errMsg = ''
 					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
+				})
+				break
+			case 'invite_member':
+				_data = JSON.stringify({user: $('#member-email').val(), team: $('.add').data('team')})
+				endpoint.call('/facets/endpoints/teams/invite', 'POST', _data, (res) => {
+					console.log(res);
+					res.error ? errorHandler.modal(res.message) : console.log('done');
 				})
 				break
 			case 'open_editor':

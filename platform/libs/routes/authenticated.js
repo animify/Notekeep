@@ -38,6 +38,13 @@ router.get('/teams', (req, res) => {
 	})
 })
 
+router.get('/invites', (req, res) => {
+	teamsController.findUserInvites(req, res, (err, invites) => {
+		if (err) return res.redirect('/')
+		res.render('invites', {title: 'Invites - Notekeep', user: req.user, selected: 'invites', invites: invites, light: true})
+	})
+})
+
 router.get('/team/:team', (req, res) => {
 	teamsController.findTeam(req, res, req.params.team, (err, team) => {
 		if (err) return res.redirect('/')

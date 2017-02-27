@@ -11,7 +11,7 @@ block content
 						img(src=user.avatar)
 				.member_ci
 					img(src=team[0].creator.avatar)
-				.member_ci.add(data-modal="open", data-modal-name="modal_invite")
+				.member_ci.add(data-modal="open", data-modal-name="modal_invite", data-team=team[0]._id)
 					i.material-icons add
 			small= `${team[0].userlist.length + 1} member(s)`
 	.contain

@@ -66,7 +66,7 @@ router.post('/teams/invite', (req, res) => {
 	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
 
 	teamsController.inviteToTeam(req, res, (err, ret) => {
-		if (err) return res.send({error: err, message: ret[0].description})
+		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
 })

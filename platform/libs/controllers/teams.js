@@ -5,7 +5,9 @@ const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const Team = require(jt.path('model/team'))
 const Notes = require(jt.path('model/notes'))
+const Invite = require(jt.path('model/invite'))
 const auth = require(jt.path('auth/auth'))
+const invites = require(jt.path('controllers/invites'))
 const randomColor = require('randomcolor')
 
 exports.newTeam = (req, res, name, callback) => {
@@ -82,7 +84,6 @@ exports.findTeam = (req, res, teamid, callback) => {
 }
 
 exports.inviteToTeam = (req, res, callback) => {
-
 	req.sanitizeBody()
 	req.checkBody({
 	 'user': {
@@ -103,14 +104,33 @@ exports.inviteToTeam = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		Team.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+		Team.findOne({_id: req.body.team, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
 		.populate({ path: 'creator'})
 		.lean()
-		.exec((err, teams) => {
-			if (!err) return callback(null, teams)
-
-			log.error('Internal error(%d): %s', '500',err.message)
-			callback('500', 'Server error! Please try again soon.')
+		.exec((err, team) => {
+			console.log(team);
+			if (team == null) return callback('404', 'Something went wrong.')
+			if (!err) {
+				invites.newInvite(req, res, req.body.user, team._id, (err, ret) => {
+					if (!err) return callback(null, ret)
+					return callback(err, ret)
+				})
+			} else {
+				log.error('Internal error(%d): %s', '500', err.message)
+				callback('500', 'Server error! Please try again soon.')
+			}
 		})
+	})
+}
+
+exports.findUserInvites = (req, res, callback) => {
+	let populateQuery = [{path:'by', select:'firstname lastname'}, {path:'team', select:'name'}]
+	Invite.find({'to': req.user._id})
+	.populate(populateQuery)
+	.lean()
+	.exec((err, invs) => {
+		if (err) return callback('500', 'Could not retrieve invites. Try again later.')
+		console.log(invs);
+		return callback(null, invs)
 	})
 }
