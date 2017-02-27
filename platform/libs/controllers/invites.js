@@ -21,16 +21,61 @@ exports.newInvite = (req, res, to, team, callback) => {
 		.exec((err, inv) => {
 			console.log(inv);
 			if (inv == null) {
-				let invite = new Invite({
-					by: req.user._id,
-					to: accountID,
-					team: team
+				Team.findOne({_id: team, $or:[{'creator':accountID}, {'userlist': { $in : [accountID]}}]})
+				.populate({ path: 'creator'})
+				.lean()
+				.exec((err, inTeam) => {
+					if (inTeam != null) return callback('100', 'User is already in that team.')
+					let invite = new Invite({
+						by: req.user._id,
+						to: accountID,
+						team: team
+					})
+					invite.save()
+					return callback(null, 'Invite has been sent.')
 				})
-				invite.save()
-				return callback(null, 'Invite has been sent.')
 			} else {
 				return callback('100', 'A team invite to that member already exists.')
 			}
 		})
+	}).catch((error) => {
+		callback('100', error)
+	})
+}
+
+exports.acceptInvite = (req, res, inviteID, callback) => {
+	accept = () => {
+		return new Promise(function(resolve, reject) {
+			Team.findOneAndUpdate(
+				inviteID,
+				{$addToSet: {'userlist': req.user._id}},
+				{safe: true, upsert: true},
+				(err, inv) => {
+				if (err) return reject(err)
+				resolve(inv)
+			})
+		})
+	}
+
+	accept().then((inv) => {
+		callback(deleteInvite(inv._id))
+	}).catch((error) => {
+		callback(err)
+	})
+}
+exports.declineInvite = (req, res, inviteID, callback) => {
+	callback(deleteInvite(inv._id))
+}
+
+exports.deleteInvite = (id) => {
+	deleteInvite(id)
+}
+
+deleteInvite = (id) => {
+	Invite.findOneAndRemove({'team': id}, function(err) {
+		if (err)
+			return false
+		else
+			return true
 	})
 }

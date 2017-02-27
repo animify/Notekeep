@@ -2714,6 +2714,15 @@ ol.ordered li[value]:before {
   letter-spacing: -0.02em;
   float: right;
 }
+.module span a.clr-accept:hover {
+  color: #20d29e !important;
+}
+.module span a.clr-decline:hover {
+  color: #ff4949 !important;
+}
+.module span a + a {
+  margin-left: 1.2rem;
+}
 .module + .divider.horizontal {
   margin-top: 2em;
 }

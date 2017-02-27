@@ -71,6 +71,15 @@ router.post('/teams/invite', (req, res) => {
 	})
 })
 
+router.post('/invites/accept', (req, res) => {
+	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team name found.'})
+
+	teamsController.acceptInvite(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: ret})
+		res.send(ret)
+	})
+})
+
 router.post('/teams/find', (req, res) => {
 	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team found.'})
 

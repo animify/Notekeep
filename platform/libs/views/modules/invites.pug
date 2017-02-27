@@ -9,6 +9,6 @@ block content
 			for inv in invites
 				.module
 					p #[i.material-icons.text-green group_add] #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.team.name}]
-						span
-							a Accept
-							a Decline
+						span(data-team=inv.team._id)
+							a.clr-accept(data-run="accept_invite") Accept
+							a.clr-decline(data-run="decline_invite") Decline

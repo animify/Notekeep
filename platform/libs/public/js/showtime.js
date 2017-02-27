@@ -292,7 +292,6 @@ $(() => {
 				console.log(newType);
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/retrieve/${newType}`, 'GET', _data, (res) => {
-					console.log(res);
 					let newNote = null
 					$('.inner').empty()
 					_.each(res, function(arr) {
@@ -308,6 +307,19 @@ $(() => {
 			case 'invite_member':
 				_data = JSON.stringify({user: $('#member-email').val(), team: $('.add').data('team')})
 				endpoint.call('/facets/endpoints/teams/invite', 'POST', _data, (res) => {
+					res.error ? errorHandler.modal(res.message) : console.log('done');
+				})
+				break
+			case 'accept_invite':
+				_data = JSON.stringify({team: $(this).parent().data('team')})
+				endpoint.call('/facets/endpoints/invites/accept', 'POST', _data, (res) => {
+					console.log(res);
+					res.error ? errorHandler.modal(res.message) : console.log('done');
+				})
+				break
+			case 'decline_invite':
+				_data = JSON.stringify({team: $(this).parent().data('team')})
+				endpoint.call('/facets/endpoints/invites/decline', 'POST', _data, (res) => {
 					console.log(res);
 					res.error ? errorHandler.modal(res.message) : console.log('done');
 				})

@@ -14,7 +14,7 @@ exports.findByEmail = (req, res, email) => {
 		.lean()
 		.exec((err, user) => {
 			if (err) return reject(err)
-			console.log(user);
+			if (user == null) return reject('Member could not be found.')
 			resolve(user._id)
 		})
 	})

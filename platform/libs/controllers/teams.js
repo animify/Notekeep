@@ -101,7 +101,7 @@ exports.inviteToTeam = (req, res, callback) => {
 
 	req.getValidationResult().then(function(errors) {
 		if (!errors.isEmpty()) {
-			return callback('100', errors.useFirstErrorOnly().array())
+			return callback('100', errors.useFirstErrorOnly().array()[0].msg)
 		}
 
 		Team.findOne({_id: req.body.team, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
@@ -132,5 +132,53 @@ exports.findUserInvites = (req, res, callback) => {
 		if (err) return callback('500', 'Could not retrieve invites. Try again later.')
 		console.log(invs);
 		return callback(null, invs)
+	})
+}
+
+exports.acceptInvite = (req, res, callback) => {
+	req.sanitizeBody()
+	req.checkBody({
+	 'team': {
+			notEmpty: true,
+			errorMessage: `No team selected`
+		}
+	})
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
+
+		Invite.findOne({'to': req.user._id, 'team': req.body.team})
+		.lean()
+		.exec((err, inv) => {
+			invites.acceptInvite(req, res, inv._id, (deleted) => {
+				if (deleted) return callback(null, true)
+				callback('400', 'Invite could not be deleted.')
+			})
+		})
+	})
+}
+
+exports.declineInvite = (req, res, callback) => {
+	req.sanitizeBody()
+	req.checkBody({
+	 'team': {
+			notEmpty: true,
+			errorMessage: `No team selected`
+		}
+	})
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
+
+		Invite.findOne({'to': req.user._id, 'team': req.body.team})
+		.lean()
+		.exec((err, inv) => {
+			invites.declineInvite(req, res, inv._id, (deleted) => {
+				if (deleted) return callback(null, true)
+				callback('400', 'Invite could not be deleted.')
+			})
+		})
 	})
 }
