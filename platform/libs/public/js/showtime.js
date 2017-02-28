@@ -9,6 +9,11 @@ let nk = {
 		$('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>')
 		$('.medium-editor-toolbar-close').html('<i class="material-icons">clear</i>')
 		$('.unit', '#ls-teams').sort(team.sortAlpha).appendTo('#ls-teams')
+		let socket = io({secure: true})
+
+		socket.on('connect', function(socket) {
+			console.log('Socket connection')
+		})
 	},
 	resetEditor: () => {
 		editor.resetContent()

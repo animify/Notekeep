@@ -8,6 +8,7 @@ const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 
+const server = require('http').createServer(app)
 const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -15,6 +16,9 @@ const request = require('request').defaults({ encoding: null })
 const session = require('express-session')
 const mongoStore = require('connect-mongo')(session)
 const validator = require('express-validator')
+const io = require('socket.io')(server)
+
+global.io = io
 
 const db = require(jt.path('db/mongoose'))
 const routeAuth = require(jt.path('routes/authenticate'))
@@ -23,6 +27,7 @@ const endpoint = require(jt.path('routes/endpoint'))
 const authcontroller = require(jt.path('auth/auth'))
 const oauth2 = require(jt.path('auth/oauth2'))
 const User = require(jt.path('model/user'))
+const socketjs = require(jt.path('sockets/socket'))
 
 const sessionStore = new mongoStore({ mongooseConnection: db.connection })
 
@@ -41,6 +46,8 @@ app.use(bodyParser())
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+socketjs.connect(server, io, sessionStore, eSession)
 
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
@@ -68,6 +75,6 @@ app.use('/', routeAuth)
 app.use('/', authcontroller.isAuthenticatedLocal, routeAuthed)
 app.use('/facets/endpoints', endpoint)
 
-app.listen(app.get('port'), () => {
+server.listen(app.get('port'), () => {
 	log.info('Notekeep running on port: ' + app.get('port'))
 })

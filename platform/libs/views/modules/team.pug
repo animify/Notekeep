@@ -33,7 +33,8 @@ block content
 							h6= `${team[0].creator.firstname} ${team[0].creator.lastname}`
 							p= team[0].creator.email
 					for user in team[0].userlist
-						p= user
 						.unit
 							.content
-								h6= `Created by ${user.firstname} ${user.lastname}`
+								img(src=`${user.avatar}`, height="30")
+								h6= `${user.firstname} ${user.lastname}`
+								p= user.email

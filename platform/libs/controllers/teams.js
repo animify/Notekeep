@@ -63,16 +63,14 @@ exports.findUserTeams = (req, res, callback) => {
 }
 
 exports.findTeam = (req, res, teamid, callback) => {
+	let populateQuery = [{path:'creator'}, {path:'userlist', model: 'User', populate:{path: 'userlist', model: 'User'}}]
+
 	Team.find({_id: teamid, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
-	.populate({ path: 'creator',
-		populate: {
-			path: 'userlist',
-			model: 'User'
-		}
-	})
+	.populate(populateQuery)
 	.lean()
 	.exec((err, team) => {
 		if (!err && !(team.length == 0)) {
+			console.log(team);
 			return callback(null, team)
 		} else {
 			return callback('404', 'Team could not be found')
