@@ -386,4 +386,17 @@ $(() => {
 	})
 
 	nk.init()
+
+	let oldHTML = editor.getContent()
+	let newHTML = ''
+	editor.subscribe('editableInput', function (event, editable) {
+		console.log($(editable)[0].innerHTML)
+		newHTML = $(editable)[0].innerHTML
+		diff = JsDiff.diffChars(oldHTML, newHTML)
+		diff.forEach(function(part){
+			console.log(part);
+		})
+		oldHTML = newHTML
+	})
+
 })

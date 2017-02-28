@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const passportSocketIo = require('passport.socketio')
 const sharedsession = require("express-socket.io-session")
+const diff = require('diff')
 
 exports.connect = (server, io, sessionStore, eSession) => {
 	onAuthorizeSuccess = (data, accept) => {
@@ -33,6 +34,11 @@ exports.connect = (server, io, sessionStore, eSession) => {
 
 	io.on('connection', function (socket) {
 		log.info('Connected to socket.io')
+		let Diff = diff.diffChars('<div><b>Boldy</b></div>', '<div>Boldy</div>')
+
+		Diff.forEach(function(part){
+			log.info(part)
+		})
 		socket.on('note_join', (data) => {
 			if (socket.lastNoteSpace) {
 				socket.leave(socket.lastNoteSpace)
