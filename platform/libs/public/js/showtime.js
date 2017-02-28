@@ -1,3 +1,9 @@
+let socket = io()
+
+socket.on('connect', function(socket) {
+	console.log('Socket connection')
+})
+
 _.mixin({
 	isBlank: (string) => {
 		return (_.isUndefined(string) || _.isNull(string) || string.trim().length === 0)
@@ -9,11 +15,6 @@ let nk = {
 		$('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>')
 		$('.medium-editor-toolbar-close').html('<i class="material-icons">clear</i>')
 		$('.unit', '#ls-teams').sort(team.sortAlpha).appendTo('#ls-teams')
-		let socket = io({secure: true})
-
-		socket.on('connect', function(socket) {
-			console.log('Socket connection')
-		})
 	},
 	resetEditor: () => {
 		editor.resetContent()
@@ -74,7 +75,6 @@ let endpoint = {
 			data: data,
 			contentType: 'application/json',
 			success: (res) => {
-				console.log(url, type, data, res);
 				callback(res)
 			}
 		})
@@ -186,6 +186,7 @@ let modal = {
 
 		$('body').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
+		socket.emit('note_join', {space: info.team._id})
 	},
 	closeEditor: () => {
 		$('body').removeClass('noscroll')
@@ -285,7 +286,6 @@ $(() => {
 			case 'get_note':
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/get/${$(this).data('note')}`, 'GET', _data, (res) => {
-					console.log(res[0]);
 					nk.resetEditor()
 					modal.editEditor(res[0])
 					let errMsg = ''

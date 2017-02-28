@@ -16,22 +16,32 @@ exports.connect = (server, io, sessionStore, eSession) => {
 	}
 
 	onAuthorizeFail = (data, message, error, accept) => {
-		log.error('Unauthenticated connection to socket.io:', data, message)
-		if(error) accept(new Error(message))
+		log.error('Unauthenticated connection to socket.io: ', data, message)
+		error && accept(new Error(message))
 	}
 
 	io.use(sharedsession(eSession))
 	io.use(passportSocketIo.authorize({
-			passport:     passport,
+			passport: passport,
 			cookieParser: cookieParser,
-			key:          'connect.sid',
-			secret:       'secret',
-			store:        sessionStore,
-			success:      onAuthorizeSuccess,
-			fail:         onAuthorizeFail
+			key: 'connect.sid',
+			secret: 'secret',
+			store: sessionStore,
+			success: onAuthorizeSuccess,
+			fail: onAuthorizeFail
 	}))
 
 	io.on('connection', function (socket) {
 		log.info('Connected to socket.io')
+		socket.on('note_join', (data) => {
+			if (socket.lastNoteSpace) {
+				socket.leave(socket.lastNoteSpace)
+				socket.lastNoteSpace = null
+			}
+			socket.noteSpace = 'notespace_' + data.space
+			console.log('room', socket.noteSpace)
+			socket.join(socket.noteSpace)
+			socket.lastNoteSpace = socket.noteSpace
+		})
 	})
 }
