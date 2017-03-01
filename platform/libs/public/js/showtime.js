@@ -147,8 +147,8 @@ let editor = new MediumEditor('.note_content', {
 		autoLink: true
 	},
 	anchor: {
-	 placeholderText: 'Type a link'
-	 }
+		placeholderText: 'Type a link'
+	}
 })
 
 
@@ -193,6 +193,20 @@ let modal = {
 		$('.editor').hide('slide', {direction: 'left'}, 300)
 	}
 }
+
+
+	let transform = {
+		removeFromRange: (a,b) => {
+			let c = editor.getContent()
+			console.log(c.substring(0, a) + c.substring(b));
+			editor.setContent(c.substring(0, a) + c.substring(b))
+		},
+		replaceFromRange: (a,b,sub) => {
+			let c = editor.getContent()
+			console.log(c.substring(0, a) + sub + c.substring(b));
+			editor.setContent(c.substring(0, a) + sub + c.substring(b))
+		}
+	}
 
 $(() => {
 	$('.dropdown').dropdown()
@@ -390,13 +404,14 @@ $(() => {
 	let oldHTML = editor.getContent()
 	let newHTML = ''
 	editor.subscribe('editableInput', function (event, editable) {
-		console.log($(editable)[0].innerHTML)
+		console.time('Diff')
 		newHTML = $(editable)[0].innerHTML
+		let ll = 0
 		diff = JsDiff.diffChars(oldHTML, newHTML)
 		diff.forEach(function(part){
-			console.log(part);
+			ll = ll + part.count
 		})
 		oldHTML = newHTML
+		console.timeEnd('Diff')
 	})
-
 })

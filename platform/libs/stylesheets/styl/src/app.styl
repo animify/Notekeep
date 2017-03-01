@@ -546,6 +546,9 @@ nav.nav
 		padding .7em 2em
 		cf()
 		background-color #fff
+		fixed top left
+		z-index 4000
+		width 100%
 		.close, .publish
 			margin-left 1em
 			padding-left 1em
@@ -581,9 +584,28 @@ nav.nav
 
 .editable
 	width 100%
-	max-width 740px
-	display block
-	margin 0 auto
+	height 100%
+	overflow hidden
+	padding-top 3.4rem
+	.note_container
+		overflow-y auto
+		position relative
+		height 100%
+		&::-webkit-scrollbar:horizontal
+			display none
+		&::-webkit-scrollbar
+			width .6rem
+			background-color transparent
+		&::-webkit-scrollbar-thumb
+			background-color darken(#fff, 17%)
+		&::-webkit-scrollbar-corner
+			display none
+	.note_editable
+		width 100%
+		max-width 740px
+		margin 0 auto
+		display block
+		padding-bottom 2rem
 	.note_headroom
 		padding 3em 0
 		p

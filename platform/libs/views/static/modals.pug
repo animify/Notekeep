@@ -83,10 +83,12 @@
 				a.button.slim.green(data-modal="open", data-modal-name="modal_publish") Publish
 
 	.editable
-		.note_headroom
-			if (user)
-				p
-					span.user= user.firstname + ' ' + user.lastname
-					span.type.draft
-			h3(contenteditable="true")
-		.note_content
+		.note_container
+			.note_editable
+				.note_headroom
+					if (user)
+						p
+							span.user= user.firstname + ' ' + user.lastname
+							span.type.draft
+					h3(contenteditable="true")
+				.note_content
