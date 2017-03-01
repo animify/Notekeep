@@ -83,6 +83,8 @@ let endpoint = {
 
 let team = {
 	selected: null,
+	viewing: null,
+	viewingNote: null,
 	append: (res) => {
 		let _team = {
 			color: res.team.color,
@@ -176,7 +178,6 @@ let modal = {
 	editEditor: (info) => {
 		(info.note.draft) ? $('.publish').show() : $('.publish').hide()
 		$('.editor h6.team').text(info.team.name)
-
 		$('.note_headroom h3').text(info.note.title)
 
 		let editorStatus = _.template(templates.editorStatus)({firstname: info.note.owner.firstname, lastname: info.note.owner.lastname, status: (info.note.draft) ? 'draft' : 'published'})
@@ -190,23 +191,23 @@ let modal = {
 	},
 	closeEditor: () => {
 		$('body').removeClass('noscroll')
+		team.viewing = null
 		$('.editor').hide('slide', {direction: 'left'}, 300)
 	}
 }
 
-
-	let transform = {
-		removeFromRange: (a,b) => {
-			let c = editor.getContent()
-			console.log(c.substring(0, a) + c.substring(b));
-			editor.setContent(c.substring(0, a) + c.substring(b))
-		},
-		replaceFromRange: (a,b,sub) => {
-			let c = editor.getContent()
-			console.log(c.substring(0, a) + sub + c.substring(b));
-			editor.setContent(c.substring(0, a) + sub + c.substring(b))
-		}
+let transform = {
+	removeFromRange: (a,b) => {
+		let c = editor.getContent()
+		console.log(c.substring(0, a) + c.substring(b));
+		editor.setContent(c.substring(0, a) + c.substring(b))
+	},
+	replaceFromRange: (a,b,sub) => {
+		let c = editor.getContent()
+		console.log(c.substring(0, a) + sub + c.substring(b));
+		editor.setContent(c.substring(0, a) + sub + c.substring(b))
 	}
+}
 
 $(() => {
 	$('.dropdown').dropdown()
@@ -300,6 +301,8 @@ $(() => {
 			case 'get_note':
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/get/${$(this).data('note')}`, 'GET', _data, (res) => {
+					team.viewing = res[0].team._id
+					team.viewingNote = res[0].note._id
 					nk.resetEditor()
 					modal.editEditor(res[0])
 					let errMsg = ''
@@ -412,6 +415,9 @@ $(() => {
 			ll = ll + part.count
 		})
 		oldHTML = newHTML
+		console.log(team.viewing);
+		console.log(team.viewingNote);
+		socket.emit('preSave', { _id: team.viewingNote, body: newHTML})
 		console.timeEnd('Diff')
 	})
 })

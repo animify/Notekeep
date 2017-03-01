@@ -3,6 +3,7 @@ const jetpack = require('fs-jetpack')
 const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
+const notes = require(jt.path('controllers/notes'))
 
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
@@ -21,6 +22,11 @@ exports.connect = (server, io, sessionStore, eSession) => {
 		error && accept(new Error(message))
 	}
 
+	updateNote = (noteID, noteBody, teamID) => {
+		notes.updateNote(noteID, noteBody, teamID, (err, ret) => {
+		})
+	}
+
 	io.use(sharedsession(eSession))
 	io.use(passportSocketIo.authorize({
 			passport: passport,
@@ -32,22 +38,27 @@ exports.connect = (server, io, sessionStore, eSession) => {
 			fail: onAuthorizeFail
 	}))
 
-	io.on('connection', function (socket) {
+	io.on('connection', (socket) => {
 		log.info('Connected to socket.io')
-		let Diff = diff.diffChars('<div><b>Boldy</b></div>', '<div>Boldy</div>')
+		let saveTimer = false
 
-		Diff.forEach(function(part){
-			log.info(part)
+		socket.on('preSave', (content) => {
+			if (saveTimer) clearTimeout(saveTimer)
+			saveTimer = setTimeout(() => {
+				updateNote(content._id, content.body, socket.teamSpaceRaw)
+			}, 800)
 		})
+
 		socket.on('note_join', (data) => {
-			if (socket.lastNoteSpace) {
-				socket.leave(socket.lastNoteSpace)
-				socket.lastNoteSpace = null
+			if (socket.lastTeamSpace) {
+				socket.leave(socket.lastTeamSpace)
+				socket.lastTeamSpace = null
 			}
-			socket.noteSpace = 'notespace_' + data.space
-			console.log('room', socket.noteSpace)
-			socket.join(socket.noteSpace)
-			socket.lastNoteSpace = socket.noteSpace
+			socket.teamSpaceRaw = data.space
+			socket.teamSpace = 'teamspace_' + data.space
+			console.log('room', socket.teamSpace)
+			socket.join(socket.teamSpace)
+			socket.lastTeamSpace = socket.teamSpace
 		})
 	})
 }
