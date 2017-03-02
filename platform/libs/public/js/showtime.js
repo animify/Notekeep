@@ -1,9 +1,5 @@
 let socket = io()
 
-socket.on('connect', function(socket) {
-	console.log('Socket connection')
-})
-
 _.mixin({
 	isBlank: (string) => {
 		return (_.isUndefined(string) || _.isNull(string) || string.trim().length === 0)
@@ -185,6 +181,7 @@ let modal = {
 
 		editor.setContent(templates.unescape(info.note.content), 0)
 
+		transform.oldHTML = editor.getContent()
 		$('body').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
 		socket.emit('note_join', {space: info.team._id})
@@ -197,8 +194,10 @@ let modal = {
 }
 
 let transform = {
+	oldHTML: null,
 	removeFromRange: (a,b) => {
 		let c = editor.getContent()
+		console.log(a,b);
 		console.log(c.substring(0, a) + c.substring(b));
 		editor.setContent(c.substring(0, a) + c.substring(b))
 	},
@@ -404,20 +403,37 @@ $(() => {
 
 	nk.init()
 
-	let oldHTML = editor.getContent()
-	let newHTML = ''
-	editor.subscribe('editableInput', function (event, editable) {
+	editor.subscribe('editableKeyup', function (event, editable) {
+		oldHTML = transform.oldHTML
 		console.time('Diff')
-		newHTML = $(editable)[0].innerHTML
-		let ll = 0
+		console.log(event, editable);
+		newHTML = editor.getContent()
+		console.log(oldHTML, newHTML);
+		ld = 0
 		diff = JsDiff.diffChars(oldHTML, newHTML)
 		diff.forEach(function(part){
-			ll = ll + part.count
+			ld = ld + part.count
+			console.log(ld, part);
+			if (part.removed) {
+				part.from = ld
+				socket.emit('change', {frag: part, op: "+remove"})
+			}
 		})
-		oldHTML = newHTML
-		console.log(team.viewing);
-		console.log(team.viewingNote);
+		transform.oldHTML = newHTML
 		socket.emit('preSave', { _id: team.viewingNote, body: newHTML})
 		console.timeEnd('Diff')
+	})
+
+	socket.on('connect', (sock) => {
+		console.log('Socket connection')
+	})
+	.on('change', (chg) => {
+		console.log(chg.op);
+		switch (chg.op) {
+			case "+remove":
+				console.log(chg.frag.from -1, chg.frag.from + chg.frag.count -1);
+				transform.removeFromRange(chg.frag.from - 1, chg.frag.from + chg.frag.count - 1)
+				break
+		}
 	})
 })

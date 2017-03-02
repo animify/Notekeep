@@ -232,13 +232,11 @@ exports.findDraftNotes = (req, res, callback) => {
 }
 
 exports.updateNote = (noteID, noteBody, teamID, callback) => {
-	console.log(noteID, noteBody);
 	Notes.findOneAndUpdate(
 		{_id: noteID, team: teamID},
 		{$set: {content: noteBody}},
 		{upsert: true, new: true},
 		(err, doc) => {
-			console.log(err,doc);
 			callback(null, doc)
 		})
 

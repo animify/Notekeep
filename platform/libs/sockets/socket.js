@@ -24,6 +24,7 @@ exports.connect = (server, io, sessionStore, eSession) => {
 
 	updateNote = (noteID, noteBody, teamID) => {
 		notes.updateNote(noteID, noteBody, teamID, (err, ret) => {
+			log.info('saved')
 		})
 	}
 
@@ -42,6 +43,9 @@ exports.connect = (server, io, sessionStore, eSession) => {
 		log.info('Connected to socket.io')
 		let saveTimer = false
 
+		socket.on('change', (chg) => {
+			socket.broadcast.to(socket.teamSpace).emit('change', chg);
+		})
 		socket.on('preSave', (content) => {
 			if (saveTimer) clearTimeout(saveTimer)
 			saveTimer = setTimeout(() => {
