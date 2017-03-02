@@ -197,8 +197,6 @@ let transform = {
 	oldHTML: null,
 	removeFromRange: (a,b) => {
 		let c = editor.getContent()
-		console.log(a,b);
-		console.log(c.substring(0, a) + c.substring(b));
 		editor.setContent(c.substring(0, a) + c.substring(b))
 	},
 	replaceFromRange: (a,b,sub) => {
@@ -406,16 +404,15 @@ $(() => {
 	editor.subscribe('editableKeyup', function (event, editable) {
 		oldHTML = transform.oldHTML
 		console.time('Diff')
-		console.log(event, editable);
+		console.log(event);
 		newHTML = editor.getContent()
-		console.log(oldHTML, newHTML);
 		ld = 0
 		diff = JsDiff.diffChars(oldHTML, newHTML)
 		diff.forEach(function(part){
 			ld = ld + part.count
 			console.log(ld, part);
 			if (part.removed) {
-				part.from = ld
+				part.from = ld -1
 				socket.emit('change', {frag: part, op: "+remove"})
 			}
 		})
@@ -431,8 +428,8 @@ $(() => {
 		console.log(chg.op);
 		switch (chg.op) {
 			case "+remove":
-				console.log(chg.frag.from -1, chg.frag.from + chg.frag.count -1);
-				transform.removeFromRange(chg.frag.from - 1, chg.frag.from + chg.frag.count - 1)
+				console.log(chg.frag.from, chg.frag.from + chg.frag.count);
+				transform.removeFromRange(chg.frag.from, chg.frag.from + chg.frag.count)
 				break
 		}
 	})
