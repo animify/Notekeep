@@ -195,14 +195,34 @@ let modal = {
 
 let transform = {
 	oldHTML: null,
-	removeFromRange: (a,b) => {
+	removeFromRange: (chg) => {
 		let c = editor.getContent()
-		editor.setContent(c.substring(0, a) + c.substring(b))
+		chg.reverse()
+		chg.forEach((typ) => {
+			console.log(typ);
+			a = typ.frag.from
+			b = typ.frag.from + typ.frag.count
+			console.log(a, b);
+			c = c.substring(0, a) + c.substring(b)
+			console.log(c);
+		})
+		console.log(c);
+		editor.setContent(c)
 	},
 	replaceFromRange: (a,b,sub) => {
 		let c = editor.getContent()
-		console.log(c.substring(0, a) + sub + c.substring(b));
 		editor.setContent(c.substring(0, a) + sub + c.substring(b))
+	},
+	addToPoint: (chg) => {
+		let c = editor.getContent()
+		chg.forEach((typ) => {
+			console.log(typ);
+			a = typ.frag.from
+			sub = typ.frag.value
+			c = c.substr(0, a) + sub + c.substr(a)
+		})
+		console.log(c);
+		editor.setContent(c)
 	}
 }
 
@@ -401,22 +421,33 @@ $(() => {
 
 	nk.init()
 
-	editor.subscribe('editableKeyup', function (event, editable) {
+	$('.note_content').on('input', function (event, editable) {
 		oldHTML = transform.oldHTML
 		console.time('Diff')
 		console.log(event);
 		newHTML = editor.getContent()
 		ld = 0
+		arChange = {op: null, change: []}
+console.log(arChange);
 		diff = JsDiff.diffChars(oldHTML, newHTML)
 		diff.forEach(function(part){
-			ld = ld + part.count
 			console.log(ld, part);
-			if (part.removed) {
-				part.from = ld -1
-				socket.emit('change', {frag: part, op: "+remove"})
+			if (part.added) {
+				part.from = ld
+				arChange.op = "+add"
+				arChange.change.push({frag: part, length: newHTML.length})
 			}
+
+			if (part.removed) {
+				part.from = ld
+				arChange.op = "+remove"
+				arChange.change.push({frag: part, length: newHTML.length})
+			}
+			ld = ld + part.count
 		})
 		transform.oldHTML = newHTML
+
+		socket.emit('change', arChange)
 		socket.emit('preSave', { _id: team.viewingNote, body: newHTML})
 		console.timeEnd('Diff')
 	})
@@ -425,12 +456,14 @@ $(() => {
 		console.log('Socket connection')
 	})
 	.on('change', (chg) => {
-		console.log(chg.op);
 		switch (chg.op) {
 			case "+remove":
-				console.log(chg.frag.from, chg.frag.from + chg.frag.count);
-				transform.removeFromRange(chg.frag.from, chg.frag.from + chg.frag.count)
+				transform.removeFromRange(chg.change)
+				break
+			case "+add":
+				transform.addToPoint(chg.change)
 				break
 		}
+
 	})
 })
