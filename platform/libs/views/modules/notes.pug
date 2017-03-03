@@ -35,8 +35,8 @@ block content
 										h5= team.name
 							.xs-12
 								for note in team.notes
-									.unit(class=(note.draft == false)?'published':'draft', data-note=note._id, data-run="get_note")
-										h6 #{note.title}
+									.unit(data-note=note._id, data-run="get_note")
+										h6(class=(note.status == 1) ? 'medium-p': (note.status == 2) && 'high-p') #{note.title}
 										small= `Modified ${moment(note.updated).fromNow()}`
 										.content_plain
 											p= note.plain

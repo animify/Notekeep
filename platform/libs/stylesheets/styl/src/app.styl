@@ -262,6 +262,33 @@ nav.nav
 		margin-top .6rem
 		display block
 
+.section
+	padding 2.3em 3em
+	border-radius border-radius-normal
+	background-color #fff
+	box-shadow 0 1px 1px 0 box-shadow-gray
+	border 1px solid border-gray
+
+	.sub
+		display block
+		padding .3em 0 .7em 0
+		border-bottom 1px solid border-gray
+		width 100%
+		cf()
+		font-size 1.4em
+		margin-bottom 1.6em
+		& > h3
+			font-size 1em
+		& > p
+			font-size 1rem
+			color text-light
+	.input + .input
+		margin-top 2.2em
+	& + .section
+		margin-top 2em
+	.button
+		margin-top 1.4em
+
 .nosub
 	margin-top 4.2em
 
@@ -332,6 +359,14 @@ nav.nav
 			vertical-align top
 			color body-dark
 			font-size 1rem
+			&.medium-p
+				&::before
+					content '!! '
+					color color-yellow
+			&.high-p
+				&::before
+					content '!!! '
+					color color-red
 			span
 				font-weight 500
 				color text-light
