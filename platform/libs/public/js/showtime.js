@@ -116,7 +116,7 @@ let team = {
 		$('.unit.new').slideDown()
 	},
 	sortAlpha: (a,b) => {
-		return $(a).find('.title a').text().toLowerCase().localeCompare($(b).find('.title a').text().toLowerCase())
+		return $(a).find('h6').text().toLowerCase().localeCompare($(b).find('h6').text().toLowerCase())
 	}
 }
 
