@@ -1,26 +1,27 @@
 nav.nav.pin.top
-	a.logo(href="/")
-		img(src="/images/logo_primary.png")
-	.float-right
-		ul.options
-			li(class= selected == "dashboard" ? "active" : "")
-				a(href="/") Dashboard
-			li(class= selected == "notes" ? "active" : "")
-				a(href="/notes") Notes
-			li(class= selected == "teams" ? "active" : "")
-				a(href="/teams") Teams
-			li(class= selected == "activity" ? "active" : "")
-				a(href="/activity") #[i.material-icons notifications]
-		.user.dropdown.right
-			a.toggle
-				img(src="/images/avatar.png")
-				span= user.username
-					i.material-icons arrow_drop_down
-			ul.menu
-				li.header= user.firstname + ' ' + user.lastname
-				li.header.sub= user.email
-				li.divider
-				li #[a(href="/invites") Invites]
-				li #[a(href="/settings") My Account]
-				li #[a(href="/teams") Manage Teams]
-				li #[a.text-red Sign Out]
+	.contain
+		a.logo(href="/")
+			img(src="/images/logo_white.png")
+		.float-right
+			ul.options
+				li(class= selected == "dashboard" ? "active" : "")
+					a(href="/") Dashboard
+				li(class= selected == "notes" ? "active" : "")
+					a(href="/notes") Notes
+				li(class= selected == "teams" ? "active" : "")
+					a(href="/teams") Teams
+				li(class= selected == "activity" ? "active" : "")
+					a(href="/activity") #[i.material-icons notifications]
+			.user.dropdown.right
+				a.toggle
+					img(src="/images/avatar.png")
+					span= user.username
+						i.material-icons arrow_drop_down
+				ul.menu
+					li.header= user.firstname + ' ' + user.lastname
+					li.header.sub= user.email
+					li.divider
+					li #[a(href="/invites") Invites]
+					li #[a(href="/settings") My Account]
+					li #[a(href="/teams") Manage Teams]
+					li #[a.text-red Sign Out]

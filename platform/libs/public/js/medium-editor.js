@@ -6581,7 +6581,7 @@ MediumEditor.extensions = {};
 								// hitting return in the begining of a header will create empty header elements before the current one
 								// instead, make "<p><br></p>" element, which are what happens if you hit return in an empty paragraph
 								p = this.options.ownerDocument.createElement('p');
-								p.innerHTML = '';
+								p.innerHTML = '<br>';
 								node.previousElementSibling.parentNode.insertBefore(p, node);
 								event.preventDefault();
 						}

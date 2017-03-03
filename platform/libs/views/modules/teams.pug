@@ -12,19 +12,18 @@ block content
 				a.button.primary.sm(data-modal="open", data-modal-name="modal_team") New Team
 		.inner#teams
 			if (teams.length)
-				.grid-row
-					.xs-12#ls-teams
-						for team in teams
-							.unit
-								.text-preview(style=`background-color:${team.color}`)
-									span= team.name.substr(0,1)
-								.content
-									.title
-										a(href=`/team/${team._id}`)= 	team.name
-									small= `Created by ${team.creator.firstname} ${team.creator.lastname}`
-								.info
-									h6.members #[i.material-icons person_outline]#{team.userlist.length + 1}
-									h6.notes #[i.material-icons book]0
+				.summary
+					.grid-row
+						.xs-12#ls-teams
+							.intro
+								.desc
+									h5 Available teams
+							for team in teams
+								a.unit(href=`/team/${team._id}`)
+									.text-preview(style=`background-color:${team.color}`)
+										span= team.name.substr(0,1)
+									h6 #{team.name}
+									small #[i.material-icons person_outline]#{team.userlist.length + 1} #[i.material-icons book]0
 			else
 				.grid-row
 					.xs-12

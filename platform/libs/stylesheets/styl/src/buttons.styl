@@ -1,18 +1,17 @@
 .switches
 	absolute top 2em left -.2em
-	font-size 1.2em
 	display none
 	max-width 16em
 	width 100%
 	background-color #fff
-	box-shadow 0 1px 6px 1px rgba(0,0,0,0.05)
+	box-shadow 0 1px 6px 1px rgba(18,19,22,.15)
 	border-radius border-radius-normal
 	overflow hidden
 	&.right
 		right -.2em
 		left auto
 	.switch
-		font-size 1em
+		font-size 1rem
 		display block
 		padding 1.2em 1.5em
 		height auto
@@ -22,14 +21,15 @@
 		color text-button-default
 		cursor pointer
 		font-weight 600
-		line-height 1.3em
+		line-height 1.1em
 		span
 			color text-light
 			font-size .8em
+			margin-top .1rem
 			display block
 			font-weight 400
 		&:hover
-			background-color background-light-gray
+			color color-primary
 		& + .switch
 			border-top 0
 		&:first-of-type
@@ -57,6 +57,10 @@
 	font-weight 600
 	&.transparent
 		background-color transparent
+		&:hover
+			color hover-text-button-default
+			box-shadow inset 0px 0px 0px 1px background-med-gray
+			background-color transparent
 	&.block
 		width 100%
 	&.sm
@@ -64,26 +68,26 @@
 		height auto
 		line-height auto
 	&.slim
-		padding .4em 1.1em
+		padding .6em 1.1em
 		height auto
 		line-height auto
 		&.hasicon
-			height 2.2em
-			padding .4em 1.4em
+			height 2.45em
+			padding .6em 1.4em
 			cf()
 			i
 				width 1.4rem
 				font-size 1.3em
-				absolute top 6px left .7rem
+				absolute top 9px left .65rem
 	&.outlined
 		box-sizing border-box
 		background-color transparent
 		box-shadow inset 0px 0px 0px 1px background-light-gray
 		color text-button-default
-		&.white
-			color #fff
-			&:hover
-				color text-button-default
+		&:hover
+			color hover-text-button-default
+			box-shadow inset 0px 0px 0px 1px background-med-gray
+			background-color transparent
 	&:hover
 		box-shadow none
 		background-color darken(background-light-gray, 6%)

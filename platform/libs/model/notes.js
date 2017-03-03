@@ -29,6 +29,10 @@ let	Note = new Schema({
 	content : {
 		type: String
 	},
+	status : {
+		type: Number,
+		Default: 0
+	},
 	plain : {
 		type: String
 	},

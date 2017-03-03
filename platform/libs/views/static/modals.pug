@@ -68,9 +68,15 @@
 			h6.team
 			h6 Created just now
 		.float-right
-			a.button.slim.outlined Share
+			.dropdown.right.priority
+				a.toggle.button.slim.outlined.hasicon(data-status="0") #[i.material-icons.text-green lens] Low priority
+				ul.menu
+					li #[a(data-run="chg_priority", data-status="0") #[i.material-icons.text-green lens] Low priority]
+					li #[a(data-run="chg_priority", data-status="1") #[i.material-icons.text-yellow lens] Medium priority]
+					li #[a(data-run="chg_priority", data-status="2") #[i.material-icons.text-red lens] High priority]
+			a.button.slim.outlined.share Share
 			.dropdown.right
-				a.toggle.button.slim.outlined.hasicon #[i.material-icons more_horiz]
+				a.toggle.button.slim.outlined.hasicon.more #[i.material-icons more_horiz]
 				ul.menu
 					li #[a Keyboard shortcuts]
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
@@ -79,6 +85,7 @@
 					li #[a Create public link]
 					li.divider
 					li #[a.color-red Delete post]
+
 			.publish
 				a.button.slim.green(data-modal="open", data-modal-name="modal_publish") Publish
 

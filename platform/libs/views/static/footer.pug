@@ -7,4 +7,14 @@ script(src="/js/medium-editor.min.js")
 script(src='/socket.io/socket.io.js')
 script(src='/js/showtime.js')
 script(src='/js/blossom.js')
+if (user)
+	script.
+		let accountHash = {
+			_id: "#{user._id}",
+			avatar: "#{user.avatar}",
+			created: "#{user.created}",
+			email: "#{user.email}",
+			firstname: "#{user.firstname}",
+			lastname: "#{user.lastname}"
+		}
 block footer

@@ -11,6 +11,12 @@ const moment = require('moment')
 const async = require('async')
 const _ = require('underscore')
 
+let status = {
+	0: "Low priority",
+	2: "Medium priority",
+	3: "High priority"
+}
+
 exports.newNote = (req, res, drafttype, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
@@ -239,5 +245,43 @@ exports.updateNote = (noteID, noteBody, teamID, callback) => {
 		(err, doc) => {
 			callback(null, doc)
 		})
+}
+
+exports.updateStatus = (req, res, callback) => {
+	req.sanitizeBody()
+	req.checkBody({
+	 'note': {
+			notEmpty: true,
+			errorMessage: `Note ID is empty`
+		},
+	 'team': {
+			notEmpty: true,
+			errorMessage: `Team ID is empty`
+		},
+	 'status': {
+			notEmpty: true,
+			errorMessage: `Status is empty`
+		}
+	})
+
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
+		Team.findOne({_id: req.body.team, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+		.populate({ path: 'creator'})
+		.lean()
+		.exec((err, team) => {
+			if (team == null) return callback(400, "Team not found")
+			Notes.findOneAndUpdate(
+				{_id: req.body.note, team: req.body.team},
+				{$set: {status: req.body.status}},
+				{upsert: true, new: true},
+				(err, note) => {
+					callback(null, note)
+				})
+		})
+
+	})
 
 }

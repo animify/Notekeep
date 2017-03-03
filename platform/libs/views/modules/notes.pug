@@ -22,18 +22,21 @@ block content
 					span Only available to you
 				for team in teams
 					a.switch(data-teamid=team._id) #[b= team.name]
+						span New note in #{team.name}
 		.inner
 			for team in teams
 				if (team.notes.length != 0)
-					.notes.grid-row
-						.xs-12
-							.desc
-								span(style=`background-color:${team.color}`)= team.name.substr(0,1)
-								h5= team.name
-
-						for note in team.notes
-							.xs-12.m-6.l-3
-								.note(class=(note.draft == false)?'published':'draft', data-note=note._id, data-run="get_note")
-									h6= note.title
-									p= note.plain
-									small= `Updated ${moment(note.updated).fromNow()}`
+					.summary
+						.grid-row
+							.xs-12
+								.intro
+									.desc
+										span.text-preview(style=`background-color:${team.color}`)= team.name.substr(0,1)
+										h5= team.name
+							.xs-12
+								for note in team.notes
+									.unit(class=(note.draft == false)?'published':'draft', data-note=note._id, data-run="get_note")
+										h6 #{note.title}
+										small= `Modified ${moment(note.updated).fromNow()}`
+										.content_plain
+											p= note.plain

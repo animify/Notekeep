@@ -18,16 +18,17 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send({Message: ret})
 	})
-})
-
-router.get('/notes/get/:note', (req, res) => {
+}).get('/notes/get/:note', (req, res) => {
 	notesController.findNote(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: 'Internal Error'})
 		res.send(ret)
 	})
-})
-
-router.get('/notes/retrieve/:type', (req, res) => {
+}).post('/notes/status', (req, res) => {
+	notesController.updateStatus(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: ret})
+		res.send(ret)
+	})
+}).get('/notes/retrieve/:type', (req, res) => {
 	switch (req.params.type) {
 		case 'team':
 			notesController.findTeamNotes(req, res, (err, ret) => {
@@ -50,37 +51,28 @@ router.get('/notes/retrieve/:type', (req, res) => {
 		default:
 			res.send('error')
 	}
-
-})
-
-router.post('/teams/new', (req, res) => {
+}).post('/teams/new', (req, res) => {
 	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
 
 	teamsController.newTeam(req, res, req.body.name, (err, ret) => {
 		if (err) return res.send({error: err, message: ret[0].description})
 		res.send({team: ret, fn: req.user.firstname, ln: req.user.lastname})
 	})
-})
-
-router.post('/teams/invite', (req, res) => {
+}).post('/teams/invite', (req, res) => {
 	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
 
 	teamsController.inviteToTeam(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-})
-
-router.post('/invites/accept', (req, res) => {
+}).post('/invites/accept', (req, res) => {
 	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team name found.'})
 
 	teamsController.acceptInvite(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-})
-
-router.post('/teams/find', (req, res) => {
+}).post('/teams/find', (req, res) => {
 	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team found.'})
 
 	teamsController.findTeam(req, res, req.body.team, (err, team) => {

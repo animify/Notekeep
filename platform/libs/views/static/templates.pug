@@ -1,16 +1,13 @@
 script(type='text/html', id='tpl-teams')
-	.unit.new
+	a.unit.new(href!="/team/<%= _id %>")
 		.text-preview(style!="background-color:<%= color %>")
 			span!= '<%= initial %>'
-		.content
-			.title
-				a(href!="/team/<%= _id %>")!= '<%= name %>'
-			small!='Created by <%= firstname %> <%= lastname %>'
-		.info
-			h6.members #[i.material-icons person_outline]
-				| <%= members %>
-			h6.notes #[i.material-icons book]
-				| 0
+		h6!= '<%= name %>'
+		small #[i.material-icons person_outline]
+			| <%= members %>
+			i.material-icons book
+			| 0
+
 
 script(type='text/html', id='tpl-note')
 	.notes.grid-row

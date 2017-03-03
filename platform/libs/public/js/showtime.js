@@ -6,6 +6,19 @@ _.mixin({
 	}
 })
 
+let priority = {
+	label: {
+		0: 'Low priority',
+		1: 'Medium priority',
+		2: 'High priority'
+	},
+	classes: {
+		0: 'text-green',
+		1: 'text-yellow',
+		2: 'text-red'
+	}
+}
+
 let nk = {
 	init: () => {
 		$('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>')
@@ -16,8 +29,11 @@ let nk = {
 		editor.resetContent()
 		$('.note_headroom h3').text('')
 		$('.editor h6.team').text('')
+		$('.note_headroom p').find('span.user').text(`${accountHash.firstname} ${accountHash.lastname}`)
 		$('.note_headroom p').find('span.type').removeClass('draft published').addClass('draft')
-		$('publish').show()
+		$('.editor .priority a.toggle').attr('data-status', 0).html(`<i class="material-icons ${priority.classes[0]}">lens</i> ${priority.label[0]}`)
+		$('.share').hide()
+		$('.publish').show()
 	}
 }
 
@@ -172,11 +188,13 @@ let modal = {
 		$('.editor').show('slide', {direction: 'left'}, 300)
 	},
 	editEditor: (info) => {
+		(info.note.draft) ? $('.share').hide() : $('.share').show();
 		(info.note.draft) ? $('.publish').show() : $('.publish').hide()
 		$('.editor h6.team').text(info.team.name)
 		$('.note_headroom h3').text(info.note.title)
-
 		let editorStatus = _.template(templates.editorStatus)({firstname: info.note.owner.firstname, lastname: info.note.owner.lastname, status: (info.note.draft) ? 'draft' : 'published'})
+		info.note.status == undefined ? $('.editor .priority a.toggle').attr('data-status', 0).html(`<i class="material-icons ${priority.classes[0]}">lens</i> ${priority.label[0]}`) : $('.editor .priority a.toggle').attr('data-status', info.note.status).html(`<i class="material-icons ${priority.classes[info.note.status]}">lens</i> ${priority.label[info.note.status]}`)
+
 		$('.note_headroom p').html($(editorStatus))
 
 		editor.setContent(templates.unescape(info.note.content), 0)
@@ -189,6 +207,7 @@ let modal = {
 	closeEditor: () => {
 		$('body').removeClass('noscroll')
 		team.viewing = null
+		team.viewingNote = null
 		$('.editor').hide('slide', {direction: 'left'}, 300)
 	}
 }
@@ -212,8 +231,7 @@ let transform = {
 	replaceAll: (chg) => {
 		console.log(chg);
 		chg.forEach((typ) => {
-			typ.frag.hasOwnProperty('all')
-			editor.setContent(chg[0].frag.all)
+			if (typ.frag.all !== undefined) editor.setContent(typ.frag.all)
 		})
 	},
 	addToPoint: (chg) => {
@@ -223,7 +241,6 @@ let transform = {
 			sub = typ.frag.value
 			c = c.substr(0, a) + sub + c.substr(a)
 		})
-		console.log(c);
 		editor.setContent(c)
 	}
 }
@@ -345,6 +362,13 @@ $(() => {
 					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
 				})
 				break
+			case 'chg_priority':
+				_data = JSON.stringify({team: team.viewing, note: team.viewingNote, status: $(this).data('status')})
+				endpoint.call('/facets/endpoints/notes/status', 'POST', _data, (res) => {
+					if (res.err) return console.debug('Internal error when changing priority')
+					$('.editor .priority a.toggle').attr('data-status', res.status).html(`<i class="material-icons ${priority.classes[res.status]}">lens</i> ${priority.label[res.status]}`)
+				})
+				break
 			case 'invite_member':
 				_data = JSON.stringify({user: $('#member-email').val(), team: $('.add').data('team')})
 				endpoint.call('/facets/endpoints/teams/invite', 'POST', _data, (res) => {
@@ -385,7 +409,6 @@ $(() => {
 
 	$('.switch_trigger').bind('click', function(e) {
 		e.preventDefault()
-		console.log('a', `.${$(this).data('switch')}`);
 		$(`#${$(this).data('switch')}`).slideDown(300, () => $(`#${$(this).data('switch')}`).addClass('open'))
 	})
 
@@ -441,12 +464,11 @@ $(() => {
 						arChange.op = "+all"
 						part.all = newHTML
 						console.log(part);
-						arChange.change.push({frag: part})
-						return
+						return arChange.change.push({frag: part})
+
 					}
-				} else {
-					arChange.change.push({frag: part, length: newHTML.length})
 				}
+					arChange.change.push({frag: part, length: newHTML.length})
 			}
 
 			if (part.removed) {
@@ -457,12 +479,11 @@ $(() => {
 						arChange.op = "+all"
 						part.all = newHTML
 						console.log(part);
-						arChange.change.push({frag: part})
-						return
+						return arChange.change.push({frag: part})
+
 					}
-				} else {
-					arChange.change.push({frag: part, length: newHTML.length})
 				}
+					arChange.change.push({frag: part, length: newHTML.length})
 			}
 
 			ld = ld + part.count
@@ -486,6 +507,7 @@ $(() => {
 				transform.addToPoint(chg.change)
 				break
 			case "+all":
+				console.log(chg);
 				transform.replaceAll(chg.change)
 				break
 		}
