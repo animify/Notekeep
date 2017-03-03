@@ -79,8 +79,8 @@ ul.options
 nav.nav
 	display block
 	width 100%
-	height 3.6em
-	background-color #24292E
+	height 3.375rem
+	background-color color-nav
 	z-index 2000
 	fixed top left
 	&.sub
@@ -91,7 +91,7 @@ nav.nav
 		display block
 		cf()
 		height auto
-		margin 5em 0 0 0
+		margin 4.4em 0 0 0
 		border 0
 		padding 0
 		box-shadow none
@@ -166,7 +166,7 @@ nav.nav
 				a, i
 					color #fff
 			& + li
-				margin-left 2.4em
+				margin-left 2.3rem
 
 .inner
 	padding 2.6em 0
@@ -262,69 +262,6 @@ nav.nav
 		margin-top .6rem
 		display block
 
-.section
-	padding 2.3em 3em
-	border-radius border-radius-normal
-	background-color #fff
-	box-shadow 0 1px 1px 0 box-shadow-gray
-	border 1px solid border-gray
-
-	.sub
-		display block
-		padding .3em 0 .7em 0
-		border-bottom 1px solid border-gray
-		width 100%
-		cf()
-		font-size 1.4em
-		margin-bottom 1.6em
-		& > h3
-			font-size 1em
-		& > p
-			font-size 1rem
-			color text-light
-	.input + .input
-		margin-top 2.2em
-	& + .section
-		margin-top 2em
-	.button
-		margin-top 1.4em
-	&.note
-		text-align center
-		font-weight 600
-		position relative
-		padding 3.5em 0 0 0
-		.type
-			margin .6em 0
-			display block
-			text-transform uppercase
-			color text-lighter
-			font-weight 900
-			font-size .8em
-		.body
-			padding 0 4em 3em 4em
-		.footer
-			text-align left
-			padding 1em 2em
-			font-size .8em
-			border-top 1px solid border-gray
-			cf()
-			.created
-				float left
-				vertical-align top
-			.date
-				float right
-				vertical-align top
-		&:hover
-			border-color color-primary
-			cursor pointer
-			h4
-				color color-primary
-		h4
-			font-size 1.8em
-		p
-			color text-light
-			font-weight 400
-			margin-top 1em
 .nosub
 	margin-top 4.2em
 
@@ -499,13 +436,13 @@ nav.nav
 	fixed top left
 	z-index 9400
 	.options
-		border-bottom 1px solid border-gray
-		padding 1em 2em
 		cf()
-		background-color #fff
+		background-color color-nav
 		fixed top left
 		z-index 4000
 		width 100%
+		height 3.375rem
+		padding 0 2rem
 		.close, .publish
 			margin-left 1em
 			padding-left 1em
@@ -521,32 +458,53 @@ nav.nav
 			width 100%
 		.float-right
 			& > * + *
-				margin-left 1em
+				margin-left 2.3rem
 			.menu
 				margin-top .6em
 		& > *
-
+			display inline-block
+			vertical-align top
 			h6
 				display inline-block
-				vertical top
-				color text-light
-				line-height 1.9em
-				margin .2rem 0 .2rem 1rem
+				vertical-align top
+				color text-light-invert
+				line-height 1.4em
+				margin .9rem 0 .9rem 1rem
 				&.team
 					font-weight 600
-					color text-grey
+					color #fff
 				& + h6
 					padding-left 1em
 					border-left 1px solid border-gray
-		.priority
-			.button
+		.invert
+			color text-light-invert
+			background-color transparent
+			line-height 1.3em
+			font-weight 600
+			cf()
+			display inline-block
+			position relative
+			line-height 3.3rem
+			&:hover
+				color #fff
+				background-color transparent
+			&.hasicon
 				i
-					font-size .7rem
-					relative top 1px left -.2rem
-					width auto
+					font-size 1.7rem
+					relative top 8px
+				&.return
+					i
+						font-size 1.3rem
+						relative top 6px
+		.priority
+			i
+				font-size .6rem !important
+				absolute left -.24rem
+				top 0 !important
+				width auto
 			li
 				i
-					font-size .7rem
+					font-size .6rem
 					relative top 2px
 					width 1.7rem
 
@@ -554,11 +512,13 @@ nav.nav
 	width 100%
 	height 100%
 	overflow hidden
-	padding-top 4.2rem
+	padding-top 3.375rem
+	background-color light-color-smoke
 	.note_container
 		overflow-y auto
 		position relative
 		height 100%
+		padding 2rem 0
 		&::-webkit-scrollbar:horizontal
 			display none
 		&::-webkit-scrollbar
@@ -570,12 +530,17 @@ nav.nav
 			display none
 	.note_editable
 		width 100%
-		max-width 740px
+		max-width 840px
 		margin 0 auto
 		display block
-		padding-bottom 2rem
+		padding 3rem
+		background-color #fff
+		border 1px solid color-smoke
+		box-shadow 0 1px 1px 0 box-shadow-gray
+		border-radius 10px
+		min-height 100%
 	.note_headroom
-		padding 3em 0
+		padding 0 0 3rem 0
 		p
 			color text-light
 			line-height 1.7em
@@ -611,5 +576,5 @@ nav.nav
 				display block
 				color text-light
 	.note_content
-		font-size 1.2em
-		line-height 1.6em
+		font-size 1.1em
+		line-height 1.5em

@@ -116,6 +116,12 @@ body {
   width: 100%;
   margin: 0;
 }
+::-webkit-scrollbar {
+  width: 0px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
 h1 {
   font-size: 3.8em;
   color: #2f4468;
@@ -172,6 +178,7 @@ a:hover {
 }
 p {
   line-height: 1.7em;
+  font-weight: 500;
 }
 small {
   font-size: 0.875em;
@@ -1727,26 +1734,6 @@ footer ul.options li + li {
   padding: 0.6em 1.1em;
   height: auto;
   line-height: auto;
-}
-.button.slim.hasicon {
-  height: 2.45em;
-  padding: 0.6em 1.4em;
-  *zoom: 1;
-}
-.button.slim.hasicon:before,
-.button.slim.hasicon:after {
-  content: '';
-  display: table;
-}
-.button.slim.hasicon:after {
-  clear: both;
-}
-.button.slim.hasicon i {
-  width: 1.4rem;
-  font-size: 1.3em;
-  position: absolute;
-  top: 9px;
-  left: 0.65rem;
 }
 .button.outlined {
   -webkit-box-sizing: border-box;
@@ -3723,7 +3710,7 @@ ul.options li + li {
 nav.nav {
   display: block;
   width: 100%;
-  height: 3.6em;
+  height: 3.375rem;
   background-color: #24292e;
   z-index: 2000;
   position: fixed;
@@ -3738,7 +3725,7 @@ nav.nav.sub {
   display: block;
   *zoom: 1;
   height: auto;
-  margin: 5em 0 0 0;
+  margin: 4.4em 0 0 0;
   border: 0;
   padding: 0;
   -webkit-box-shadow: none;
@@ -3859,7 +3846,7 @@ nav.nav ul.options li.active i {
   color: #fff;
 }
 nav.nav ul.options li + li {
-  margin-left: 2.4em;
+  margin-left: 2.3rem;
 }
 .inner {
   padding: 2.6em 0;
@@ -3987,102 +3974,6 @@ nav.nav ul.options li + li {
   font-size: 1em;
   margin-top: 0.6rem;
   display: block;
-}
-.section {
-  padding: 2.3em 3em;
-  border-radius: 5px;
-  background-color: #fff;
-  -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05);
-  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05);
-  border: 1px solid #eceef1;
-}
-.section .sub {
-  display: block;
-  padding: 0.3em 0 0.7em 0;
-  border-bottom: 1px solid #eceef1;
-  width: 100%;
-  *zoom: 1;
-  font-size: 1.4em;
-  margin-bottom: 1.6em;
-}
-.section .sub:before,
-.section .sub:after {
-  content: '';
-  display: table;
-}
-.section .sub:after {
-  clear: both;
-}
-.section .sub > h3 {
-  font-size: 1em;
-}
-.section .sub > p {
-  font-size: 1rem;
-  color: #97a2b2;
-}
-.section .input + .input {
-  margin-top: 2.2em;
-}
-.section + .section {
-  margin-top: 2em;
-}
-.section .button {
-  margin-top: 1.4em;
-}
-.section.note {
-  text-align: center;
-  font-weight: 600;
-  position: relative;
-  padding: 3.5em 0 0 0;
-}
-.section.note .type {
-  margin: 0.6em 0;
-  display: block;
-  text-transform: uppercase;
-  color: #b0bec4;
-  font-weight: 900;
-  font-size: 0.8em;
-}
-.section.note .body {
-  padding: 0 4em 3em 4em;
-}
-.section.note .footer {
-  text-align: left;
-  padding: 1em 2em;
-  font-size: 0.8em;
-  border-top: 1px solid #eceef1;
-  *zoom: 1;
-}
-.section.note .footer:before,
-.section.note .footer:after {
-  content: '';
-  display: table;
-}
-.section.note .footer:after {
-  clear: both;
-}
-.section.note .footer .created {
-  float: left;
-  vertical-align: top;
-}
-.section.note .footer .date {
-  float: right;
-  vertical-align: top;
-}
-.section.note:hover {
-  border-color: #0e8cf1;
-  cursor: pointer;
-}
-.section.note:hover h4 {
-  color: #0e8cf1;
-}
-.section.note h4 {
-  font-size: 1.8em;
-}
-.section.note p {
-  color: #97a2b2;
-  font-weight: 400;
-  margin-top: 1em;
 }
 .nosub {
   margin-top: 4.2em;
@@ -4310,15 +4201,15 @@ nav.nav ul.options li + li {
   z-index: 9400;
 }
 .editor .options {
-  border-bottom: 1px solid #eceef1;
-  padding: 1em 2em;
   *zoom: 1;
-  background-color: #fff;
+  background-color: #24292e;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 4000;
   width: 100%;
+  height: 3.375rem;
+  padding: 0 2rem;
 }
 .editor .options:before,
 .editor .options:after {
@@ -4347,35 +4238,71 @@ nav.nav ul.options li + li {
   width: 100%;
 }
 .editor .options .float-right > * + * {
-  margin-left: 1em;
+  margin-left: 2.3rem;
 }
 .editor .options .float-right .menu {
   margin-top: 0.6em;
 }
+.editor .options > * {
+  display: inline-block;
+  vertical-align: top;
+}
 .editor .options > * h6 {
   display: inline-block;
-  vertical: top;
-  color: #97a2b2;
-  line-height: 1.9em;
-  margin: 0.2rem 0 0.2rem 1rem;
+  vertical-align: top;
+  color: #cbd1dc;
+  line-height: 1.4em;
+  margin: 0.9rem 0 0.9rem 1rem;
 }
 .editor .options > * h6.team {
   font-weight: 600;
-  color: #2d3b4e;
+  color: #fff;
 }
 .editor .options > * h6 + h6 {
   padding-left: 1em;
   border-left: 1px solid #eceef1;
 }
-.editor .options .priority .button i {
-  font-size: 0.7rem;
+.editor .options .invert {
+  color: #cbd1dc;
+  background-color: transparent;
+  line-height: 1.3em;
+  font-weight: 600;
+  *zoom: 1;
+  display: inline-block;
   position: relative;
-  top: 1px;
-  left: -0.2rem;
+  line-height: 3.3rem;
+}
+.editor .options .invert:before,
+.editor .options .invert:after {
+  content: '';
+  display: table;
+}
+.editor .options .invert:after {
+  clear: both;
+}
+.editor .options .invert:hover {
+  color: #fff;
+  background-color: transparent;
+}
+.editor .options .invert.hasicon i {
+  font-size: 1.7rem;
+  position: relative;
+  top: 8px;
+}
+.editor .options .invert.hasicon.return i {
+  font-size: 1.3rem;
+  position: relative;
+  top: 6px;
+}
+.editor .options .priority i {
+  font-size: 0.6rem !important;
+  position: absolute;
+  left: -0.24rem;
+  top: 0 !important;
   width: auto;
 }
 .editor .options .priority li i {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   position: relative;
   top: 2px;
   width: 1.7rem;
@@ -4384,12 +4311,14 @@ nav.nav ul.options li + li {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  padding-top: 4.2rem;
+  padding-top: 3.375rem;
+  background-color: #f7f9fb;
 }
 .editable .note_container {
   overflow-y: auto;
   position: relative;
   height: 100%;
+  padding: 2rem 0;
 }
 .editable .note_container::-webkit-scrollbar:horizontal {
   display: none;
@@ -4406,13 +4335,19 @@ nav.nav ul.options li + li {
 }
 .editable .note_editable {
   width: 100%;
-  max-width: 740px;
+  max-width: 840px;
   margin: 0 auto;
   display: block;
-  padding-bottom: 2rem;
+  padding: 3rem;
+  background-color: #fff;
+  border: 1px solid #f2f5f7;
+  -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05);
+  border-radius: 10px;
+  min-height: 100%;
 }
 .editable .note_headroom {
-  padding: 3em 0;
+  padding: 0 0 3rem 0;
 }
 .editable .note_headroom p {
   color: #97a2b2;
@@ -4460,8 +4395,8 @@ nav.nav ul.options li + li {
   color: #97a2b2;
 }
 .editable .note_content {
-  font-size: 1.2em;
-  line-height: 1.6em;
+  font-size: 1.1em;
+  line-height: 1.5em;
 }
 .modal {
   width: 100%;
@@ -4599,20 +4534,20 @@ nav.nav ul.options li + li {
   transform: scale(1);
 }
 .medium-toolbar-arrow-under:after {
-  border-color: #16171a transparent transparent transparent;
+  border-color: #24292e transparent transparent transparent;
   top: 2.88em;
 }
 .medium-toolbar-arrow-over:before {
-  border-color: transparent transparent #16171a transparent;
+  border-color: transparent transparent #24292e transparent;
 }
 .medium-editor-toolbar {
-  background-color: #16171a;
-  border: 1px solid #151619;
+  background-color: #24292e;
+  border: 1px solid #22272c;
   border-radius: 8px;
   z-index: 9600;
 }
 .medium-editor-toolbar li + li {
-  border-left: 1px solid #151619;
+  border-left: 1px solid #22272c;
 }
 .medium-editor-toolbar li button {
   background-color: transparent;
@@ -4624,7 +4559,7 @@ nav.nav ul.options li + li {
   padding: 1em 1.3em;
 }
 .medium-editor-toolbar li button:hover {
-  background-color: #212227;
+  background-color: #2d343a;
   color: #fff;
 }
 .medium-editor-toolbar li .medium-editor-button-first {
@@ -4636,17 +4571,17 @@ nav.nav ul.options li + li {
   padding-right: 1.5em;
 }
 .medium-editor-toolbar li .medium-editor-button-active {
-  background-color: #363840;
+  background-color: #404952;
   color: #fff;
 }
 .medium-editor-toolbar-form {
-  background-color: #16171a;
+  background-color: #24292e;
   border-radius: 8px;
   color: #b0bec4;
   overflow: hidden;
 }
 .medium-editor-toolbar-form .medium-editor-toolbar-input {
-  background-color: #16171a;
+  background-color: #24292e;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -4706,7 +4641,7 @@ nav.nav ul.options li + li {
   cursor: pointer;
 }
 .medium-editor-toolbar-anchor-preview {
-  background-color: #16171a;
+  background-color: #24292e;
   border-radius: 8px;
   padding: 1em 1.3em;
 }
