@@ -47,6 +47,21 @@
 				.error.text-center
 					.why.text-red
 
+.modal#modal_delete
+	.overlay
+		.close
+			i.material-icons clear
+		.cell
+			.content
+				.inside
+					h5 Delete this note?
+					p #[b.text-red Important:] You will not be able to retrieve any information back once this note is deleted. All versioning will be cleared and the note will be removed from all affected workspaces.
+					.button-group.clearfix.to-right
+						a.button.red(data-run="delete_note") Delete
+						a.button(data-modal="close") Cancel
+				.error.text-center
+					.why.text-red
+
 .modal#modal_about
 	.overlay
 		.close
@@ -84,7 +99,7 @@
 					li #[a Copy link]
 					li #[a Create public link]
 					li.divider
-					li #[a.color-red Delete post]
+					li #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
 
 			.publish
 				a.button.slim.green(data-modal="open", data-modal-name="modal_publish") Publish

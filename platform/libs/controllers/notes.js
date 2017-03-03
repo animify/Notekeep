@@ -269,7 +269,6 @@ exports.updateStatus = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 		Team.findOne({_id: req.body.team, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
-		.populate({ path: 'creator'})
 		.lean()
 		.exec((err, team) => {
 			if (team == null) return callback(400, "Team not found")
@@ -281,7 +280,36 @@ exports.updateStatus = (req, res, callback) => {
 					callback(null, note)
 				})
 		})
+	})
+}
 
+exports.deleteNote = (req, res, callback) => {
+	req.sanitizeBody()
+	req.checkBody({
+	 'note': {
+			notEmpty: true,
+			errorMessage: `Note ID is empty`
+		},
+	 'team': {
+			notEmpty: true,
+			errorMessage: `Team ID is empty`
+		}
 	})
 
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
+		Team.findOne({_id: req.body.team, 'creator':req.user._id})
+		.lean()
+		.exec((err, team) => {
+			if (team == null) return callback(400, "Team not found")
+			Notes.findOneAndRemove(
+				{_id: req.body.note, team: req.body.team},
+				(err, sts) => {
+					if (err) return callback('400', err)
+					callback(null, true)
+				})
+		})
+	})
 }

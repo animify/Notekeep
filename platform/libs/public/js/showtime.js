@@ -345,6 +345,21 @@ $(() => {
 					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
 				})
 				break
+			case 'delete_note':
+				_data = JSON.stringify({team: team.viewing, note: team.viewingNote})
+				endpoint.call(`/facets/endpoints/notes/delete`, 'POST', _data, (res) => {
+					if (res) {
+						const noteEl = $(`[data-note="${team.viewingNote}"]`)
+						if (!(noteEl.parent().children('.unit').length > 1)) noteEl.parent().closest('.summary').remove()
+						noteEl.remove()
+						modal.close()
+						modal.closeEditor()
+						return
+					}
+					let errMsg = ''
+					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
+				})
+				break
 			case 'switch_note_mode':
 				const newType = $(this).data('type')
 				console.log(newType);
@@ -385,7 +400,7 @@ $(() => {
 			case 'decline_invite':
 				_data = JSON.stringify({team: $(this).parent().data('team')})
 				console.log(_data);
-				
+
 				endpoint.call('/facets/endpoints/invites/decline', 'POST', _data, (res) => {
 					console.log(res);
 				})

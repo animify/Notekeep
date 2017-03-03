@@ -1970,6 +1970,7 @@ footer ul.options li + li {
 }
 .button-group {
   *zoom: 1;
+  margin-top: 1rem;
 }
 .button-group:before,
 .button-group:after {
@@ -4539,6 +4540,10 @@ nav.nav ul.options li + li {
 }
 .modal .content h5 {
   font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+.modal .content p {
+  color: #97a2b2;
 }
 .modal .inside {
   padding: 2.8em 2.8em 2.2em 2.8em;

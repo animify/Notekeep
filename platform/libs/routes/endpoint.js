@@ -23,6 +23,11 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: 'Internal Error'})
 		res.send(ret)
 	})
+}).post('/notes/delete', (req, res) => {
+	notesController.deleteNote(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: 'Internal Error'})
+		res.send(ret)
+	})
 }).post('/notes/status', (req, res) => {
 	notesController.updateStatus(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
