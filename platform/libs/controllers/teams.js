@@ -106,7 +106,6 @@ exports.inviteToTeam = (req, res, callback) => {
 		.populate({ path: 'creator'})
 		.lean()
 		.exec((err, team) => {
-			console.log(team);
 			if (team == null) return callback('404', 'Something went wrong.')
 			if (!err) {
 				invites.newInvite(req, res, req.body.user, team._id, (err, ret) => {
@@ -128,7 +127,17 @@ exports.findUserInvites = (req, res, callback) => {
 	.lean()
 	.exec((err, invs) => {
 		if (err) return callback('500', 'Could not retrieve invites. Try again later.')
-		console.log(invs);
+		return callback(null, invs)
+	})
+}
+
+exports.findSentInvites = (req, res, callback) => {
+	let populateQuery = [{path:'by', select:'firstname lastname'}, {path:'team', select:'name'}]
+	Invite.find({'by': req.user._id})
+	.populate(populateQuery)
+	.lean()
+	.exec((err, invs) => {
+		if (err) return callback('500', 'Could not retrieve invites. Try again later.')
 		return callback(null, invs)
 	})
 }
@@ -149,9 +158,8 @@ exports.acceptInvite = (req, res, callback) => {
 		Invite.findOne({'to': req.user._id, 'team': req.body.team})
 		.lean()
 		.exec((err, inv) => {
-			invites.acceptInvite(req, res, inv._id, (deleted) => {
-				if (deleted) return callback(null, true)
-				callback('400', 'Invite could not be deleted.')
+			invites.acceptInvite(req, res, inv._id, inv.team, (deleted) => {
+				return callback(null, true)
 			})
 		})
 	})
@@ -173,9 +181,8 @@ exports.declineInvite = (req, res, callback) => {
 		Invite.findOne({'to': req.user._id, 'team': req.body.team})
 		.lean()
 		.exec((err, inv) => {
-			invites.declineInvite(req, res, inv._id, (deleted) => {
-				if (deleted) return callback(null, true)
-				callback('400', 'Invite could not be deleted.')
+			invites.declineInvite(req, res, inv._id, inv.team, (deleted) => {
+				return callback(null, true)
 			})
 		})
 	})

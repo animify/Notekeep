@@ -6,9 +6,25 @@ block content
 		nav.nav.sub
 			h4.what Invites
 		.inner#invites
-			for inv in invites
-				.module
-					p #[i.material-icons.text-green group_add] #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.team.name}]
-						span(data-team=inv.team._id)
-							a.clr-accept(data-run="accept_invite") Accept
-							a.clr-decline(data-run="decline_invite") Decline
+			.summary.light.nohover
+				.grid-row
+					.xs-12
+						.intro
+							.desc
+								h5 Pending Invites
+						for inv in invites.pending
+							.unit
+								h6 #[i.material-icons.text-green compare_arrows] #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.team.name}]
+								span.actions(data-team=inv.team._id)
+									a.clr-accept(data-run="accept_invite") Accept
+									a.clr-decline(data-run="decline_invite") Decline
+			.summary.light.nohover
+				.grid-row
+					.xs-12
+						.intro
+							.desc
+								h5 Sent Invites
+						for inv in invites.sent
+							.unit
+								h6 #[i.material-icons.text-grey swap_horiz] You have invited #{inv.to.firstname} #{inv.to.lastname} to #[b #{inv.team.name}]
+								small Sent #{moment(inv.created).fromNow()}

@@ -39,7 +39,18 @@ router.get('/teams', (req, res) => {
 })
 
 router.get('/invites', (req, res) => {
-	teamsController.findUserInvites(req, res, (err, invites) => {
+	async.parallel({
+		pending: (callback) => {
+			teamsController.findUserInvites(req, res, (err, invites) => {
+				callback(err, invites)
+			})
+		},
+		sent: (callback) => {
+			teamsController.findSentInvites(req, res, (err, invites) => {
+				callback(err, invites)
+			})
+		}
+	}, (err, invites) => {
 		if (err) return res.redirect('/')
 		res.render('invites', {title: 'Invites - Notekeep', user: req.user, selected: 'invites', invites: invites, light: true})
 	})

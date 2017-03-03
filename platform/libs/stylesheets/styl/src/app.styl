@@ -65,7 +65,7 @@ ul.options
 		display inline-block
 		vertical-align top
 		a
-			color text-lighter-link
+			color text-light
 			cursor pointer
 			i
 				font-size 1.4rem
@@ -221,8 +221,7 @@ nav.nav
 			margin-bottom .6rem
 
 .strip
-	margin-top 4rem
-	padding 4rem 0 1.6rem 0
+	padding 8rem 0 1.6rem 0
 	width 100%
 	display block
 	position relative
@@ -333,6 +332,11 @@ nav.nav
 	border 1px solid border-gray
 	border-radius 10px
 	overflow hidden
+	&:not(.nohover) .unit
+		&:hover
+			cursor pointer
+			h6
+				color color-primary
 	&.light
 		.unit
 			h6
@@ -355,10 +359,9 @@ nav.nav
 			line-height 1.5em
 			font-size 1.1rem
 			letter-spacing -0.03em
-
 	.text-preview
 		height 1.7rem
-		background-color color-red
+		background-color color-purple
 		text-align center
 		color #fff
 		font-weight 800
@@ -370,6 +373,7 @@ nav.nav
 		margin-right 1rem
 		display inline-block
 		vertical-align top
+		text-shadow rgba(18,19,22,.15) 1px 2px 1px
 	.unit
 		padding .7rem 1.4rem
 		position relative
@@ -377,27 +381,27 @@ nav.nav
 		display block
 		&.new
 			display none
-		&:hover
-			cursor pointer
-			h6
-				color color-primary
 		& + .unit
 			border-top 1px solid border-gray
-		&.published
-			h7.status
-				color color-green
 		&.new
 			display none
+		img.avatar
+			height 1.7rem
+			margin-right .8rem
+			border-radius 10px
 		h6
 			line-height 1.6em
 			display inline-block
 			vertical-align top
 			color body-dark
 			font-size 1rem
+			span
+				font-weight 500
+				color text-light
 			i
 				font-size 1.1rem
-				relative top 3px
-				margin-right .4rem
+				relative top 4px
+				margin-right .5rem
 		.content_plain
 			width 100%
 			display block
@@ -408,21 +412,31 @@ nav.nav
 				font-size .825rem
 				line-height 1.4rem
 				font-weight 500
+		span.actions
+			display inline-block
+			vertical-align top
+			line-height 1.6rem
+			float right
+			a
+				font-weight 500
+				color body-dark
+				&.clr-accept:hover
+					color color-green
+				&.clr-decline:hover
+					color color-red
+				& + a
+					margin-left 1rem
 		small
 			display inline-block
 			float right
 			vertical-align top
 			line-height 2em
-			color text-lighter
+			color text-light
 			i
 				font-size 1rem
 				relative top 3px
-				color text-light
+				color text-lighter
 				margin 0 .2rem 0 .5rem
-
-.activity
-	.activities + .activities
-		margin-top 2rem
 
 .display
 	.empty

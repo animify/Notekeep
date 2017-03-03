@@ -72,6 +72,13 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
+}).post('/invites/decline', (req, res) => {
+	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team name found.'})
+
+	teamsController.declineInvite(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: ret})
+		res.send(ret)
+	})
 }).post('/teams/find', (req, res) => {
 	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team found.'})
 

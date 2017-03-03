@@ -168,11 +168,11 @@ let editor = new MediumEditor('.note_content', {
 
 let modal = {
 	open: (modalID) => {
-		$('body').addClass('noscroll')
+		$('body, .wrap').addClass('noscroll')
 		$(`#${modalID}`).addClass('active')
 	},
 	close: () => {
-		$('body').removeClass('noscroll')
+		$('body, .wrap').removeClass('noscroll')
 		$(`.modal`).removeClass('active')
 	},
 	openEditor: (teamSelect) => {
@@ -184,7 +184,7 @@ let modal = {
 			$('.editor h6.team').text(teamSelect.team[0].name)
 		}
 
-		$('body').addClass('noscroll')
+		$('body, .wrap').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
 	},
 	editEditor: (info) => {
@@ -200,12 +200,12 @@ let modal = {
 		editor.setContent(templates.unescape(info.note.content), 0)
 
 		transform.oldHTML = editor.getContent()
-		$('body').addClass('noscroll')
+		$('body, .wrap').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
 		socket.emit('note_join', {space: info.team._id})
 	},
 	closeEditor: () => {
-		$('body').removeClass('noscroll')
+		$('body, .wrap').removeClass('noscroll')
 		team.viewing = null
 		team.viewingNote = null
 		$('.editor').hide('slide', {direction: 'left'}, 300)
@@ -273,7 +273,7 @@ $(() => {
 			 modal.openEditor(teamid)
 		 }
 	 }).bind('saved:editor', function(e, msg) {
-			modal.close()
+
 	 })
 
 	$('#signup').bind('click', function() {
@@ -377,16 +377,17 @@ $(() => {
 				break
 			case 'accept_invite':
 				_data = JSON.stringify({team: $(this).parent().data('team')})
+				console.log(_data);
 				endpoint.call('/facets/endpoints/invites/accept', 'POST', _data, (res) => {
 					console.log(res);
-					res.error ? errorHandler.modal(res.message) : console.log('done');
 				})
 				break
 			case 'decline_invite':
 				_data = JSON.stringify({team: $(this).parent().data('team')})
+				console.log(_data);
+				
 				endpoint.call('/facets/endpoints/invites/decline', 'POST', _data, (res) => {
 					console.log(res);
-					res.error ? errorHandler.modal(res.message) : console.log('done');
 				})
 				break
 			case 'open_editor':

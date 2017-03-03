@@ -15,7 +15,6 @@ const _ = require('underscore')
 
 exports.newInvite = (req, res, to, team, callback) => {
 	account.findByEmail(req, res, to).then((accountID) => {
-		log.info(to, team, accountID)
 		Invite.findOne({'to': accountID, 'team': team})
 		.lean()
 		.exec((err, inv) => {
@@ -43,39 +42,37 @@ exports.newInvite = (req, res, to, team, callback) => {
 	})
 }
 
-exports.acceptInvite = (req, res, inviteID, callback) => {
+exports.acceptInvite = (req, res, inviteID, teamID, callback) => {
 	accept = () => {
 		return new Promise(function(resolve, reject) {
 			Team.findOneAndUpdate(
-				inviteID,
+				{_id: teamID},
 				{$addToSet: {'userlist': req.user._id}},
 				{safe: true, upsert: true},
-				(err, inv) => {
-				if (err) return reject(err)
-				resolve(inv)
+				(err, team) => {
+					if (err) return reject(err)
+				resolve(team)
 			})
 		})
 	}
 
-	accept().then((inv) => {
-		callback(deleteInvite(inv._id))
-	}).catch((error) => {
+	accept().then((team) => {
+		callback(deleteInvite(team._id, inviteID))
+	}).catch((err) => {
 		callback(err)
 	})
 }
-exports.declineInvite = (req, res, inviteID, callback) => {
-	callback(deleteInvite(inv._id))
+exports.declineInvite = (req, res, inviteID, teamID, callback) => {
+	callback(deleteInvite(teamID, inviteID))
 }
 
-exports.deleteInvite = (id) => {
-	deleteInvite(id)
+exports.deleteInvite = (teamID, inviteID) => {
+	deleteInvite(teamID, inviteID)
 }
 
-deleteInvite = (id) => {
-	Invite.findOneAndRemove({'team': id}, function(err) {
-		if (err)
-			return false
-		else
+deleteInvite = (teamID, inviteID, cb) => {
+	Invite.findOneAndRemove({_id: inviteID, team: teamID},
+		(wr, wrg) => {
 			return true
 	})
 }
