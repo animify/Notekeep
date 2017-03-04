@@ -26,3 +26,16 @@ script(type='text/html', id='tpl-note')
 script(type='text/html', id='tpl-editor_status')
 	span.user!='<%= firstname %> <%= lastname %>'
 	span.type(class!="<%= status %>")
+
+script(type='text/html', id='tpl-act-create_note')
+	.unit
+		h6
+			i.material-icons.text-green note_add
+			!= '<%= by.firstname %> <%= by.lastname %> created note <a href="/notes/<%= note._id %>"><%= note.title %></a>'
+		small!= '<%= created %>'
+
+script(type='text/html', id='tpl-act-empty')
+	.unit
+		h6
+			i.material-icons.text-yellow sentiment_dissatisfied
+			span.text-light No activites yet

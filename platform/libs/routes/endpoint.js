@@ -12,6 +12,7 @@ const config = require(jt.path('config'))
 const User = require(jt.path('model/user'))
 const notesController = require(jt.path('controllers/notes'))
 const teamsController = require(jt.path('controllers/teams'))
+const activitiesController = require(jt.path('controllers/activities'))
 
 router.post('/notes/publish', (req, res) => {
 	notesController.newNote(req, res, false, (err, ret) => {
@@ -30,6 +31,11 @@ router.post('/notes/publish', (req, res) => {
 	})
 }).post('/notes/status', (req, res) => {
 	notesController.updateStatus(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: ret})
+		res.send(ret)
+	})
+}).post('/activities/team', (req, res) => {
+	activitiesController.teamActivities(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})

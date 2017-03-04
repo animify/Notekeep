@@ -5,13 +5,15 @@ block content
 	.strip
 		.contain
 			.about
-				h4.what= team[0].name
+				h4.what #{team[0].name}
+					if (team[0].creator._id == user._id.toString())
+						i.material-icons.settings(data-run="team_settings") settings
 				h6(contenteditable="true", placeholder="Add a team description...")
 			.members
 				small Members #[span (#{team[0].userlist.length + 1})]
-				for user in team[0].userlist
+				for usr in team[0].userlist
 					.round_action
-						img(src=user.avatar)
+						img(src=usr.avatar)
 				.round_action
 					img(src=team[0].creator.avatar)
 				.round_action.add(data-modal="open", data-modal-name="modal_invite", data-team=team[0]._id)
@@ -20,21 +22,13 @@ block content
 		.inner#teams
 			.grid-row
 				.xs-12.s-7
-					.summary.light
+					.summary.light.nohover.populate(data-populate="populate_activity", data-team=team[0]._id)
 						.grid-row
 							.xs-12
 								.intro
 									.desc
 										h5 Activity Updates
-								.unit
-									h6 #[i.material-icons.text-green note_add] You created a #[a note]
-									small 1 minute ago
-								.unit
-									h6 #[i.material-icons.text-green note_add] You created a #[a note]
-									small 1 minute ago
-								.unit
-									h6 #[i.material-icons.text-green note_add] You created a #[a note]
-									small 1 minute ago
+
 				.xs-12.s-5
 					.summary
 						.grid-row

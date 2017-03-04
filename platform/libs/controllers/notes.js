@@ -7,6 +7,7 @@ const Notes = require(jt.path('model/notes'))
 const Team = require(jt.path('model/team'))
 const auth = require(jt.path('auth/auth'))
 const teams = require(jt.path('controllers/teams'))
+const activities = require(jt.path('controllers/activities'))
 const moment = require('moment')
 const async = require('async')
 const _ = require('underscore')
@@ -26,7 +27,7 @@ exports.newNote = (req, res, drafttype, callback) => {
 				options: [{ min: 2, max: 30 }],
 				errorMessage: 'Note title must be between 2 and 30 chars long'
 			},
-			errorMessage: `You'll need to enter a title for this note`
+			errorMessage: `Your note needs to have a title`
 		},
 	 'content': {
 			notEmpty: true,
@@ -47,6 +48,7 @@ exports.newNote = (req, res, drafttype, callback) => {
 			teams.findTeam(req, res, req.body.team, (err, team) => {
 				if (err) return callback('404', [{msg: 'Note could not be published'}])
 				saveNote().then((note) => {
+					activities.newActivity(req.user._id, null, 'create_note', team[0]._id, note._id)
 					return callback(null, note)
 				}).catch((err) => {
 					return callback('404', err)
@@ -54,6 +56,7 @@ exports.newNote = (req, res, drafttype, callback) => {
 			})
 		} else {
 			saveNote().then((note) => {
+				activities.newActivity(req.user._id, null, 'create_note', req.body.team, note._id)
 				return callback(null, note)
 			}).catch((err) => {
 				return callback('404', err)
@@ -77,7 +80,6 @@ exports.newNote = (req, res, drafttype, callback) => {
 
 			note.save((err) => {
 				if (!err) {
-					log.info("New note created with id: %s", note._id)
 					return resolve(note)
 				} else {
 					if(err.name === 'ValidationError') {
@@ -85,7 +87,6 @@ exports.newNote = (req, res, drafttype, callback) => {
 					} else {
 						return reject('Server error')
 					}
-					log.error('Internal error(%d): %s', '500', err.message)
 				}
 			})
 		})

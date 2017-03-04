@@ -24,6 +24,10 @@ let nk = {
 		$('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>')
 		$('.medium-editor-toolbar-close').html('<i class="material-icons">clear</i>')
 		$('.unit', '#ls-teams').sort(team.sortAlpha).appendTo('#ls-teams')
+
+		if ($('.populate[data-populate="populate_activity"]').length) {
+			activities.team($('.populate[data-populate="populate_activity"]').data('team'))
+		}
 	},
 	resetEditor: () => {
 		editor.resetContent()
@@ -61,6 +65,8 @@ let templates = {
 	teams: $('#tpl-teams').html(),
 	notes: $('#tpl-note').html(),
 	editorStatus: $('#tpl-editor_status').html(),
+	act_create_note: $('#tpl-act-create_note').html(),
+	act_empty: $('#tpl-act-empty').html(),
 	escape: (str) => {
 		return str
 			.replace(/&/g, '&amp;')
@@ -88,6 +94,26 @@ let endpoint = {
 			contentType: 'application/json',
 			success: (res) => {
 				callback(res)
+			}
+		})
+	}
+}
+
+let activities = {
+	team: (id) => {
+		_data = JSON.stringify({team: id})
+		endpoint.call('/facets/endpoints/activities/team', 'POST', _data, (res) => {
+			console.log(res);
+			if (res.length < 1) {
+				emptyActivities = _.template(templates.act_empty)({})
+				$('.populate .xs-12').append($(emptyActivities))
+			} else {
+				_.each(res, function(story) {
+					story.created = moment(story.created).fromNow()
+					newStory = _.template(templates.act_create_note)(story)
+					console.log(newStory);
+					$('.populate .xs-12').append($(newStory))
+				})
 			}
 		})
 	}

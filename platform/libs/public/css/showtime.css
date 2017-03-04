@@ -3921,7 +3921,7 @@ nav.nav ul.options li + li {
   margin-bottom: 0.6rem;
 }
 .strip {
-  padding: 6.4rem 0 0 0;
+  padding: 6.5rem 0 0 0;
   width: 100%;
   display: block;
   position: relative;
@@ -3956,6 +3956,15 @@ nav.nav ul.options li + li {
   vertical-align: top;
   line-height: 1.4em;
   font-size: 2.1em;
+}
+.strip h4.what i.settings {
+  font-size: 1.4rem;
+  color: #ccd5d9;
+  margin-left: 0.6rem;
+}
+.strip h4.what i.settings:hover {
+  color: #0e8cf1;
+  cursor: pointer;
 }
 .strip .members {
   margin-top: 0.6rem;
@@ -4011,6 +4020,7 @@ nav.nav ul.options li + li {
   font-size: 1em;
   margin-bottom: 0.6rem;
   display: block;
+  line-height: 1rem;
 }
 .strip small span {
   color: #97a2b2;
