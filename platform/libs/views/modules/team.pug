@@ -4,16 +4,18 @@ block content
 	include ../static/dashboard/nav.pug
 	.strip
 		.contain
-			h3.what= team[0].name
+			.about
+				h4.what= team[0].name
+				h6(contenteditable="true", placeholder="Add a team description...")
 			.members
+				small Members #[span (#{team[0].userlist.length + 1})]
 				for user in team[0].userlist
-					.member_ci
+					.round_action
 						img(src=user.avatar)
-				.member_ci
+				.round_action
 					img(src=team[0].creator.avatar)
-				.member_ci.add(data-modal="open", data-modal-name="modal_invite", data-team=team[0]._id)
+				.round_action.add(data-modal="open", data-modal-name="modal_invite", data-team=team[0]._id)
 					i.material-icons add
-			small= `${team[0].userlist.length + 1} member(s)`
 	.contain
 		.inner#teams
 			.grid-row

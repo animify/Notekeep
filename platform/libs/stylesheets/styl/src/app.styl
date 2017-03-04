@@ -221,18 +221,41 @@ nav.nav
 			margin-bottom .6rem
 
 .strip
-	padding 8rem 0 1.6rem 0
+	padding 6.4rem 0 0 0
 	width 100%
 	display block
 	position relative
-	text-align center
+	cf()
+	.about
+		display inline-block
+		vertical-align top
+		max-width 40em
+	h6
+		font-weight 500
+		&[contenteditable=true]:empty:before
+			content attr(placeholder)
+			display block
+			color text-light
+		&:focus
+			&[contenteditable=true]:empty:before
+				color text-lightest
+	h4.what
+		display block
+		vertical-align top
+		line-height 1.4em
+		font-size 2.1em
 	.members
 		margin-top .6rem
-		margin-left .3rem
-		.member_ci
+		display inline-block
+		vertical-align top
+		text-align right
+		float right
+		.round_action
 			display inline-block
 			vertical-align top
-			margin-left -.3rem
+			text-align center
+			& + .round_action
+				margin-left -.3rem
 			&.add
 				height 2.3em
 				width 2.3em
@@ -256,11 +279,13 @@ nav.nav
 				border-radius 50%
 				box-shadow 0 0 0 4px #fff
 	small
-		color text-light
+		color body dark
 		font-weight 500
 		font-size 1em
-		margin-top .6rem
+		margin-bottom .6rem
 		display block
+		span
+			color text-light
 
 .section
 	padding 2.3em 3em

@@ -3921,22 +3921,58 @@ nav.nav ul.options li + li {
   margin-bottom: 0.6rem;
 }
 .strip {
-  padding: 8rem 0 1.6rem 0;
+  padding: 6.4rem 0 0 0;
   width: 100%;
   display: block;
   position: relative;
-  text-align: center;
+  *zoom: 1;
+}
+.strip:before,
+.strip:after {
+  content: '';
+  display: table;
+}
+.strip:after {
+  clear: both;
+}
+.strip .about {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 40em;
+}
+.strip h6 {
+  font-weight: 500;
+}
+.strip h6[contenteditable=true]:empty:before {
+  content: attr(placeholder);
+  display: block;
+  color: #97a2b2;
+}
+.strip h6:focus[contenteditable=true]:empty:before {
+  color: #ccd5d9;
+}
+.strip h4.what {
+  display: block;
+  vertical-align: top;
+  line-height: 1.4em;
+  font-size: 2.1em;
 }
 .strip .members {
   margin-top: 0.6rem;
-  margin-left: 0.3rem;
-}
-.strip .members .member_ci {
   display: inline-block;
   vertical-align: top;
+  text-align: right;
+  float: right;
+}
+.strip .members .round_action {
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+}
+.strip .members .round_action + .round_action {
   margin-left: -0.3rem;
 }
-.strip .members .member_ci.add {
+.strip .members .round_action.add {
   height: 2.3em;
   width: 2.3em;
   border: 2px dashed #e3e9ee;
@@ -3951,18 +3987,18 @@ nav.nav ul.options li + li {
   -ms-transition: all 0.14s ease;
   transition: all 0.14s ease;
 }
-.strip .members .member_ci.add i {
+.strip .members .round_action.add i {
   color: #97a2b2;
   line-height: 1.44em;
   font-size: 1.4em;
 }
-.strip .members .member_ci.add:hover {
+.strip .members .round_action.add:hover {
   border: 2px solid #07b76f;
 }
-.strip .members .member_ci.add:hover i {
+.strip .members .round_action.add:hover i {
   color: #07b76f;
 }
-.strip .members .member_ci img {
+.strip .members .round_action img {
   height: 2.3em;
   width: 2.3em;
   border-radius: 50%;
@@ -3970,11 +4006,14 @@ nav.nav ul.options li + li {
   box-shadow: 0 0 0 4px #fff;
 }
 .strip small {
-  color: #97a2b2;
+  color: body dark;
   font-weight: 500;
   font-size: 1em;
-  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
   display: block;
+}
+.strip small span {
+  color: #97a2b2;
 }
 .section {
   padding: 2.3em 3em;
