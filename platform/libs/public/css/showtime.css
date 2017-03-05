@@ -199,6 +199,12 @@ footer:after {
 footer:after {
   clear: both;
 }
+footer.shard {
+  background-color: #fff;
+}
+footer.shard ul.options {
+  border-top: 0;
+}
 footer .home {
   cursor: pointer;
 }
@@ -3648,7 +3654,7 @@ p.sub {
   padding-left: 20px;
   padding-right: 20px;
   text-align: center;
-  padding-bottom: 10em;
+  padding-bottom: 4rem;
   *zoom: 1;
 }
 .passport:before,
@@ -3676,7 +3682,7 @@ p.sub {
   letter-spacing: 0.4px;
 }
 .passport .logo {
-  padding: 4.6em 0 4em 0;
+  padding: 7em 0 4em 0;
 }
 .passport .logo img {
   height: 2.4em;
@@ -3788,9 +3794,9 @@ nav.nav .float-right > *:not(.switches) {
   vertical-align: top;
 }
 nav.nav .logo img {
-  height: 1.2em;
+  height: 1.4em;
   position: relative;
-  top: 1.05rem;
+  top: 1rem;
   *zoom: 1;
 }
 nav.nav .logo img:before,
@@ -4258,70 +4264,6 @@ nav.nav.shard .user.open span {
   color: #b0bec4;
   margin: 0 0.2rem 0 0.5rem;
 }
-.display .empty {
-  display: none;
-}
-.display .empty i {
-  color: #ff4949;
-  margin-bottom: 0.2em;
-  font-size: 4em;
-}
-.display .empty p {
-  line-height: 1.8em;
-  color: #97a2b2;
-}
-.display .fit {
-  background-color: #f2f5f7;
-  border-top: 1px solid #f2f5f7;
-}
-.display .filled {
-  background-color: #fff;
-  height: 100%;
-  width: 100%;
-  padding: 3.3em 4em;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.display .filled .note_header {
-  margin-bottom: 2.4em;
-  position: relative;
-}
-.display .filled .note_header::after {
-  height: 1px;
-  width: 4em;
-  content: ' ';
-  position: absolute;
-  bottom: -1.2em;
-  left: 4.25em;
-  background-color: #e3e9ee;
-}
-.display .filled .note_header > * {
-  display: inline-block;
-  vertical-align: top;
-}
-.display .filled .note_header-avatar {
-  margin-right: 1em;
-}
-.display .filled .note_header img {
-  height: 3.25em;
-  width: 3.25em;
-  border-radius: 8px;
-}
-.display .filled .note_header small {
-  color: #b0bec4;
-  line-height: 1.4em;
-}
-.display .filled .note_header h3 {
-  font-weight: 600;
-  line-height: 1em;
-}
-.display .filled .note_header h3[contenteditable=true]:empty:before {
-  content: attr(placeholder);
-  display: block;
-}
-.display .filled .note_header h3:focus[contenteditable=true]:empty:before {
-  color: #ccd5d9;
-}
 .recent + .recent {
   margin-top: 1.4em;
 }
@@ -4336,8 +4278,11 @@ nav.nav.shard .user.open span {
   z-index: 9400;
 }
 .editor.shard {
-  z-index: 200;
+  z-index: 0;
   display: block;
+}
+.editor.shard .editable {
+  padding: 3.375rem 0 5rem 0;
 }
 .editor .options {
   *zoom: 1;
@@ -4362,7 +4307,6 @@ nav.nav.shard .user.open span {
 .editor .options .publish {
   margin-left: 1em;
   padding-left: 1em;
-  border-left: 1px solid #e3e9ee;
   display: inline-block;
   vertical-align: top;
 }
@@ -4487,6 +4431,17 @@ nav.nav.shard .user.open span {
 }
 .editable .note_headroom {
   padding: 0 0 3rem 0;
+}
+.editable .note_headroom svg.avatar {
+  height: 4rem;
+  width: 4rem;
+  background-color: #f7f9fb;
+  margin-right: 0.8rem;
+}
+.editable .note_headroom svg.avatar,
+.editable .note_headroom .note_desc {
+  display: inline-block;
+  vertical-align: top;
 }
 .editable .note_headroom p {
   color: #97a2b2;

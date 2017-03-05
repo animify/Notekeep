@@ -4,7 +4,7 @@ html(lang="en")
 	.wrap
 		block content
 
-	if (!shard)
+	if (!shard && user)
 		include ./static/templates.pug
 		include ./static/modals.pug
 	include ./static/footer.pug

@@ -110,7 +110,7 @@ exports.findNote = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
+		const populateQuery = [{path:'owner', select:'_id avatar username firstname lastname email'}]
 
 		Notes.findOne({'_id': req.params.note})
 		.populate(populateQuery)
@@ -153,7 +153,7 @@ exports.findShard = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}, {path: 'team'}]
+		const populateQuery = [{path:'owner', select:'_id username firstname lastname email avatar'}, {path: 'team'}]
 
 		Notes.findOne({_id: req.params.note, team: req.params.team, shared: true})
 		.populate(populateQuery)

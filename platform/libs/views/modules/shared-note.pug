@@ -8,8 +8,10 @@ block content
 			.note_container
 				.note_editable
 					.note_headroom
-						p #[span.user #{note.owner.firstname} #{note.owner.lastname}]
-						h3= note.title
+						svg.avatar#note-avatar(data-jdenticon-hash=note.owner.avatar)
+						.note_desc
+							p #[span.user #{note.owner.firstname} #{note.owner.lastname}]
+							h3= note.title
 					div.readonly-note
 
 block footer

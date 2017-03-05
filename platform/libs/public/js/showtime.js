@@ -65,6 +65,7 @@ let templates = {
 	teams: $('#tpl-teams').html(),
 	notes: $('#tpl-note').html(),
 	editorStatus: $('#tpl-editor_status').html(),
+	publishedNote: $('#tpl-note_created').html(),
 	act_create_note: $('#tpl-act-create_note').html(),
 	act_sent_invite: $('#tpl-act-sent_invite').html(),
 	act_declined_invite: $('#tpl-act-declined_invite').html(),
@@ -211,9 +212,9 @@ let modal = {
 			team.selected = teamSelect.team[0]._id
 			$('.editor h6.team').text(teamSelect.team[0].name)
 		}
-
 		$('body, .wrap').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
+		jdenticon.update("#note-avatar", accountHash.avatar.toString())
 	},
 	editEditor: (info) => {
 		(info.note.draft) ? $('.share').hide() : $('.share').show();
@@ -224,12 +225,12 @@ let modal = {
 		info.note.status == undefined ? $('.editor .priority a.toggle').attr('data-status', 0).html(`<i class="material-icons ${priority.classes[0]}">lens</i> ${priority.label[0]}`) : $('.editor .priority a.toggle').attr('data-status', info.note.status).html(`<i class="material-icons ${priority.classes[info.note.status]}">lens</i> ${priority.label[info.note.status]}`)
 
 		$('.note_headroom p').html($(editorStatus))
-
 		editor.setContent(templates.unescape(info.note.content), 0)
 
 		transform.oldHTML = editor.getContent()
 		$('body, .wrap').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
+		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
 		socket.emit('note_join', {space: info.team._id})
 	},
 	closeEditor: () => {
@@ -341,8 +342,9 @@ $(() => {
 		modal.close()
 	})
 
-	$('[data-run]').bind('click', function() {
-		let _type = $(this).data('run')
+	$('body').on('click', '[data-run]', function(e) {
+		let _this = $(e.currentTarget)
+		let _type = _this.data('run')
 		let _data = null
 		switch (_type) {
 			case 'new_team':
@@ -358,13 +360,19 @@ $(() => {
 				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), plain: ($('.note_content').text()).substr(0,40), team: team.selected})
 				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
 					console.log(res);
-					let errMsg = ''
-					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
+					if (res.error) {
+						errorHandler.modal(res.message[0].msg, res.message[0].param)
+					} else {
+						modal.close()
+						publishedNote = _.template(templates.publishedNote)(res.Message)
+						console.log();
+						$(`[data-team_section=${res.Message.team}] .all_notes`).append($(publishedNote))
+					}
 				})
 				break
 			case 'get_note':
 				_data = JSON.stringify({})
-				endpoint.call(`/facets/endpoints/notes/get/${$(this).data('note')}`, 'GET', _data, (res) => {
+				endpoint.call(`/facets/endpoints/notes/get/${_this.data('note')}`, 'GET', _data, (res) => {
 					team.viewing = res[0].team._id
 					team.viewingNote = res[0].note._id
 					nk.resetEditor()
@@ -389,7 +397,7 @@ $(() => {
 				})
 				break
 			case 'switch_note_mode':
-				const newType = $(this).data('type')
+				const newType = _this.data('type')
 				console.log(newType);
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/retrieve/${newType}`, 'GET', _data, (res) => {
@@ -406,7 +414,7 @@ $(() => {
 				})
 				break
 			case 'chg_priority':
-				_data = JSON.stringify({team: team.viewing, note: team.viewingNote, status: $(this).data('status')})
+				_data = JSON.stringify({team: team.viewing, note: team.viewingNote, status: _this.data('status')})
 				endpoint.call('/facets/endpoints/notes/status', 'POST', _data, (res) => {
 					if (res.err) return console.debug('Internal error when changing priority')
 					$('.editor .priority a.toggle').attr('data-status', res.status).html(`<i class="material-icons ${priority.classes[res.status]}">lens</i> ${priority.label[res.status]}`)
@@ -422,14 +430,14 @@ $(() => {
 				})
 				break
 			case 'accept_invite':
-				_data = JSON.stringify({team: $(this).parent().data('team')})
+				_data = JSON.stringify({team: _this.parent().data('team')})
 				console.log(_data);
 				endpoint.call('/facets/endpoints/invites/accept', 'POST', _data, (res) => {
 					console.log(res);
 				})
 				break
 			case 'decline_invite':
-				_data = JSON.stringify({team: $(this).parent().data('team')})
+				_data = JSON.stringify({team: _this.parent().data('team')})
 				console.log(_data);
 
 				endpoint.call('/facets/endpoints/invites/decline', 'POST', _data, (res) => {
@@ -454,8 +462,6 @@ $(() => {
 			case 'close_editor':
 				modal.closeEditor()
 				break
-			default:
-				console.error('Notekeep: Something went wrong')
 		}
 	})
 

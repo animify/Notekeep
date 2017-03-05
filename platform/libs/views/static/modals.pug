@@ -120,15 +120,16 @@
 					li #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
 
 			.publish
-				a.button.slim.green(data-modal="open", data-modal-name="modal_publish") Publish
+				a.invert.slim(data-modal="open", data-modal-name="modal_publish") Publish
 
 	.editable
 		.note_container
 			.note_editable
 				.note_headroom
-					if (user)
+					svg.avatar#note-avatar(data-jdenticon-hash=user.avatar)
+					.note_desc
 						p
 							span.user= user.firstname + ' ' + user.lastname
 							span.type.draft
-					h3(contenteditable="true")
+						h3(contenteditable="true")
 				textarea.note_content

@@ -26,14 +26,14 @@ block content
 		.inner
 			for team in teams
 				if (team.notes.length != 0)
-					.summary
+					.summary(data-team_section=team._id)
 						.grid-row
 							.xs-12
 								.intro
 									.desc
 										span.text-preview(style=`background-color:${team.color}`)= team.name.substr(0,1)
 										h5= team.name
-							.xs-12
+							.xs-12.all_notes
 								for note in team.notes
 									.unit(data-note=note._id, data-run="get_note")
 										h6(class=(note.status == 1) ? 'medium-p': (note.status == 2) && 'high-p') #{note.title}

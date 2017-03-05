@@ -23,6 +23,13 @@ script(type='text/html', id='tpl-note')
 				small!= 'Updated <%= note.ago %>'
 		!= '<% }) %>'
 
+script(type='text/html', id='tpl-note_created')
+	.unit(data-note!="<%= _id %>", data-run="get_note")
+		h6!= '<%= title %>'
+		small= `Modified just now`
+		.content_plain
+			p!= '<%= plain %>'
+
 script(type='text/html', id='tpl-editor_status')
 	span.user!='<%= firstname %> <%= lastname %>'
 	span.type(class!="<%= status %>")

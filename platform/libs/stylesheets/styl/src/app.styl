@@ -35,7 +35,7 @@ p.sub
 .passport
 	center(800px, 20px)
 	text-align center
-	padding-bottom 10em
+	padding-bottom 4rem
 	cf()
 	small
 		margin-top 1.4em
@@ -44,7 +44,7 @@ p.sub
 		padding .7em 0 2.5em 0
 		letter-spacing .4px
 	.logo
-		padding 4.6em 0 4em 0
+		padding 7em 0 4em 0
 		img
 			height 2.4em
 	.split
@@ -128,8 +128,8 @@ nav.nav
 			vertical-align top
 	.logo
 		img
-			height 1.2em
-			relative top 1.05rem
+			height 1.4em
+			relative top 1rem
 			cf()
 	.user
 		line-height 1.5rem
@@ -464,56 +464,6 @@ nav.nav
 				color text-lighter
 				margin 0 .2rem 0 .5rem
 
-.display
-	.empty
-		display none
-		i
-			color color-red
-			margin-bottom .2em
-			font-size 4em
-		p
-			line-height 1.8em
-			color text-light
-	.fit
-		background-color color-smoke
-		border-top 1px solid color-smoke
-	.filled
-		background-color #fff
-		height 100%
-		width 100%
-		padding 3.3em 4em
-		overflow-y auto
-		overflow-x hidden
-		.note_header
-			margin-bottom 2.4em
-			position relative
-			&::after
-				height 1px
-				width 4em
-				content ' '
-				absolute bottom -1.2em left 4.25em
-				background-color border-gray
-			& > *
-				display inline-block
-				vertical-align top
-			&-avatar
-				margin-right 1em
-			img
-				height 3.25em
-				width 3.25em
-				border-radius border-radius-xl
-			small
-				color text-lighter
-				line-height 1.4em
-			h3
-				font-weight 600
-				line-height 1em
-				&[contenteditable=true]:empty:before
-					content attr(placeholder)
-					display block
-				&:focus
-					&[contenteditable=true]:empty:before
-						color text-lightest
 .recent + .recent
 	margin-top 1.4em
 
@@ -525,8 +475,10 @@ nav.nav
 	fixed top left
 	z-index 9400
 	&.shard
-		z-index 200
+		z-index 0
 		display block
+		.editable
+			padding 3.375rem 0 5rem 0
 	.options
 		cf()
 		background-color color-nav
@@ -538,7 +490,6 @@ nav.nav
 		.close, .publish
 			margin-left 1em
 			padding-left 1em
-			border-left 1px solid border-gray
 			display inline-block
 			vertical-align top
 		.close
@@ -633,6 +584,14 @@ nav.nav
 		min-height 100%
 	.note_headroom
 		padding 0 0 3rem 0
+		svg.avatar
+			height 4rem
+			width 4rem
+			background-color light-color-smoke
+			margin-right .8rem
+		svg.avatar, .note_desc
+			display inline-block
+			vertical-align top
 		p
 			color text-light
 			line-height 1.7em
