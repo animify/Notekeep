@@ -31,6 +31,8 @@ let nk = {
 	},
 	resetEditor: () => {
 		editor.resetContent()
+		$('.copy_link').hide()
+		$('.create_link').show()
 		$('.note_headroom h3').text('')
 		$('.editor h6.team').text('')
 		$('.note_headroom p').find('span.user').text(`${accountHash.firstname} ${accountHash.lastname}`)
@@ -207,6 +209,9 @@ let modal = {
 		$(`.modal`).removeClass('active')
 	},
 	openEditor: (teamSelect) => {
+		$('.copy_link').hide()
+		$('.create_link').hide()
+
 		if (teamSelect.private == 1) {
 			team.selected = 0
 			$('.editor h6.team').text('Private note')
@@ -219,19 +224,37 @@ let modal = {
 		jdenticon.update("#note-avatar", accountHash.avatar.toString())
 	},
 	editEditor: (info) => {
-		(info.note.draft) ? $('.share').hide() : $('.share').show();
-		(info.note.draft) ? $('.publish').show() : $('.publish').hide()
+		if (info.note.draft) {
+			$('.publish').show()
+			$('.share').hide()
+		} else {
+			$('.share').show()
+			$('.publish').hide()
+		}
+
+		if (!info.note.shared) {
+			$('.copy_link').hide()
+			$('.create_link').show()
+		} else {
+			$('.create_link').hide()
+			$('.copy_link').show()
+		}
+
 		$('.editor h6.team').text(info.team.name)
 		$('.note_headroom h3').text(info.note.title)
+
 		let editorStatus = _.template(templates.editorStatus)({firstname: info.note.owner.firstname, lastname: info.note.owner.lastname, status: (info.note.draft) ? 'draft' : 'published'})
+
 		info.note.status == undefined ? $('.editor .priority a.toggle').attr('data-status', 0).html(`<i class="material-icons ${priority.classes[0]}">lens</i> ${priority.label[0]}`) : $('.editor .priority a.toggle').attr('data-status', info.note.status).html(`<i class="material-icons ${priority.classes[info.note.status]}">lens</i> ${priority.label[info.note.status]}`)
 
 		$('.note_headroom p').html($(editorStatus))
 		editor.setContent(templates.unescape(info.note.content), 0)
 
 		transform.oldHTML = editor.getContent()
+
 		$('body, .wrap').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300)
+
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
 		socket.emit('note_join', {space: info.team._id})
 	},
@@ -459,6 +482,19 @@ $(() => {
 				break
 			case 'presentation_mode':
 				$('.editor, .shard').toggleClass("presentation")
+				break
+			case 'copy_shared_link':
+				copyField = document.getElementById("hidden_copy")
+				copyField.hidden = false
+				copyField.value = `${window.location.origin}/shard/${team.viewing}/${team.viewingNote}`
+				copyField.select()
+				try {
+					const successful = document.execCommand('copy')
+					copyField.hidden = true
+					iziToast.success({title: "Link copied", message: `Shared note link has been copied to your clipboard`})
+				} catch(err) {
+					iziToast.error({title: "Link copy error", message: `The link could not be copied to your clipboard`})
+				}
 				break
 			case 'open_editor':
 				nk.resetEditor()

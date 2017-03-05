@@ -4286,6 +4286,9 @@ nav.nav.shard .user.open span {
 .editor .presentation_tools {
   display: none;
 }
+.editor .presentation_tools .present {
+  color: #0e8cf1 !important;
+}
 .editor.presentation ul.options,
 .editor.presentation display none,
 .editor.presentation .options {
@@ -4553,6 +4556,12 @@ nav.nav.shard .user.open span {
 .editable .readonly-note {
   font-size: 1.1em;
   line-height: 1.5em;
+}
+#hidden_copy {
+  display: none;
+  position: absolute;
+  top: -20em;
+  left: -20em;
 }
 .modal {
   width: 100%;

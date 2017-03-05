@@ -1,3 +1,5 @@
+input#hidden_copy(type="text")
+
 .modal#modal_invite
 	.overlay
 		.close
@@ -115,7 +117,8 @@
 					li #[a Keyboard shortcuts]
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
 					li.divider
-					li #[a(data-modal="open", data-modal-name="share_note") Create public link]
+					li.copy_link #[a(data-run="copy_shared_link") Copy share link]
+					li.create_link #[a(data-modal="open", data-modal-name="share_note") Create public link]
 					li #[a(data-run="presentation_mode") Presentation mode]
 					li.divider
 					li #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
@@ -124,7 +127,8 @@
 	.options.presentation_tools
 		.float-left
 			a.toggle.slim.invert.hasicon.return(data-run="presentation_mode") #[i.material-icons close]
-			h6 Presentation mode
+			h6.team
+			h6.present Presenation mode
 		.float-right
 			.dropdown.right
 				a.toggle.slim.invert.hasicon.more #[i.material-icons more_horiz]
