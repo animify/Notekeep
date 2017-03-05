@@ -162,6 +162,7 @@ exports.findShard = (req, res, callback) => {
 				return callback('400', 'Validation error')
 			}
 			if (!err) {
+				note.content = _.unescape(note.content)
 				return callback(null, note)
 			} else {
 				log.error('Internal error(%d): %s', '500' , err.message)

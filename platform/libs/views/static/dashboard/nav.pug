@@ -1,6 +1,6 @@
-nav.nav.pin.top(class= display ? "display" : "")
+nav.nav.pin.top(class= shard ? "shard" : "")
 	.contain
-		if (display)
+		if (shard)
 			a.logo(href="/")
 				img(src="/images/logo_dark.png")
 		else
@@ -9,17 +9,22 @@ nav.nav.pin.top(class= display ? "display" : "")
 		if (user)
 			.float-right
 				ul.options
-					li(class= selected == "dashboard" ? "active" : "")
-						a(href="/") Dashboard
-					li(class= selected == "notes" ? "active" : "")
-						a(href="/notes") Notes
-					li(class= selected == "teams" ? "active" : "")
-						a(href="/teams") Teams
+					if (!shard)
+						li(class= selected == "dashboard" ? "active" : "")
+							a(href="/") Dashboard
+						li(class= selected == "notes" ? "active" : "")
+							a(href="/notes") Notes
+						li(class= selected == "teams" ? "active" : "")
+							a(href="/teams") Teams
+					else
+						li
+							a.present #[i.material-icons present_to_all] Presentation mode
+
 					li(class= selected == "activity" ? "active" : "")
 						a(href="/activity") #[i.material-icons notifications]
 				.user.dropdown.right
 					a.toggle
-						img(src="/images/avatar.png")
+						svg(data-jdenticon-hash=user.avatar)
 						span= user.username
 							i.material-icons arrow_drop_down
 					ul.menu

@@ -12,8 +12,7 @@ let	User = new Schema({
 	},
 	avatar: {
 		type: String,
-		required: true,
-		default: "/images/avatar.png"
+		required: true
 	},
 	firstname: {
 		type: String,
@@ -65,7 +64,6 @@ User.virtual('password')
 		this.hashedPassword = this.generateHash(password)
 	})
 	.get(function() { return this.hashedPassword })
-
 
 User.methods.checkPassword = function(password) {
 	return bcrypt.compareSync(password, this.hashedPassword)

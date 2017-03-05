@@ -31,7 +31,7 @@ p.sub
 
 #input-shared_link
 	display none
-	
+
 .passport
 	center(800px, 20px)
 	text-align center
@@ -144,9 +144,11 @@ nav.nav
 			color text-light-invert
 			font-weight 600
 			transition .14s ease all
-		img
+		svg
 			height 1.6em
-			border-radius 50%
+			width 1.6em
+			background-color #fff
+			border-radius 3px
 
 	ul.options
 		line-height 3rem
@@ -169,7 +171,23 @@ nav.nav
 					color #fff
 			& + li
 				margin-left 2.3rem
-
+	&.shard
+		background-color transparent
+		ul.options li
+			a
+				color body-dark
+				i
+					color text-light
+				&.present
+					i
+						margin-right .3rem
+				&:hover
+					color dark-color
+		.user
+			span
+				color body-dark
+			&:hover span, &.open span
+				color dark-color
 .inner
 	padding 2.6em 0
 	h2.what
@@ -282,11 +300,12 @@ nav.nav
 					border 2px solid color-green
 					i
 						color color-green
-			img
+			svg
 				height 2.3em
 				width 2.3em
 				border-radius 50%
 				box-shadow 0 0 0 4px #fff
+				background-color color-smoke
 	small
 		color body dark
 		font-weight 500
@@ -383,10 +402,11 @@ nav.nav
 			border-top 1px solid border-gray
 		&.new
 			display none
-		img.avatar
-			height 1.7rem
-			margin-right .8rem
-			border-radius 10px
+		svg.avatar
+			height 1.5rem
+			width 1.5rem
+			margin-right .4rem
+			border-radius 4px
 		h6
 			line-height 1.6em
 			display inline-block
@@ -504,6 +524,9 @@ nav.nav
 	width 100%
 	fixed top left
 	z-index 9400
+	&.shard
+		z-index 200
+		display block
 	.options
 		cf()
 		background-color color-nav
@@ -602,7 +625,7 @@ nav.nav
 		max-width 840px
 		margin 0 auto
 		display block
-		padding 3rem
+		padding 3.6rem 4.4rem
 		background-color #fff
 		border 1px solid color-smoke
 		box-shadow 0 1px 1px 0 box-shadow-gray
@@ -644,6 +667,6 @@ nav.nav
 				content 'Untitled'
 				display block
 				color text-light
-	.note_content
+	.note_content, .readonly-note
 		font-size 1.1em
 		line-height 1.5em

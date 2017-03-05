@@ -4,6 +4,7 @@ html(lang="en")
 	.wrap
 		block content
 
-	include ./static/templates.pug
-	include ./static/modals.pug
+	if (!shard)
+		include ./static/templates.pug
+		include ./static/modals.pug
 	include ./static/footer.pug

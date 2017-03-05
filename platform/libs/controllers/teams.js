@@ -121,7 +121,7 @@ exports.inviteToTeam = (req, res, callback) => {
 }
 
 exports.findUserInvites = (req, res, callback) => {
-	let populateQuery = [{path:'by', select:'firstname lastname'}, {path:'team', select:'name'}]
+	let populateQuery = [{path:'by', select:'firstname lastname avatar'}, {path:'team', select:'name'}]
 	Invite.find({'to': req.user._id})
 	.populate(populateQuery)
 	.lean()
@@ -132,7 +132,7 @@ exports.findUserInvites = (req, res, callback) => {
 }
 
 exports.findSentInvites = (req, res, callback) => {
-	let populateQuery = [{path:'by', select:'firstname lastname'}, {path:'team', select:'name'}]
+	let populateQuery = [{path:'by', select:'firstname lastname avatar'}, {path:'team', select:'name'}]
 	Invite.find({'by': req.user._id})
 	.populate(populateQuery)
 	.lean()

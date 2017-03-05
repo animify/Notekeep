@@ -3823,9 +3823,11 @@ nav.nav .user span {
   -ms-transition: 0.14s ease all;
   transition: 0.14s ease all;
 }
-nav.nav .user img {
+nav.nav .user svg {
   height: 1.6em;
-  border-radius: 50%;
+  width: 1.6em;
+  background-color: #fff;
+  border-radius: 3px;
 }
 nav.nav ul.options {
   line-height: 3rem;
@@ -3858,6 +3860,28 @@ nav.nav ul.options li.active i {
 }
 nav.nav ul.options li + li {
   margin-left: 2.3rem;
+}
+nav.nav.shard {
+  background-color: transparent;
+}
+nav.nav.shard ul.options li a {
+  color: #2f4468;
+}
+nav.nav.shard ul.options li a i {
+  color: #97a2b2;
+}
+nav.nav.shard ul.options li a.present i {
+  margin-right: 0.3rem;
+}
+nav.nav.shard ul.options li a:hover {
+  color: #2a3137;
+}
+nav.nav.shard .user span {
+  color: #2f4468;
+}
+nav.nav.shard .user:hover span,
+nav.nav.shard .user.open span {
+  color: #2a3137;
 }
 .inner {
   padding: 2.6em 0;
@@ -4017,12 +4041,13 @@ nav.nav ul.options li + li {
 .strip .members .round_action.add:hover i {
   color: #07b76f;
 }
-.strip .members .round_action img {
+.strip .members .round_action svg {
   height: 2.3em;
   width: 2.3em;
   border-radius: 50%;
   -webkit-box-shadow: 0 0 0 4px #fff;
   box-shadow: 0 0 0 4px #fff;
+  background-color: #f2f5f7;
 }
 .strip small {
   color: body dark;
@@ -4146,10 +4171,11 @@ nav.nav ul.options li + li {
 .summary .unit.new {
   display: none;
 }
-.summary .unit img.avatar {
-  height: 1.7rem;
-  margin-right: 0.8rem;
-  border-radius: 10px;
+.summary .unit svg.avatar {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 0.4rem;
+  border-radius: 4px;
 }
 .summary .unit h6 {
   line-height: 1.6em;
@@ -4309,6 +4335,10 @@ nav.nav ul.options li + li {
   left: 0;
   z-index: 9400;
 }
+.editor.shard {
+  z-index: 200;
+  display: block;
+}
 .editor .options {
   *zoom: 1;
   background-color: #24292e;
@@ -4447,7 +4477,7 @@ nav.nav ul.options li + li {
   max-width: 840px;
   margin: 0 auto;
   display: block;
-  padding: 3rem;
+  padding: 3.6rem 4.4rem;
   background-color: #fff;
   border: 1px solid #f2f5f7;
   -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05);
@@ -4503,7 +4533,8 @@ nav.nav ul.options li + li {
   display: block;
   color: #97a2b2;
 }
-.editable .note_content {
+.editable .note_content,
+.editable .readonly-note {
   font-size: 1.1em;
   line-height: 1.5em;
 }

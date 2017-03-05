@@ -58,12 +58,13 @@ router.post('/signup', (req, res) => {
 			let user = new User()
 
 			user._id = newid
+			user.avatar = crypto.createHash('md5').update(req.body.username).digest("hex")
 			user.username = req.body.username
 			user.firstname = req.body.firstname
 			user.lastname = req.body.lastname
 			user.email = req.body.email
 			user.password = req.body.password
-
+console.log(user);
 			user.save((err, user) => {
 				if(!err) {
 					req.login(user, function(err) {
@@ -82,12 +83,12 @@ router.post('/signup', (req, res) => {
 	}
 })
 
-router.post('/shard/:team/:note', (req, res) => {
+router.get('/shard/:team/:note', (req, res) => {
 	let isLogged = null
 	if (req.isAuthenticated()) isLogged = req.user
 
-	notesController.findShared(req, res, (err, ret) => {
-		return res.render('shared-note', {title: 'Notes - Notekeep', note: ret, user: isLogged, light: true, display: true})
+	notesController.findShard(req, res, (err, ret) => {
+		return res.render('shared-note', {title: 'Notes - Notekeep', note: ret, user: isLogged, light: true, shard: true})
 	})
 })
 

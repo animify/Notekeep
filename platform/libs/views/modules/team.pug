@@ -13,9 +13,9 @@ block content
 				small Members #[span (#{team[0].userlist.length + 1})]
 				for usr in team[0].userlist
 					.round_action
-						img(src=usr.avatar)
+						svg(data-jdenticon-hash=usr.avatar)
 				.round_action
-					img(src=team[0].creator.avatar)
+					svg(data-jdenticon-hash=team[0].creator.avatar)
 				.round_action.add(data-modal="open", data-modal-name="modal_invite", data-team=team[0]._id)
 					i.material-icons add
 	.contain
@@ -37,11 +37,11 @@ block content
 									.desc
 										h5 Members
 								.unit
-									img.avatar(src=`${team[0].creator.avatar}`)
+									svg.avatar(data-jdenticon-hash=`${team[0].creator.avatar}`)
 									h6 #{team[0].creator.firstname} #{team[0].creator.lastname}
 									small #{team[0].creator.email}
 								for user in team[0].userlist
 									.unit
-										img.avatar(src=`${user.avatar}`)
+										svg.avatar(data-jdenticon-hash=`${user.avatar}`)
 										h6= `${user.firstname} ${user.lastname}`
 										small= user.email

@@ -3,9 +3,15 @@ extends ../layout
 block content
 	include ../static/dashboard/nav.pug
 
-	.editor
-		.options
-			.float-left
-				h6.team
-			.float-right
-				a.slim.invert.share Share...
+	.editor(class= shard ? "shard" : "")
+		.editable
+			.note_container
+				.note_editable
+					.note_headroom
+						p #[span.user #{note.owner.firstname} #{note.owner.lastname}]
+						h3= note.title
+					div.readonly-note
+
+block footer
+	script.
+		$('.readonly-note').html(templates.unescape('#{note.content}'))
