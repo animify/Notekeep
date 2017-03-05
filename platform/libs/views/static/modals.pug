@@ -116,11 +116,24 @@
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
 					li.divider
 					li #[a(data-modal="open", data-modal-name="share_note") Create public link]
+					li #[a(data-run="presentation_mode") Presentation mode]
 					li.divider
 					li #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
-
-			.publish
-				a.invert.slim(data-modal="open", data-modal-name="modal_publish") Publish
+			.publish.invert
+				a.slim(data-modal="open", data-modal-name="modal_publish") Publish note
+	.options.presentation_tools
+		.float-left
+			a.toggle.slim.invert.hasicon.return(data-run="presentation_mode") #[i.material-icons close]
+			h6 Presentation mode
+		.float-right
+			.dropdown.right
+				a.toggle.slim.invert.hasicon.more #[i.material-icons more_horiz]
+				ul.menu
+					li #[a Keyboard shortcuts]
+					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
+					li.divider
+					li #[a(data-modal="open", data-modal-name="share_note") Create public link]
+					li #[a(data-run="presentation_mode") Leave presentation mode]
 
 	.editable
 		.note_container

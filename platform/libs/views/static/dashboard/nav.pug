@@ -18,7 +18,7 @@ nav.nav.pin.top(class= shard ? "shard" : "")
 							a(href="/teams") Teams
 					else
 						li
-							a.present #[i.material-icons present_to_all] Presentation mode
+							a.present(data-run="presentation_mode") #[i.material-icons present_to_all] Toggle Presentation mode
 
 					li(class= selected == "activity" ? "active" : "")
 						a(href="/activity") #[i.material-icons notifications]
@@ -38,6 +38,9 @@ nav.nav.pin.top(class= shard ? "shard" : "")
 		else
 			.float-right
 				ul.options
+					if (shard)
+						li
+							a.present(data-run="presentation_mode") #[i.material-icons present_to_all] Toggle Presentation mode
 					li
 						a(href="/signin") Sign in
 					li

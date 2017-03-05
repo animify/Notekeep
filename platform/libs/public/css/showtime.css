@@ -202,6 +202,9 @@ footer:after {
 footer.shard {
   background-color: #fff;
 }
+footer.shard.presentation {
+  display: none;
+}
 footer.shard ul.options {
   border-top: 0;
 }
@@ -3812,6 +3815,7 @@ nav.nav .user {
   position: relative;
   top: 0.875rem;
   cursor: pointer;
+  padding-left: 2rem;
 }
 nav.nav .user:hover span,
 nav.nav .user.open span {
@@ -3837,7 +3841,6 @@ nav.nav .user svg {
 }
 nav.nav ul.options {
   line-height: 3rem;
-  padding-right: 2rem;
   margin: 0;
 }
 nav.nav ul.options li a {
@@ -3869,6 +3872,9 @@ nav.nav ul.options li + li {
 }
 nav.nav.shard {
   background-color: transparent;
+}
+nav.nav.shard.presentation .contain {
+  max-width: 100%;
 }
 nav.nav.shard ul.options li a {
   color: #2f4468;
@@ -4277,12 +4283,52 @@ nav.nav.shard .user.open span {
   left: 0;
   z-index: 9400;
 }
+.editor .presentation_tools {
+  display: none;
+}
+.editor.presentation ul.options,
+.editor.presentation display none,
+.editor.presentation .options {
+  display: none;
+}
+.editor.presentation .presentation_tools.options {
+  display: block;
+  background-color: #fff;
+  border-bottom: 1px solid #e3e9ee;
+}
+.editor.presentation .presentation_tools.options h6 {
+  color: #2f4468;
+}
+.editor.presentation .presentation_tools.options .invert i {
+  color: #2f4468;
+}
+.editor.presentation .editable {
+  width: 100%;
+}
+.editor.presentation .editable .note_headroom svg,
+.editor.presentation .editable .note_headroom p {
+  display: none;
+}
+.editor.presentation .editable .note_container {
+  padding: 0;
+}
+.editor.presentation .editable .note_editable {
+  width: 100%;
+  font-size: 2.6rem;
+  padding: 4rem 7rem;
+  max-width: 100%;
+  border-radius: 0;
+  border: 0;
+}
 .editor.shard {
   z-index: 0;
   display: block;
 }
 .editor.shard .editable {
   padding: 3.375rem 0 5rem 0;
+}
+.editor.shard.presentation .editable {
+  padding: 3.375rem 0 0 0;
 }
 .editor .options {
   *zoom: 1;
@@ -4303,15 +4349,29 @@ nav.nav.shard .user.open span {
 .editor .options:after {
   clear: both;
 }
-.editor .options .close,
-.editor .options .publish {
+.editor .options .close {
   margin-left: 1em;
   padding-left: 1em;
   display: inline-block;
   vertical-align: top;
-}
-.editor .options .close {
   border-left: 0;
+}
+.editor .options .publish a {
+  font-weight: 800;
+  color: #fff;
+  position: relative;
+}
+.editor .options .publish a::after {
+  width: 100%;
+  border-bottom: 1px dashed #cbd1dc;
+  height: 1px;
+  content: ' ';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+}
+.editor .options .publish a:hover::after {
+  border-color: #fff;
 }
 .editor .options.bottom {
   background-color: #f2f5f7;
@@ -4363,6 +4423,7 @@ nav.nav.shard .user.open span {
 .editor .options .invert:after {
   clear: both;
 }
+.editor .options .invert .presentation_tools,
 .editor .options .invert:hover {
   color: #fff;
   background-color: transparent;
@@ -4433,8 +4494,8 @@ nav.nav.shard .user.open span {
   padding: 0 0 3rem 0;
 }
 .editable .note_headroom svg.avatar {
-  height: 4rem;
-  width: 4rem;
+  height: 4em;
+  width: 4em;
   background-color: #f7f9fb;
   margin-right: 0.8rem;
 }

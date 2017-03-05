@@ -35,10 +35,26 @@ script(type='text/html', id='tpl-editor_status')
 	span.type(class!="<%= status %>")
 
 script(type='text/html', id='tpl-act-create_note')
+	!= '<% if (note != null) { %>'
 	.unit
 		h6
 			i.material-icons.text-green loupe
 			!= '<%= by.firstname %> <%= by.lastname %> created note <a href="/notes/<%= note._id %>"><%= note.title %></a>'
+		small!= '<%= created %>'
+	!= '<% } else { %>'
+	.unit
+		h6
+			i.material-icons.text-green loupe
+			!= '<%= by.firstname %> <%= by.lastname %> created a [deleted] note'
+		small!= '<%= created %>'
+	!= '<% } %>'
+
+
+script(type='text/html', id='tpl-act-delete_note')
+	.unit
+		h6
+			i.material-icons.text-red delete_sweep
+			!= '<%= by.firstname %> <%= by.lastname %> deleted a note</b>'
 		small!= '<%= created %>'
 
 script(type='text/html', id='tpl-act-sent_invite')

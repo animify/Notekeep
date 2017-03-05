@@ -67,6 +67,7 @@ let templates = {
 	editorStatus: $('#tpl-editor_status').html(),
 	publishedNote: $('#tpl-note_created').html(),
 	act_create_note: $('#tpl-act-create_note').html(),
+	act_delete_note: $('#tpl-act-delete_note').html(),
 	act_sent_invite: $('#tpl-act-sent_invite').html(),
 	act_declined_invite: $('#tpl-act-declined_invite').html(),
 	act_accepted_invite: $('#tpl-act-accepted_invite').html(),
@@ -113,6 +114,7 @@ let activities = {
 				$('.populate .xs-12').append($(emptyActivities))
 			} else {
 				_.each(res, function(story) {
+					console.log(story);
 					story.created = moment(story.created).fromNow()
 					newStory = _.template(eval(`templates.act_${story.type}`))(story)
 					$('.populate .xs-12').append($(newStory))
@@ -454,6 +456,9 @@ $(() => {
 						$('#input-shared_link').val(res).slideDown('fast').parent().next().remove()
 					}
 				})
+				break
+			case 'presentation_mode':
+				$('.editor, .shard').toggleClass("presentation")
 				break
 			case 'open_editor':
 				nk.resetEditor()

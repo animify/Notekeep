@@ -380,7 +380,9 @@ exports.deleteNote = (req, res, callback) => {
 			Notes.findOneAndRemove(
 				{_id: req.body.note, team: req.body.team},
 				(err, sts) => {
+					console.log(sts);
 					if (err) return callback('400', err)
+					activities.newActivity(req.user._id, null, 'delete_note', req.body.team, sts._id)
 					callback(null, true)
 				})
 		})
