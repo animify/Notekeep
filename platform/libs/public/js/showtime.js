@@ -66,6 +66,9 @@ let templates = {
 	notes: $('#tpl-note').html(),
 	editorStatus: $('#tpl-editor_status').html(),
 	act_create_note: $('#tpl-act-create_note').html(),
+	act_sent_invite: $('#tpl-act-sent_invite').html(),
+	act_declined_invite: $('#tpl-act-declined_invite').html(),
+	act_accepted_invite: $('#tpl-act-accepted_invite').html(),
 	act_empty: $('#tpl-act-empty').html(),
 	escape: (str) => {
 		return str
@@ -110,8 +113,7 @@ let activities = {
 			} else {
 				_.each(res, function(story) {
 					story.created = moment(story.created).fromNow()
-					newStory = _.template(templates.act_create_note)(story)
-					console.log(newStory);
+					newStory = _.template(eval(`templates.act_${story.type}`))(story)
 					$('.populate .xs-12').append($(newStory))
 				})
 			}
@@ -413,7 +415,10 @@ $(() => {
 			case 'invite_member':
 				_data = JSON.stringify({user: $('#member-email').val(), team: $('.add').data('team')})
 				endpoint.call('/facets/endpoints/teams/invite', 'POST', _data, (res) => {
-					res.error ? errorHandler.modal(res.message) : console.log('done');
+					console.log(res);
+					if (res.error) return errorHandler.modal(res.message)
+					iziToast.success({title: "Invite sent", message: `Team invite sent to ${$('#member-email').val()}`})
+					modal.close()
 				})
 				break
 			case 'accept_invite':
@@ -429,6 +434,17 @@ $(() => {
 
 				endpoint.call('/facets/endpoints/invites/decline', 'POST', _data, (res) => {
 					console.log(res);
+				})
+				break
+			case 'share_note':
+				_data = JSON.stringify({team: team.viewing, note: team.viewingNote})
+				endpoint.call('/facets/endpoints/notes/share', 'POST', _data, (res) => {
+					if (res.error) {
+						iziToast.error({title: "Already shared", message: `This note is already public`})
+					} else {
+						iziToast.success({title: "Note shared", message: `The note has been made public`})
+						$('#input-shared_link').val(res).slideDown('fast').parent().next().remove()
+					}
 				})
 				break
 			case 'open_editor':

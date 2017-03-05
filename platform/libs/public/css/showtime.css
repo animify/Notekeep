@@ -2308,8 +2308,15 @@ ol.ordered li[value]:before {
   opacity: 0.45;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=45)";
   filter: alpha(opacity=45);
-  cursor: default;
   pointer-events: none;
+  cursor: not-allowed;
+}
+.input input[disabled].display,
+.input.disabled.display {
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  cursor: default;
 }
 .input input,
 .input textarea {
@@ -3627,6 +3634,9 @@ p.sub {
   -webkit-box-shadow: inset 0 0 20px #07b76f;
   box-shadow: inset 0 0 20px #07b76f;
 }
+#input-shared_link {
+  display: none;
+}
 .passport {
   *zoom: 1;
   width: auto;
@@ -4411,7 +4421,7 @@ nav.nav ul.options li + li {
   height: 100%;
   overflow: hidden;
   padding-top: 3.375rem;
-  background-color: #f7f9fb;
+  background-color: #f4f6f7;
 }
 .editable .note_container {
   overflow-y: auto;

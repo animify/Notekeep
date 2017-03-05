@@ -134,6 +134,43 @@ exports.findNote = (req, res, callback) => {
 	})
 }
 
+exports.findShard = (req, res, callback) => {
+
+	req.sanitizeParams()
+	req.checkParams({
+	 'team': {
+			notEmpty: true,
+			errorMessage: `Team ID is empty`
+		},
+	 'note': {
+			notEmpty: true,
+			errorMessage: `Note ID is empty`
+		}
+	})
+
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
+
+		const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}, {path: 'team'}]
+
+		Notes.findOne({_id: req.params.note, team: req.params.team, shared: true})
+		.populate(populateQuery)
+		.exec((err, note) => {
+			if(!note) {
+				return callback('400', 'Validation error')
+			}
+			if (!err) {
+				return callback(null, note)
+			} else {
+				log.error('Internal error(%d): %s', '500' , err.message)
+				return callback('500', 'Internal error')
+			}
+		})
+	})
+}
+
 exports.findPublishedTeamNotes = (req, res, teamid, callback) => {
 	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
 
@@ -279,6 +316,40 @@ exports.updateStatus = (req, res, callback) => {
 				{upsert: true, new: true},
 				(err, note) => {
 					callback(null, note)
+				})
+		})
+	})
+}
+
+exports.shareNote = (req, res, callback) => {
+	req.sanitizeBody()
+	req.checkBody({
+	 'note': {
+			notEmpty: true,
+			errorMessage: `Note ID is empty`
+		},
+	 'team': {
+			notEmpty: true,
+			errorMessage: `Team ID is empty`
+		}
+	})
+
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
+		Team.findOne({_id: req.body.team, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+		.lean()
+		.exec((err, team) => {
+			if (team == null) return callback(400, "Team not found")
+			Notes.findOneAndUpdate(
+				{_id: req.body.note, team: req.body.team},
+				{$set: {shared: true}},
+				{upsert: true},
+				(err, note) => {
+					if (note.shared) return callback('100', 'Note is already shared')
+					const shareURL = `${req.protocol}://${req.get('host')}/shard/${req.body.team}/${req.body.note}`
+					callback(null, shareURL)
 				})
 		})
 	})

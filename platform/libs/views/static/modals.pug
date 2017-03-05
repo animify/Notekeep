@@ -75,6 +75,25 @@
 					p Within the editor, you can drag in images to your document and amend text just by selecting what you want to edit.
 					br
 					p When notes are not published, they are automatically saved as drafts and will not be made available to teams. Once you are ready to publish your note, just tap the green "Publish" button in the top right of the editor.
+					.button-group.clearfix.to-right
+						a.button(data-modal="close") Close
+
+.modal#share_note
+	.overlay
+		.close
+			i.material-icons clear
+		.cell
+			.content
+				.inside
+					h5 Share note?
+					p Sharing this note will make it public and accessible by everyone. This means a public link will be created and can be shared to other Notekeep users or guests.
+					br
+					p.text-green You can make the note team-only again after it's been made public.
+					.input.block.form
+						input#input-shared_link.disabled.display(type="text", disabled="true")
+					.button-group.clearfix.to-right
+						a.button.green(data-run="share_note") Share note
+						a.button(data-modal="close") Cancel
 
 .editor
 	.options
@@ -96,8 +115,7 @@
 					li #[a Keyboard shortcuts]
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
 					li.divider
-					li #[a Copy link]
-					li #[a Create public link]
+					li #[a(data-modal="open", data-modal-name="share_note") Create public link]
 					li.divider
 					li #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
 

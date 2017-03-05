@@ -24,7 +24,7 @@ exports.newActivity = (by, to, type, teamID, noteID, callback) => {
 	})
 }
 
-exports.teamActivities = (req, res, callback) => {
+exports.teamActivities = (req, res, limit, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
 	 'team': {
@@ -38,10 +38,12 @@ exports.teamActivities = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'by', select:'_id username firstname lastname email'}, {path: 'team', select: '_id'}, {path: 'note', select: '_id title'}]
+		const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'team', select: '_id'}, {path: 'note', select: '_id title'}]
 
 		Activity.find({team: req.body.team})
+		.sort({created: 'descending'})
 		.populate(populateQuery)
+		.limit(limit)
 		.lean()
 		.exec((err, activities) => {
 			if (!err) return callback(null, activities)

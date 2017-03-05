@@ -34,8 +34,13 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
+}).post('/notes/share', (req, res) => {
+	notesController.shareNote(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: ret})
+		res.send(ret)
+	})
 }).post('/activities/team', (req, res) => {
-	activitiesController.teamActivities(req, res, (err, ret) => {
+	activitiesController.teamActivities(req, res, 10, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})

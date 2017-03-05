@@ -9,6 +9,7 @@ const Invite = require(jt.path('model/invite'))
 const auth = require(jt.path('auth/auth'))
 const teams = require(jt.path('controllers/teams'))
 const account = require(jt.path('controllers/account'))
+const activities = require(jt.path('controllers/activities'))
 const moment = require('moment')
 const async = require('async')
 const _ = require('underscore')
@@ -31,6 +32,7 @@ exports.newInvite = (req, res, to, team, callback) => {
 						team: team
 					})
 					invite.save()
+					activities.newActivity(req.user._id, accountID, 'sent_invite', team, null)
 					return callback(null, 'Invite has been sent.')
 				})
 			} else {
@@ -51,6 +53,7 @@ exports.acceptInvite = (req, res, inviteID, teamID, callback) => {
 				{safe: true, upsert: true},
 				(err, team) => {
 					if (err) return reject(err)
+				activities.newActivity(req.user._id, null, 'accepted_invite', teamID, null)
 				resolve(team)
 			})
 		})
@@ -63,6 +66,7 @@ exports.acceptInvite = (req, res, inviteID, teamID, callback) => {
 	})
 }
 exports.declineInvite = (req, res, inviteID, teamID, callback) => {
+	activities.newActivity(req.user._id, null, 'declined_invite', teamID, null)
 	callback(deleteInvite(teamID, inviteID))
 }
 

@@ -82,6 +82,15 @@ router.post('/signup', (req, res) => {
 	}
 })
 
+router.post('/shard/:team/:note', (req, res) => {
+	let isLogged = null
+	if (req.isAuthenticated()) isLogged = req.user
+
+	notesController.findShared(req, res, (err, ret) => {
+		return res.render('shared-note', {title: 'Notes - Notekeep', note: ret, user: isLogged, light: true, display: true})
+	})
+})
+
 router.post('/signin', passport.authenticate('local'), (req, res) => {
 	return res.json({status: 'OK', statusCode : 200})
 })

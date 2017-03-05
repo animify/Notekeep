@@ -43,6 +43,11 @@ let	Note = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	shared: {
+		type: Boolean,
+		default: false,
+		required: true
+	},
 	private: {
 		type: Boolean,
 		default: false,

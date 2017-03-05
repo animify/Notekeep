@@ -14,8 +14,11 @@
 				font-size 1.4em
 	input[disabled], &.disabled
 		opacity .45
-		cursor default
 		pointer-events none
+		cursor not-allowed
+		&.display
+			opacity 1
+			cursor default
 	input, textarea
 		font-family font-family-standard
 		font-size font-size-standard
