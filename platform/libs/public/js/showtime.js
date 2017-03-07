@@ -311,6 +311,7 @@ let transform = {
 			if (frag.added)
 				c = c.substr(0, frag.from) + frag.value + c.substr(frag.from)
 		})
+		transform.oldHTML = c
 		editor.setContent(c)
 	}
 }
@@ -570,9 +571,9 @@ $(() => {
 	})
 
 	pushChanges = (event, editable) => {
+		// console.time('Diff')
 		if (_.isBlank(team.viewingNote)) return
 		oldHTML = transform.oldHTML
-		console.time('Diff')
 		newHTML = editor.getContent()
 		ld = 0
 		arChange = {op: "+change", change: []}
@@ -595,7 +596,7 @@ $(() => {
 
 		socket.emit('change', arChange)
 		socket.emit('preSave', { _id: team.viewingNote, body: newHTML})
-		console.timeEnd('Diff')
+		// console.timeEnd('Diff')
 	}
 
 

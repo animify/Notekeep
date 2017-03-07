@@ -42,10 +42,14 @@ exports.connect = (server, io, sessionStore, eSession) => {
 	io.on('connection', (socket) => {
 		log.info('Connected to socket.io')
 		let saveTimer = false
+		let changeQueue = []
 
 		socket.on('change', (chg) => {
-			socket.broadcast.to(socket.teamSpace).emit('change', chg);
+			changeQueue.push(chg)
+			socket.broadcast.to(socket.teamSpace).emit('change', changeQueue[0])
+			changeQueue.pop()
 		})
+		
 		socket.on('preSave', (content) => {
 			if (saveTimer) clearTimeout(saveTimer)
 			saveTimer = setTimeout(() => {
