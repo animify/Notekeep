@@ -303,23 +303,15 @@ let transform = {
 	},
 	replaceChange: (chg) => {
 		let c = editor.getContent()
-		let d = editor.getContent()
-		console.log(c);
 
 		chg.forEach((frag) => {
-			if (frag.removed) {
+			if (frag.removed)
 				c = c.substr(0, frag.from) + c.substr(frag.from + frag.count)
-			}
 
-			if (frag.added) {
+			if (frag.added)
 				c = c.substr(0, frag.from) + frag.value + c.substr(frag.from)
-			}
-
-			console.log(frag);
-			console.log(c);
 		})
 		editor.setContent(c)
-
 	}
 }
 
@@ -570,6 +562,14 @@ $(() => {
 	nk.init()
 
 	$('.note_content').on('keydown keyup', function (event, editable) {
+		pushChanges(event, editable)
+	})
+
+	$('.medium-editor-action, .medium-editor-toolbar-save, .medium-editor-toolbar-close').on('click', function (event, editable) {
+		pushChanges(event, editable)
+	})
+
+	pushChanges = (event, editable) => {
 		if (_.isBlank(team.viewingNote)) return
 		oldHTML = transform.oldHTML
 		console.time('Diff')
@@ -596,7 +596,9 @@ $(() => {
 		socket.emit('change', arChange)
 		socket.emit('preSave', { _id: team.viewingNote, body: newHTML})
 		console.timeEnd('Diff')
-	})
+	}
+
+
 
 	socket.on('connect', (sock) => {
 		console.log('Socket connection')
