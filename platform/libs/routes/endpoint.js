@@ -58,12 +58,12 @@ router.post('/notes/publish', (req, res) => {
 				res.send(ret)
 			})
 			break
-		// case 'private':
-		// 	notesController.findPrivateNotes(req, res, (err, ret) => {
-		// 		if (err) return res.send({error: err, message: 'Internal Error'})
-		// 		res.send(ret)
-		// 	})
-		// 	break
+		case 'private':
+			notesController.findPrivateNotes(req, res, (err, ret) => {
+				if (err) return res.send({error: err, message: 'Internal Error'})
+				res.send(ret)
+			})
+			break
 		default:
 			res.send('error')
 	}

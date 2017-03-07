@@ -23,7 +23,7 @@ block content
 				for team in teams
 					a.switch(data-teamid=team._id) #[b= team.name]
 						span New note in #{team.name}
-		.inner
+		.inner#summary_notes
 			for team in teams
 				if (team.notes.length != 0)
 					.summary(data-team_section=team._id)

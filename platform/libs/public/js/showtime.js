@@ -66,6 +66,7 @@ let errorHandler = {
 let templates = {
 	teams: $('#tpl-teams').html(),
 	notes: $('#tpl-note').html(),
+	notes_private: $('#tpl-notes_private').html(),
 	editorStatus: $('#tpl-editor_status').html(),
 	publishedNote: $('#tpl-note_created').html(),
 	act_create_note: $('#tpl-act-create_note').html(),
@@ -240,7 +241,7 @@ let modal = {
 			$('.copy_link').show()
 		}
 
-		$('.editor h6.team').text(info.team.name)
+		(info.note.private) ? $('.editor h6.team').text('Private note') : $('.editor h6.team').text(info.team.name)
 		$('.note_headroom h3').text(info.note.title)
 
 		let editorStatus = _.template(templates.editorStatus)({firstname: info.note.owner.firstname, lastname: info.note.owner.lastname, status: (info.note.draft) ? 'draft' : 'published'})
@@ -256,7 +257,7 @@ let modal = {
 		$('.editor').show('slide', {direction: 'left'}, 300)
 
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
-		socket.emit('note_join', {space: info.team._id})
+		if (!info.note.private) socket.emit('note_join', {space: info.team._id})
 	},
 	closeEditor: () => {
 		$('body, .wrap').removeClass('noscroll')
@@ -398,7 +399,7 @@ $(() => {
 			case 'get_note':
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/get/${_this.data('note')}`, 'GET', _data, (res) => {
-					team.viewing = res[0].team._id
+					if (!res[0].note.private) team.viewing = res[0].team._id
 					team.viewingNote = res[0].note._id
 					nk.resetEditor()
 					modal.editEditor(res[0])
@@ -427,11 +428,16 @@ $(() => {
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/retrieve/${newType}`, 'GET', _data, (res) => {
 					let newNote = null
-					$('.inner').empty()
+					noteSection = _.template(eval(`templates.notes_${newType}`))({})
+					console.log(noteSection);
+					$('#summary_notes').empty()
+					$('#summary_notes').html($(noteSection))
+
 					_.each(res, function(arr) {
+						console.log(arr);
 						newNote = _.template(templates.notes)(arr)
 						console.log(newNote);
-						$('.inner').append($(newNote))
+						$('.all_notes').append($(newNote))
 					})
 
 					let errMsg = ''
@@ -552,6 +558,7 @@ $(() => {
 	nk.init()
 
 	$('.note_content').on('keydown keyup', function (event, editable) {
+		if (_.isBlank(team.viewingNote)) return
 		oldHTML = transform.oldHTML
 		console.time('Diff')
 		newHTML = editor.getContent()

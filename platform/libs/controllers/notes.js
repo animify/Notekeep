@@ -115,9 +115,9 @@ exports.findNote = (req, res, callback) => {
 		Notes.findOne({'_id': req.params.note})
 		.populate(populateQuery)
 		.exec((err, note) => {
-			if(!note) {
-				return callback('400', 'Validation error')
-			}
+			if(!note) return callback('400', 'Validation error')
+			if (note.team == "0") return callback(null, [{note:note}])
+
 			if (!err) {
 				teams.findTeam(req, res, note.team, (err, team) => {
 					if (team[0]._id) {
@@ -176,6 +176,24 @@ exports.findPublishedTeamNotes = (req, res, teamid, callback) => {
 	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
 
 	Notes.find({team: teamid, draft: false, private: false})
+	.populate(populateQuery)
+	.exec((err, notes) => {
+		if(!notes) {
+			return callback('400', 'Validation error')
+		}
+		if (!err) {
+			return callback(null, notes)
+		} else {
+			log.error('Internal error(%d): %s', '500' , err.message)
+			return callback('500', 'Internal error')
+		}
+	})
+}
+
+exports.findPrivateNotes = (req, res, callback) => {
+	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
+
+	Notes.find({owner: req.user._id, team: "0", draft: false, private: true})
 	.populate(populateQuery)
 	.exec((err, notes) => {
 		if(!notes) {
@@ -277,6 +295,8 @@ exports.findDraftNotes = (req, res, callback) => {
 }
 
 exports.updateNote = (noteID, noteBody, teamID, callback) => {
+	if (teamID === undefined) teamID = "0"
+	
 	Notes.findOneAndUpdate(
 		{_id: noteID, team: teamID},
 		{$set: {content: noteBody}},
