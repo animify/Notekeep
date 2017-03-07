@@ -4,8 +4,18 @@ block content
 	include ../static/dashboard/nav.pug
 	.contain
 		nav.nav.sub
-			h4.what All Activity
+			h4.what Activity Log
 			.float-right.actions
-				a.button.yellow.outlined.sm Sort by
-				a.button.red.outlined.sm Clear all
+				a.switch_trigger.button.default.sm(data-switch="switch_activities") Filter by...
+			.switches.right#switch_activities
+				a.switch(data-select="create_note") #[b Created note]
+					span Filter by note creation
+				a.switch(data-select="delete_note") #[b Deleted note]
+					span Filter by note deletion
+				a.switch(data-select="sent_invite") #[b Sent invites]
+					span Filter by invites sent
+				a.switch(data-select="accepted_invite") #[b Accepted invites]
+					span Filter by invites accepted
+				a.switch(data-select="declined_invite") #[b Declined invites]
+					span Filter by invites declined
 		.inner#activities

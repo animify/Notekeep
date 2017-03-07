@@ -301,20 +301,25 @@ let transform = {
 		console.log(c);
 		editor.setContent(c)
 	},
-	replaceAll: (chg) => {
-		console.log(chg);
-		chg.forEach((typ) => {
-			if (typ.frag.all !== undefined) editor.setContent(typ.frag.all)
-		})
-	},
-	addToPoint: (chg) => {
+	replaceChange: (chg) => {
 		let c = editor.getContent()
-		chg.forEach((typ) => {
-			a = typ.frag.from
-			sub = typ.frag.value
-			c = c.substr(0, a) + sub + c.substr(a)
+		let d = editor.getContent()
+		console.log(c);
+
+		chg.forEach((frag) => {
+			if (frag.removed) {
+				c = c.substr(0, frag.from) + c.substr(frag.from + frag.count)
+			}
+
+			if (frag.added) {
+				c = c.substr(0, frag.from) + frag.value + c.substr(frag.from)
+			}
+
+			console.log(frag);
+			console.log(c);
 		})
 		editor.setContent(c)
+
 	}
 }
 
@@ -570,43 +575,22 @@ $(() => {
 		console.time('Diff')
 		newHTML = editor.getContent()
 		ld = 0
-		arChange = {op: null, change: []}
+		arChange = {op: "+change", change: []}
 
-		diff = JsDiff.diffChars(oldHTML, newHTML)
+		diff = JsDiff.diffWordsWithSpace(oldHTML, newHTML)
+
 		diff.forEach(function(part){
-
-			if (part.added) {
-				part.from = ld
-				arChange.op = "+add"
-				if (part.value.includes('<') || part.value.includes('<')) {
-					if (part.value.slice(0, 1) != "<" && part.value.slice(-1) != ">") {
-						arChange.op = "+all"
-						part.all = newHTML
-						console.log(part);
-						return arChange.change.push({frag: part})
-
-					}
+			part.count = part.value.length
+			part.from = ld
+			if (part.added || part.removed) {
+				if (part.removed) {
+					ld = ld - part.count
 				}
-					arChange.change.push({frag: part, length: newHTML.length})
+				arChange.change.push(part)
 			}
-
-			if (part.removed) {
-				part.from = ld
-				arChange.op = "+remove"
-				if (part.value.includes('<') || part.value.includes('<')) {
-					if (part.value.slice(0, 1) != "<" && part.value.slice(-1) != ">") {
-						arChange.op = "+all"
-						part.all = newHTML
-						console.log(part);
-						return arChange.change.push({frag: part})
-
-					}
-				}
-					arChange.change.push({frag: part, length: newHTML.length})
-			}
-
 			ld = ld + part.count
 		})
+
 		transform.oldHTML = newHTML
 
 		socket.emit('change', arChange)
@@ -628,6 +612,8 @@ $(() => {
 			case "+all":
 				console.log(chg);
 				transform.replaceAll(chg.change)
+			case "+change":
+				transform.replaceChange(chg.change)
 				break
 		}
 	})
