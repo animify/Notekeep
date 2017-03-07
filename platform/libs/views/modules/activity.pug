@@ -8,9 +8,11 @@ block content
 			.float-right.actions
 				a.switch_trigger.button.default.sm(data-switch="switch_activities") Filter by...
 			.switches.right#switch_activities
-				a.switch(data-select="create_note") #[b Created note]
+				a.switch(data-select="all") #[b All activity]
+					span Unfiltered activity
+				a.switch(data-select="create_note") #[b Created notes]
 					span Filter by note creation
-				a.switch(data-select="delete_note") #[b Deleted note]
+				a.switch(data-select="delete_note") #[b Deleted notes]
 					span Filter by note deletion
 				a.switch(data-select="sent_invite") #[b Sent invites]
 					span Filter by invites sent

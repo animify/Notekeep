@@ -38,7 +38,7 @@ exports.teamActivities = (req, res, limit, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'team', select: '_id'}, {path: 'note', select: '_id title'}]
+		const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'team', select: '_id name'}, {path: 'note', select: '_id title'}]
 
 		Activity.find({team: req.body.team})
 		.sort({created: 'descending'})
@@ -52,36 +52,56 @@ exports.teamActivities = (req, res, limit, callback) => {
 	})
 }
 
-exports.userActivities = (req, res, callback) => {
+exports.userTimelineActivities = (req, res, listed, callback) => {
 
-	const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'team', select: '_id'}, {path: 'note', select: '_id title'}]
+	const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'team', select: '_id name'}, {path: 'note', select: '_id title'}]
 
-	split = {}
+	let timeline = {}
 
 	teams.findUserTeams(req, res, (err, userTeams) => {
 		async.each(userTeams, function (tm, cb) {
 			Activity.find({team: tm._id})
-			.sort({created: 'descending'})
 			.populate(populateQuery)
 			.lean()
+			.limit(50)
 			.exec((err, activities) => {
-				async.each(activities, function (at, cbb) {
-					console.log(at);
-					timeline = moment(at.created).format("MMMM Do")
+				console.log(activities);
+				if (!listed) {
+					if (activities.length > 0) {
+						async.each(activities, function (at, cbb) {
+							const dataStruct = moment(at.created).format("MMMM Do")
 
-					if (!_.isArray(split[timeline]))
-						split[timeline] = []
+							if (!_.isArray(timeline[dataStruct]))
+								timeline[dataStruct] = []
 
-					split[timeline].push(at)
-					cbb()
-				})
+							timeline[dataStruct].push(at)
+							cbb()
+						})
+					}
+				} else {
+					if (!_.isArray(timeline['recent']))
+						timeline['recent'] = []
+
+					if (activities.length > 0) {
+						async.each(activities, function (at, cbb) {
+							timeline['recent'].push(at)
+							cbb()
+						})
+					}
+				}
 
 				if (!err) return cb()
 				cb('Internal error')
 			})
 		}, function (err) {
 			if (err) return callback(400, err)
-			callback(null, split)
+			if (listed) {
+				timeline.recent.sort((a,b) => {
+					if (a.created < b.created) return 1
+				})
+				timeline.recent = timeline.recent.splice(0, 9)
+			}
+			callback(null, timeline)
 		})
 	})
 }

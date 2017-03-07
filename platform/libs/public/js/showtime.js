@@ -32,6 +32,10 @@ let nk = {
 		if ($('#activities').length) {
 			activities.all()
 		}
+
+		if ($('#recent_activity').length) {
+			activities.recent()
+		}
 	},
 	resetEditor: () => {
 		editor.resetContent()
@@ -49,21 +53,8 @@ let nk = {
 
 let errorHandler = {
 	modal: (msg, title) => {
-		if ($('.modal.active .error').is(':visible')) return
-
-		let _oldheight = $(`.modal.active .content`).height()
-		let _newheight = $(`.modal.active .content`).height() + 54
-
-		$(`.modal.active .content`).animate({height: _newheight}, 300)
-		.queue(function() {
-			$(this).find('.error .why').text(msg).parent().show('slide', {direction: 'down'}, 300).parent().dequeue()
-		})
-		.delay(4000)
-		.animate({height: _oldheight}, 300)
-		.queue(function() {
-			$(this).find('.error').hide('slide', {direction: 'down'}, 300).parent().dequeue()
-		})
-
+		if (title) return iziToast.error({title: title, message: msg})
+		iziToast.error({message: msg})
 	}
 }
 
@@ -80,6 +71,7 @@ let templates = {
 	act_declined_invite: $('#tpl-act-declined_invite').html(),
 	act_accepted_invite: $('#tpl-act-accepted_invite').html(),
 	act_empty: $('#tpl-act-empty').html(),
+	act_none: $('#tpl-act-none').html(),
 	escape: (str) => {
 		return str
 			.replace(/&/g, '&amp;')
@@ -129,7 +121,7 @@ let activities = {
 			}
 		})
 	},
-	all: (id) => {
+	all: (filter) => {
 		_data = JSON.stringify({})
 		endpoint.call('/facets/endpoints/activities/all', 'GET', _data, (res) => {
 
@@ -137,11 +129,33 @@ let activities = {
 			$('#activities').empty().append($(acts))
 
 			_.each(res, function(stories, i) {
+				stories.sort((a,b) => {
+					if (a.created < b.created) return 1
+				})
 				_.each(stories, function(story) {
+					if (!filter || (filter && filter == story.type)) {
+						story.created = moment(story.created).fromNow()
+						newStory = _.template(eval(`templates.act_${story.type}`))(story)
+						$(`[data-timeline='${i}']`).append($(newStory))
+					}
+				})
+				if (!$(`[data-timeline='${i}'] .act_none`).length && !$(`[data-timeline='${i}'] .unit`).length) {
+					actNone = _.template(templates.act_none)()
+					$(`[data-timeline='${i}']`).append($(actNone))
+				}
+			})
+		})
+	},
+	recent: (filter) => {
+		_data = JSON.stringify({})
+		endpoint.call('/facets/endpoints/activities/all/true', 'GET', _data, (stories) => {
+			console.log(stories);
+			_.each(stories.recent, function(story) {
+				if (!filter || (filter && filter == story.type)) {
 					story.created = moment(story.created).fromNow()
 					newStory = _.template(eval(`templates.act_${story.type}`))(story)
-					$(`[data-timeline='${i}']`).append($(newStory))
-				})
+					$(`#recent_activity`).append($(newStory))
+				}
 			})
 
 		})
@@ -528,20 +542,27 @@ $(() => {
 		$(`#${$(this).data('switch')}`).slideDown(300, () => $(`#${$(this).data('switch')}`).addClass('open'))
 	})
 
+	$('.switches .switch').bind('click', function(e) {
+		$('.switches').hide()
+		$('.switches').removeClass('open')
+	})
+
 	$('.switches#switch_note .switch').bind('click', function(e) {
 		const selectedName = $(this).find('b').text()
 		$('#notes h4.what span').text(selectedName)
-		$('.switches').hide()
 	})
 
 	$('.switches#switch_teams .switch').bind('click', function(e) {
-		$('.switches').hide()
-		$('.switches').removeClass('open')
 		if ($(this).data('teamid') != 0) {
 			$(document).trigger('open:editor', [{private: 0, team: $(this).data('teamid')}])
 		} else {
 			$(document).trigger('open:editor', [{private: 1}])
 		}
+	})
+
+	$('.switches#switch_activities .switch').bind('click', function(e) {
+		if ($(this).data('select') == "all") return activities.all()
+		activities.all($(this).data('select'))
 	})
 
 	$('#settings .item a').bind('click', function(e) {

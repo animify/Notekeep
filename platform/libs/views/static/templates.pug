@@ -5,8 +5,6 @@ script(type='text/html', id='tpl-teams')
 		h6!= '<%= name %>'
 		small #[i.material-icons person_outline]
 			| <%= members %>
-			i.material-icons book
-			| 0
 
 script(type='text/html', id='tpl-notes_private')
 	.summary
@@ -39,14 +37,14 @@ script(type='text/html', id='tpl-act-create_note')
 	!= '<% if (note != null) { %>'
 	.unit
 		h6
-			i.material-icons.text-green loupe
-			!= '<%= by.firstname %> <%= by.lastname %> created note <a href="/notes/<%= note._id %>"><%= note.title %></a>'
+			i.material-icons.text-green create
+			!= '<%= by.firstname %> <%= by.lastname %> created note <a href="/notes/<%= note._id %>"><%= note.title %></a>.'
 		small!= '<%= created %>'
 	!= '<% } else { %>'
-	.unit
+	.unit.removed
 		h6
-			i.material-icons.text-green loupe
-			!= '<%= by.firstname %> <%= by.lastname %> created a [deleted] note'
+			i.material-icons create
+			!= '<%= by.firstname %> <%= by.lastname %> created a [deleted] note.'
 		small!= '<%= created %>'
 	!= '<% } %>'
 
@@ -55,39 +53,45 @@ script(type='text/html', id='tpl-act-delete_note')
 	.unit
 		h6
 			i.material-icons.text-red delete_sweep
-			!= '<%= by.firstname %> <%= by.lastname %> deleted a note</b>'
+			!= '<%= by.firstname %> <%= by.lastname %> deleted a note</b>.'
 		small!= '<%= created %>'
 
 script(type='text/html', id='tpl-act-sent_invite')
 	.unit
 		h6
 			i.material-icons.text-green person_add
-			!= '<%= by.firstname %> <%= by.lastname %> sent an invite to <%= to.firstname %> <%= to.lastname %>.'
+			!= '<%= by.firstname %> <%= by.lastname %> invited <b><%= to.firstname %> <%= to.lastname %></b> to <b><%= team.name %></b>.'
 		small!= '<%= created %>'
 
 script(type='text/html', id='tpl-act-declined_invite')
 	.unit
 		h6
 			i.material-icons.text-red sentiment_dissatisfied
-			!= '<%= by.firstname %> <%= by.lastname %> declined the invite to the team.'
+			!= '<%= by.firstname %> <%= by.lastname %> declined the invite <b><%= team.name %></b>.'
 		small!= '<%= created %>'
 
 script(type='text/html', id='tpl-act-accepted_invite')
 	.unit
 		h6
 			i.material-icons.text-green done_all
-			!= '<%= by.firstname %> <%= by.lastname %> has joined the team.'
+			!= '<%= by.firstname %> <%= by.lastname %> has joined <b><%= team.name %></b>.'
 		small!= '<%= created %>'
 
 script(type='text/html', id='tpl-act-empty')
 	.unit
 		h6
-			i.material-icons.text-yellow sentiment_dissatisfied
-			span.text-light No activites yet
+			i.material-icons.text-yellow notifications_off
+			span.text-light No activites yet.
+
+script(type='text/html', id='tpl-act-none')
+	.unit.act_none
+		h6
+			i.material-icons.text-yellow notifications_paused
+			span.text-light No such activity on this date.
 
 script(type='text/html', id='tpl-build_activities')
 	!= '<% _.each(dates, function(date) { %>'
-	.summary.light(data-timeline!="<%= date %>")
+	.summary.nohover.light(data-timeline!="<%= date %>")
 		.grid-row
 			.xs-12
 				.intro

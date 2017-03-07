@@ -4174,6 +4174,12 @@ nav.nav.shard .user.open span {
   width: 100%;
   display: block;
 }
+.summary .unit.removed h6 {
+  opacity: 0.5;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  text-decoration: line-through;
+}
 .summary .unit.new {
   display: none;
 }

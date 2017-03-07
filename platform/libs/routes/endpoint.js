@@ -44,8 +44,11 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).get('/activities/all', (req, res) => {
-	activitiesController.userActivities(req, res, (err, ret) => {
+}).get('/activities/all/:listed?', (req, res) => {
+	let listed = false
+	if (req.params.listed == "true") listed = true
+
+	activitiesController.userTimelineActivities(req, res, listed, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})

@@ -18,7 +18,7 @@
 	position: relative;
 	font-family: 'Avenir Next W00', 'Open Sans', caption, sans-serif;
 	font-size: 14px;
-	padding: 8px 50px 9px 0;
+	padding: 13px 64px 15px 0;
 	background: rgba(238,238,238,0.9);
 	border-color: rgba(238,238,238,0.9);
 	min-height: 54px;
@@ -33,6 +33,7 @@
 	-ms-user-select: none /* Internet Explorer/Edge */;
 	user-select: none;
 	overflow:hidden;
+	border: 2px solid;
 }
 .iziToast > .iziToast-progressbar {
 	position: absolute;
@@ -171,7 +172,7 @@
 	padding: 0 10px 0 0;
 	margin: 10px 0 -10px 0;
 	line-height: 16px;
-	font-size: 14px;
+	font-size: 15px;
 	float: left;
 	color: #fff;
 }
@@ -179,7 +180,7 @@
 	color: #fff;
 	padding: 0;
 	margin: 10px 0;
-	font-size: 14px;
+	font-size: 15px;
 	line-height: 16px;
 	text-align: left;
 	float: left;
