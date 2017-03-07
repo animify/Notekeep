@@ -10,6 +10,7 @@ const passport = require('passport')
 const passportSocketIo = require('passport.socketio')
 const sharedsession = require("express-socket.io-session")
 const diff = require('diff')
+const _ = require('underscore')
 
 exports.connect = (server, io, sessionStore, eSession) => {
 	onAuthorizeSuccess = (data, accept) => {
@@ -46,10 +47,12 @@ exports.connect = (server, io, sessionStore, eSession) => {
 
 		socket.on('change', (chg) => {
 			changeQueue.push(chg)
-			socket.broadcast.to(socket.teamSpace).emit('change', changeQueue[0])
-			changeQueue.pop()
+			_.each(changeQueue, (change) => {
+				socket.broadcast.to(socket.teamSpace).emit('change', change)
+				changeQueue.pop()
+			})
 		})
-		
+
 		socket.on('preSave', (content) => {
 			if (saveTimer) clearTimeout(saveTimer)
 			saveTimer = setTimeout(() => {
