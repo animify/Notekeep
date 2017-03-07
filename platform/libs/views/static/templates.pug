@@ -84,3 +84,14 @@ script(type='text/html', id='tpl-act-empty')
 		h6
 			i.material-icons.text-yellow sentiment_dissatisfied
 			span.text-light No activites yet
+
+script(type='text/html', id='tpl-build_activities')
+	!= '<% _.each(dates, function(date) { %>'
+	.summary.light(data-timeline!="<%= date %>")
+		.grid-row
+			.xs-12
+				.intro
+					.desc
+						h5!= '<%= date %>'
+			.xs-12
+	!= '<% }); %>'

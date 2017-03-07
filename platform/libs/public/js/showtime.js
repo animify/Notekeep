@@ -28,6 +28,10 @@ let nk = {
 		if ($('.populate[data-populate="populate_activity"]').length) {
 			activities.team($('.populate[data-populate="populate_activity"]').data('team'))
 		}
+
+		if ($('#activities').length) {
+			activities.all()
+		}
 	},
 	resetEditor: () => {
 		editor.resetContent()
@@ -69,6 +73,7 @@ let templates = {
 	notes_private: $('#tpl-notes_private').html(),
 	editorStatus: $('#tpl-editor_status').html(),
 	publishedNote: $('#tpl-note_created').html(),
+	build_activities: $('#tpl-build_activities').html(),
 	act_create_note: $('#tpl-act-create_note').html(),
 	act_delete_note: $('#tpl-act-delete_note').html(),
 	act_sent_invite: $('#tpl-act-sent_invite').html(),
@@ -111,7 +116,6 @@ let activities = {
 	team: (id) => {
 		_data = JSON.stringify({team: id})
 		endpoint.call('/facets/endpoints/activities/team', 'POST', _data, (res) => {
-			console.log(res);
 			if (res.length < 1) {
 				emptyActivities = _.template(templates.act_empty)({})
 				$('.populate .xs-12').append($(emptyActivities))
@@ -123,6 +127,23 @@ let activities = {
 					$('.populate .xs-12').append($(newStory))
 				})
 			}
+		})
+	},
+	all: (id) => {
+		_data = JSON.stringify({})
+		endpoint.call('/facets/endpoints/activities/all', 'GET', _data, (res) => {
+
+			acts = _.template(templates.build_activities)({dates: Object.getOwnPropertyNames(res).reverse()})
+			$('#activities').empty().append($(acts))
+
+			_.each(res, function(stories, i) {
+				_.each(stories, function(story) {
+					story.created = moment(story.created).fromNow()
+					newStory = _.template(eval(`templates.act_${story.type}`))(story)
+					$(`[data-timeline='${i}']`).append($(newStory))
+				})
+			})
+
 		})
 	}
 }
@@ -273,12 +294,9 @@ let transform = {
 		let c = editor.getContent()
 		chg.reverse()
 		chg.forEach((typ) => {
-			console.log(typ);
 			a = typ.frag.from
 			b = typ.frag.from + typ.frag.count
-			console.log(a, b);
 			c = c.substring(0, a) + c.substring(b)
-			console.log(c);
 		})
 		console.log(c);
 		editor.setContent(c)
@@ -385,13 +403,11 @@ $(() => {
 			case 'publish_note':
 				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), plain: ($('.note_content').text()).substr(0,40), team: team.selected})
 				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
-					console.log(res);
 					if (res.error) {
 						errorHandler.modal(res.message[0].msg, res.message[0].param)
 					} else {
 						modal.close()
 						publishedNote = _.template(templates.publishedNote)(res.Message)
-						console.log();
 						$(`[data-team_section=${res.Message.team}] .all_notes`).append($(publishedNote))
 					}
 				})
@@ -424,19 +440,15 @@ $(() => {
 				break
 			case 'switch_note_mode':
 				const newType = _this.data('type')
-				console.log(newType);
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/retrieve/${newType}`, 'GET', _data, (res) => {
 					let newNote = null
 					noteSection = _.template(eval(`templates.notes_${newType}`))({})
-					console.log(noteSection);
 					$('#summary_notes').empty()
 					$('#summary_notes').html($(noteSection))
 
 					_.each(res, function(arr) {
-						console.log(arr);
 						newNote = _.template(templates.notes)(arr)
-						console.log(newNote);
 						$('.all_notes').append($(newNote))
 					})
 
@@ -454,7 +466,6 @@ $(() => {
 			case 'invite_member':
 				_data = JSON.stringify({user: $('#member-email').val(), team: $('.add').data('team')})
 				endpoint.call('/facets/endpoints/teams/invite', 'POST', _data, (res) => {
-					console.log(res);
 					if (res.error) return errorHandler.modal(res.message)
 					iziToast.success({title: "Invite sent", message: `Team invite sent to ${$('#member-email').val()}`})
 					modal.close()
@@ -462,17 +473,13 @@ $(() => {
 				break
 			case 'accept_invite':
 				_data = JSON.stringify({team: _this.parent().data('team')})
-				console.log(_data);
 				endpoint.call('/facets/endpoints/invites/accept', 'POST', _data, (res) => {
-					console.log(res);
 				})
 				break
 			case 'decline_invite':
 				_data = JSON.stringify({team: _this.parent().data('team')})
-				console.log(_data);
 
 				endpoint.call('/facets/endpoints/invites/decline', 'POST', _data, (res) => {
-					console.log(res);
 				})
 				break
 			case 'share_note':
@@ -623,6 +630,5 @@ $(() => {
 				transform.replaceAll(chg.change)
 				break
 		}
-
 	})
 })

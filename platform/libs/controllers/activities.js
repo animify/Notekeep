@@ -52,6 +52,40 @@ exports.teamActivities = (req, res, limit, callback) => {
 	})
 }
 
+exports.userActivities = (req, res, callback) => {
+
+	const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'team', select: '_id'}, {path: 'note', select: '_id title'}]
+
+	split = {}
+
+	teams.findUserTeams(req, res, (err, userTeams) => {
+		async.each(userTeams, function (tm, cb) {
+			Activity.find({team: tm._id})
+			.sort({created: 'descending'})
+			.populate(populateQuery)
+			.lean()
+			.exec((err, activities) => {
+				async.each(activities, function (at, cbb) {
+					console.log(at);
+					timeline = moment(at.created).format("MMMM Do")
+
+					if (!_.isArray(split[timeline]))
+						split[timeline] = []
+
+					split[timeline].push(at)
+					cbb()
+				})
+
+				if (!err) return cb()
+				cb('Internal error')
+			})
+		}, function (err) {
+			if (err) return callback(400, err)
+			callback(null, split)
+		})
+	})
+}
+
 createActivity = (by, to, type, teamID, noteID) => {
 	return new Promise((resolve, reject) => {
 		let doc = {}

@@ -44,6 +44,11 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
+}).get('/activities/all', (req, res) => {
+	activitiesController.userActivities(req, res, (err, ret) => {
+		if (err) return res.send({error: err, message: ret})
+		res.send(ret)
+	})
 }).get('/notes/retrieve/:type', (req, res) => {
 	switch (req.params.type) {
 		case 'team':
