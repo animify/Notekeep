@@ -23,8 +23,8 @@ exports.connect = (server, io, sessionStore, eSession) => {
 		error && accept(new Error(message))
 	}
 
-	updateNote = (noteID, noteBody, teamID) => {
-		notes.updateNote(noteID, noteBody, teamID, (err, ret) => {
+	updateNote = (noteID, noteBody, notePlain, teamID) => {
+		notes.updateNote(noteID, noteBody, notePlain, teamID, (err, ret) => {
 			log.info('saved')
 		})
 	}
@@ -56,11 +56,11 @@ exports.connect = (server, io, sessionStore, eSession) => {
 		socket.on('preSave', (content) => {
 			if (saveTimer) clearTimeout(saveTimer)
 			saveTimer = setTimeout(() => {
-				updateNote(content._id, content.body, socket.teamSpaceRaw)
+				updateNote(content._id, content.body, content.plain, socket.teamSpaceRaw)
 			}, 800)
 		})
 
-		socket.on('note_join', (data) => {
+		socket.on('team_join', (data) => {
 			if (socket.lastTeamSpace) {
 				socket.leave(socket.lastTeamSpace)
 				socket.lastTeamSpace = null
@@ -71,5 +71,6 @@ exports.connect = (server, io, sessionStore, eSession) => {
 			socket.join(socket.teamSpace)
 			socket.lastTeamSpace = socket.teamSpace
 		})
+
 	})
 }

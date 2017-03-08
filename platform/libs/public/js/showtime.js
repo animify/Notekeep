@@ -292,7 +292,10 @@ let modal = {
 		$('.editor').show('slide', {direction: 'left'}, 300)
 
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
-		if (!info.note.private) socket.emit('note_join', {space: info.team._id})
+
+		if (!info.note.private)
+			socket.emit('team_join', {space: info.team._id})
+
 	},
 	closeEditor: () => {
 		$('body, .wrap').removeClass('noscroll')
@@ -600,7 +603,7 @@ $(() => {
 		arChange = {op: "+change", change: []}
 
 		diff = JsDiff.diffWordsWithSpace(oldHTML, newHTML)
-
+		console.log(diff);
 		diff.forEach(function(part){
 			part.count = part.value.length
 			part.from = ld
@@ -616,7 +619,7 @@ $(() => {
 		transform.oldHTML = newHTML
 
 		socket.emit('change', arChange)
-		socket.emit('preSave', { _id: team.viewingNote, body: newHTML})
+		socket.emit('preSave', { _id: team.viewingNote, body: newHTML, plain: $('.note_content').text()})
 		// console.timeEnd('Diff')
 	}
 

@@ -294,12 +294,12 @@ exports.findDraftNotes = (req, res, callback) => {
 	})
 }
 
-exports.updateNote = (noteID, noteBody, teamID, callback) => {
+exports.updateNote = (noteID, noteBody, notePlain, teamID, callback) => {
 	if (teamID === undefined) teamID = "0"
-	
+
 	Notes.findOneAndUpdate(
 		{_id: noteID, team: teamID},
-		{$set: {content: noteBody}},
+		{$set: {content: noteBody, plain: notePlain}},
 		{upsert: true, new: true},
 		(err, doc) => {
 			callback(null, doc)
