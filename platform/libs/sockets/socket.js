@@ -67,7 +67,6 @@ exports.connect = (server, io, sessionStore, eSession) => {
 			}
 			socket.teamSpaceRaw = data.space
 			socket.teamSpace = 'teamspace_' + data.space
-			console.log('room', socket.teamSpace)
 			socket.join(socket.teamSpace)
 			socket.lastTeamSpace = socket.teamSpace
 		})

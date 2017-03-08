@@ -418,6 +418,7 @@ $(() => {
 			case 'publish_note':
 				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), plain: ($('.note_content').text()).substr(0,40), team: team.selected})
 				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
+					console.log(res);
 					if (res.error) {
 						errorHandler.modal(res.message[0].msg, res.message[0].param)
 					} else {
