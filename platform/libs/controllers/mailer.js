@@ -42,8 +42,6 @@ exports.sendemail = (req, res, callback) => {
 }
 
 exports.passwordReset = (req, res, emailOptions, callback) => {
-	console.log(transport);
-	
 	const sendPasswordReset = transport.templateSender(new EmailTemplate(jt.path('templates/password_reset')), {
 		from: '"Notekeep Support" <hello@notekeep.io>',
 	})
@@ -52,6 +50,8 @@ exports.passwordReset = (req, res, emailOptions, callback) => {
 		to: emailOptions.email,
 		subject: 'Forgot your password?'
 	}, {
+		firstname: req.user.firstname,
+		lastname: req.user.lastname,
 		email: emailOptions.email,
 		token: emailOptions.token,
 		host: `${req.protocol}://${req.get('host')}`

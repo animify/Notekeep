@@ -124,42 +124,42 @@ body {
 }
 h1 {
   font-size: 3.8em;
-  color: #2f4468;
+  color: #20304c;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h2 {
   font-size: 2.8em;
-  color: #2f4468;
+  color: #20304c;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h3 {
   font-size: 2.4em;
-  color: #2f4468;
+  color: #20304c;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h4 {
   font-size: 2em;
-  color: #2f4468;
+  color: #20304c;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h5 {
   font-size: 1.4em;
-  color: #2f4468;
+  color: #20304c;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h6 {
   font-size: 1.08em;
-  color: #2f4468;
+  color: #20304c;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
@@ -1559,7 +1559,7 @@ footer ul.options li + li {
   cursor: default;
 }
 .dropdown li.header {
-  color: #2f4468;
+  color: #20304c;
   padding: 0.8rem 1rem;
   margin: 0 0.4rem;
   font-weight: 600;
@@ -1581,7 +1581,7 @@ footer ul.options li + li {
   color: #f34133;
 }
 .dropdown li a {
-  color: #2f4468;
+  color: #20304c;
   display: block;
   padding: 0.8rem 1rem;
   margin: 0 0.4rem;
@@ -2333,7 +2333,7 @@ ol.ordered li[value]:before {
   -ms-user-select: none;
   user-select: none;
   background-color: #f2f5f7;
-  color: #456499;
+  color: #385485;
 }
 .input input[disabled].display,
 .input.disabled.display {
@@ -2350,7 +2350,7 @@ ol.ordered li[value]:before {
 .input textarea {
   font-family: 'Avenir Next W00', 'Open Sans', caption, sans-serif;
   font-size: 15px;
-  color: #2f4468;
+  color: #20304c;
   margin: 0;
   font-size: 1em;
   max-width: 100%;
@@ -3841,7 +3841,7 @@ nav.nav.shard.presentation .contain {
   max-width: 100%;
 }
 nav.nav.shard ul.options li a {
-  color: #2f4468;
+  color: #20304c;
 }
 nav.nav.shard ul.options li a i {
   color: #8999af;
@@ -3853,7 +3853,7 @@ nav.nav.shard ul.options li a:hover {
   color: #2a3137;
 }
 nav.nav.shard .user span {
-  color: #2f4468;
+  color: #20304c;
 }
 nav.nav.shard .user:hover span,
 nav.nav.shard .user.open span {
@@ -4218,7 +4218,7 @@ nav.nav.shard .user.open span {
   line-height: 1.6em;
   display: inline-block;
   vertical-align: top;
-  color: #2f4468;
+  color: #20304c;
   font-size: 1em;
 }
 .summary .unit p.medium-p::before,
@@ -4274,7 +4274,7 @@ nav.nav.shard .user.open span {
 }
 .summary .unit span.actions a {
   font-weight: 500;
-  color: #2f4468;
+  color: #20304c;
 }
 .summary .unit span.actions a.clr-accept:hover {
   color: #07b76f;
@@ -4290,7 +4290,7 @@ nav.nav.shard .user.open span {
   float: right;
   vertical-align: top;
   line-height: 2em;
-  color: #2f4468;
+  color: #20304c;
   font-weight: 500;
   color: #8999af;
 }
@@ -4337,10 +4337,10 @@ nav.nav.shard .user.open span {
   border-bottom: 1px solid #e3e9ee;
 }
 .editor.presentation .presentation_tools.options h6 {
-  color: #2f4468;
+  color: #20304c;
 }
 .editor.presentation .presentation_tools.options .invert i {
-  color: #2f4468;
+  color: #20304c;
 }
 .editor.presentation .editable {
   width: 100%;
