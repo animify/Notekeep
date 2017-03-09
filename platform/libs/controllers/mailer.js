@@ -42,16 +42,16 @@ exports.sendemail = (req, res, callback) => {
 }
 
 exports.passwordReset = (req, res, emailOptions, callback) => {
-	const sendPasswordReset = transport.templateSender(new EmailTemplate(jt.path('templates/password_reset')), {
+	const execPasswordReset = transport.templateSender(new EmailTemplate(jt.path('templates/password_reset')), {
 		from: '"Notekeep Support" <hello@notekeep.io>',
 	})
 
-	sendPasswordReset({
+	execPasswordReset({
 		to: emailOptions.email,
 		subject: 'Forgot your password?'
 	}, {
-		firstname: req.user.firstname,
-		lastname: req.user.lastname,
+		firstname: emailOptions.firstname,
+		lastname: emailOptions.lastname,
 		email: emailOptions.email,
 		token: emailOptions.token,
 		host: `${req.protocol}://${req.get('host')}`
@@ -59,7 +59,7 @@ exports.passwordReset = (req, res, emailOptions, callback) => {
 		if(err){
 			 console.log(err);
 		} else{
-			console.log('Password forgot sent')
+			console.log('Password reset sent')
 		}
 	})
 }

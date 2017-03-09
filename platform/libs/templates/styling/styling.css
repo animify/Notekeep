@@ -83,6 +83,7 @@ body {
 .email-footer {
   border-top: 1px solid #e3e9ee;
   padding: 1.2rem 0 0 0;
+  margin-top: 1.4rem;
 }
 .email small {
   display: block;

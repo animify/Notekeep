@@ -10,8 +10,8 @@ html(lang="en")
 				.email-inner
 					h4 Oh snap! Forgot your password?
 					p Hi #{firstname}!
-					p It looks like you've requested a password reset, simply click the button or paste the link below into your browser.
-					a.link-to(href=`${host}/reset/${token}`) Reset password
+					p It looks like you've requested a password reset, simply click the button or paste the link below into your browser. This request will expire in #[b 24 hours].
+					a.link-to(href=`${host}/reset/${token}`) Reset Password
 					a.pasted(href=`${host}/reset/${token}`) #{host}/reset/#{token}
 					p If you didn't make the password change ignore it or reply to this email if you think your account has been compromised.
 					p Best regards, #[br] Notekeep Support
