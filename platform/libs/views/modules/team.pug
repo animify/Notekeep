@@ -38,10 +38,10 @@ block content
 										h5 Members
 								.unit
 									svg.avatar(data-jdenticon-hash=`${team[0].creator.avatar}`)
-									h6 #{team[0].creator.firstname} #{team[0].creator.lastname}
+									p #{team[0].creator.firstname} #{team[0].creator.lastname}
 									small #{team[0].creator.email}
 								for user in team[0].userlist
 									.unit
 										svg.avatar(data-jdenticon-hash=`${user.avatar}`)
-										h6= `${user.firstname} ${user.lastname}`
+										p= `${user.firstname} ${user.lastname}`
 										small= user.email

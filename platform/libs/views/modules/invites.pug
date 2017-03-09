@@ -15,7 +15,7 @@ block content
 						for inv in invites.pending
 							.unit
 								svg.avatar(data-jdenticon-hash=`${inv.by.avatar}`)
-								h6 #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.team.name}]
+								p #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.team.name}]
 								span.actions(data-team=inv.team._id)
 									a.clr-accept(data-run="accept_invite") Accept
 									a.clr-decline(data-run="decline_invite") Decline
@@ -27,5 +27,5 @@ block content
 								h5 Sent Invites
 						for inv in invites.sent
 							.unit
-								h6 #[i.material-icons.text-grey swap_horiz] You have invited #{inv.to.firstname} #{inv.to.lastname} to #[b #{inv.team.name}]
+								p #[i.material-icons.text-grey swap_horiz] You have invited #{inv.to.firstname} #{inv.to.lastname} to #[b #{inv.team.name}]
 								small Sent #{moment(inv.created).fromNow()}

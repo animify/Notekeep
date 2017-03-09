@@ -4174,7 +4174,7 @@ nav.nav.shard .user.open span {
   width: 100%;
   display: block;
 }
-.summary .unit.removed h6 {
+.summary .unit.removed p {
   opacity: 0.5;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
   filter: alpha(opacity=50);
@@ -4195,25 +4195,30 @@ nav.nav.shard .user.open span {
   margin-right: 0.4rem;
   border-radius: 4px;
 }
+.summary .unit p,
 .summary .unit h6 {
   line-height: 1.6em;
   display: inline-block;
   vertical-align: top;
   color: #2f4468;
-  font-size: 1rem;
+  font-size: 1em;
 }
+.summary .unit p.medium-p::before,
 .summary .unit h6.medium-p::before {
   content: '!! ';
   color: #ffc82c;
 }
+.summary .unit p.high-p::before,
 .summary .unit h6.high-p::before {
   content: '!!! ';
   color: #ff4949;
 }
+.summary .unit p span,
 .summary .unit h6 span {
   font-weight: 500;
   color: #97a2b2;
 }
+.summary .unit p i,
 .summary .unit h6 i {
   font-size: 1.1rem;
   position: relative;

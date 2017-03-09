@@ -29,7 +29,7 @@ let nk = {
 			activities.team($('.populate[data-populate="populate_activity"]').data('team'))
 		}
 
-		if ($('#activities').length) {
+		if ($('#activities_list').length) {
 			activities.all()
 		}
 
@@ -126,7 +126,7 @@ let activities = {
 		endpoint.call('/facets/endpoints/activities/all', 'GET', _data, (res) => {
 
 			acts = _.template(templates.build_activities)({dates: Object.getOwnPropertyNames(res).reverse()})
-			$('#activities').empty().append($(acts))
+			$('#activities_list').empty().append($(acts))
 
 			_.each(res, function(stories, i) {
 				stories.sort((a,b) => {
