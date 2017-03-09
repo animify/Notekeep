@@ -2,14 +2,18 @@ extends ../layout
 
 block content
 	include ../static/dashboard/nav.pug
+	.strip
+		.contain
+			.bind
+				.about
+					h4.what All Teams
+					h6 Manage all of your teams
+				.float-right.actions
+					.input.sm
+						input(type="text", placeholder="Search for a team")
+						a #[i.material-icons search]
+					a.button.invert.sm(data-modal="open", data-modal-name="modal_team") New Team
 	.contain
-		nav.nav.sub
-			h4.what All Teams
-			.float-right.actions
-				.input.sm
-					input(type="text", placeholder="Search for a team")
-					a #[i.material-icons search]
-				a.button.primary.sm(data-modal="open", data-modal-name="modal_team") New Team
 		.inner#teams
 			if (teams.length)
 				.summary

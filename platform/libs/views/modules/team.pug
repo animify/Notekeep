@@ -4,20 +4,22 @@ block content
 	include ../static/dashboard/nav.pug
 	.strip
 		.contain
-			.about
-				h4.what #{team[0].name}
-					if (team[0].creator._id == user._id.toString())
-						i.material-icons.settings(data-run="team_settings") settings
-				h6(contenteditable="true", placeholder="Add a team description...")
-			.members
-				small Members #[span (#{team[0].userlist.length + 1})]
-				for usr in team[0].userlist
+			.bind
+				.about
+					h4.what #{team[0].name}
+						if (team[0].creator._id == user._id.toString())
+							i.material-icons.settings(data-run="team_settings") settings
+					h6(contenteditable="true", placeholder="Add a team description...")
+				.members
+					small Members #[span (#{team[0].userlist.length + 1})]
+					for usr in team[0].userlist
+						.round_action
+							svg(data-jdenticon-hash=usr.avatar)
 					.round_action
-						svg(data-jdenticon-hash=usr.avatar)
-				.round_action
-					svg(data-jdenticon-hash=team[0].creator.avatar)
-				.round_action.add(data-modal="open", data-modal-name="modal_invite", data-team=team[0]._id)
-					i.material-icons add
+						svg(data-jdenticon-hash=team[0].creator.avatar)
+					.round_action.add(data-modal="open", data-modal-name="modal_invite", data-team=team[0]._id)
+						i.material-icons add
+						| Add
 	.contain
 		.inner#teams
 			.grid-row

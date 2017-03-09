@@ -1,5 +1,5 @@
 .switches
-	absolute top 2em left -.2em
+	absolute top -.4rem left -.4rem
 	display none
 	max-width 16em
 	width 100%
@@ -8,7 +8,7 @@
 	border-radius border-radius-normal
 	overflow hidden
 	&.right
-		right -.2em
+		right -.4rem
 		left auto
 	.switch
 		font-size 1rem
@@ -55,6 +55,12 @@
 	height em-height
 	line-height 1.3em
 	font-weight 600
+	&.invert
+		background-color #374758
+		color #fff
+		&:hover
+			color #fff
+			background-color lighten(#374758, 4%)
 	&.transparent
 		background-color transparent
 		&:hover
@@ -114,7 +120,7 @@
 		padding 0 0.8275em
 	&:hover
 		color hover-text-button-default
-		background-color hover-background-light-gray
+		background-color #fff
 
 .button-group
 	cf()

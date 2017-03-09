@@ -2,11 +2,13 @@ extends ../layout
 
 block content
 	include ../static/dashboard/nav.pug
+	.strip
+		.contain
+			.bind
+				.about
+					h4.what Dashboard
+					h6 Check out what's happening
 	.contain
-		nav.nav.sub
-			h4.what Dashboard
-			.float-right.actions
-				a.button.green.sm New Note
 		.inner#dashboard
 			.grid-row
 				.l-5.xs-12

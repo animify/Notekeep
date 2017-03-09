@@ -85,43 +85,6 @@ nav.nav
 	background-color color-nav
 	z-index 2000
 	fixed top left
-	&.sub
-		background-color transparent
-		position relative
-		z-index 1800
-		width 100%
-		display block
-		cf()
-		height auto
-		margin 4.4em 0 0 0
-		border 0
-		padding 0
-		box-shadow none
-		h4.what
-			padding 2.1rem 0 0 0
-			vertical-align top
-			float left
-			font-size 2.1em
-			i
-				font-size 1em
-				relative top 6px
-				color text-light-invert
-				cursor pointer
-				&:hover
-					color text-grey
-
-		h6.what
-			padding 2.8rem 0
-			display block
-			vertical-align top
-			float right
-			font-weight 400
-			span
-				font-weight 500
-		.actions
-			relative top 2.7em
-			.button + .button
-				margin-left 1.3rem
 	.float-right
 		& > *:not(.switches)
 			display inline-block
@@ -240,21 +203,65 @@ nav.nav
 			font-size font-size-standard
 			line-height 1em
 			color body-color
-			font-weight 400
 			margin-bottom .6rem
+			font-weight 500
 
 .strip
-	padding 6.5rem 0 0 0
+	padding 6.5rem 0 3.3rem 0
 	width 100%
 	display block
 	position relative
+	background-color color-nav-lighter
 	cf()
+	z-index 30
+	&.has-selection
+		padding-bottom 5.2rem
+	.selection
+		absolute bottom 0
+		width 100%
+		li
+			display inline-block
+			vertical-align top
+			font-weight 500
+			padding 1.2rem 0
+			p
+				color #fff
+				line-height 1rem
+				i
+					font-size 1rem
+					line-height .4rem
+					color text-light-invert
+					relative top 4px
+					margin-right .2rem
+			&.active
+				a
+					color #fff
+					font-weight 600
+			a
+				color text-light-invert
+				line-height 1rem
+				display block
+			& + li
+				margin-left 3.4rem
+	.avatar
+		height 4.6rem
+		width 4.6rem
+		background-color color-nav
+		margin-right 1rem
+		display inline-block
+		vertical-align top
+	.bind > .float-right
+		margin-top .7rem
+		& > *:not(.switches)
+			display inline-block
+			vertical-align top
 	.about
 		display inline-block
 		vertical-align top
 		max-width 40em
 	h6
 		font-weight 500
+		color text-light-invert
 		&[contenteditable=true]:empty:before
 			content attr(placeholder)
 			display block
@@ -267,6 +274,7 @@ nav.nav
 		vertical-align top
 		line-height 1.4em
 		font-size 2.1em
+		color #fff
 		i.settings
 			font-size 1.4rem
 			color text-lightest
@@ -285,20 +293,21 @@ nav.nav
 			vertical-align top
 			text-align center
 			& + .round_action
-				margin-left -.3rem
+				margin-left -.7rem
 			&.add
 				height 2.3em
-				width 2.3em
-				border 2px dashed border-gray
-				box-shadow 0 0 0 4px #fff
-				border-radius 50%
+				border 2px solid transparent
+				box-shadow 0 0 0 4px color-nav
+				border-radius 15px
 				background-color #fff
 				cursor pointer
 				transition all .14s ease
+				font-weight 600
+				padding 0 .6rem 0 .3rem
 				i
-					color text-light
-					line-height 1.44em
-					font-size 1.4em
+					color color-green
+					font-size 1.34em
+					relative top 5px
 				&:hover
 					border 2px solid color-green
 					i
@@ -307,10 +316,10 @@ nav.nav
 				height 2.3em
 				width 2.3em
 				border-radius 50%
-				box-shadow 0 0 0 4px #fff
-				background-color color-smoke
+				box-shadow 0 0 0 4px color-nav
+				background-color #fff
 	small
-		color body dark
+		color #fff
 		font-weight 500
 		font-size 1em
 		margin-bottom .6rem
@@ -320,33 +329,28 @@ nav.nav
 			color text-light
 
 .section
-	padding 2.3em 3em
 	border-radius border-radius-normal
 	background-color #fff
 	box-shadow 0 1px 1px 0 box-shadow-gray
 	border 1px solid border-gray
 	.sub
 		display block
-		padding .3em 0 .7em 0
-		border-bottom 1px solid border-gray
+		padding 1.8rem 2.4rem 2rem 2.4rem
 		width 100%
+		background-color background-lightest-gray
 		cf()
 		font-size 1.4em
-		margin-bottom 1.6em
 		& > h3
 			font-size 1em
 		& > p
 			font-size 1rem
 			color text-light
+	.content
+		padding 2rem 2.4rem 2rem 2.4rem
 	.input + .input
 		margin-top 2.2em
-	& + .section
-		margin-top 2em
 	.button
 		margin-top 1.4em
-
-.nosub
-	margin-top 4.2em
 
 .summary
 	border 1px solid border-gray

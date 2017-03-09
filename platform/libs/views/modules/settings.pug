@@ -2,64 +2,77 @@ extends ../layout
 
 block content
 	include ../static/dashboard/nav.pug
+	.strip.has-selection
+		.contain
+			.bind
+				svg.avatar(data-jdenticon-hash=user.avatar)
+				.about
+					h4.what= user.firstname + ' ' + user.lastname
+					h6 Manage your account &amp; security details
+		.selection
+			.contain
+				ul.list
+					li.item.active(data-target="profile") #[a Profile]
+					li.item(data-target="account") #[a Account]
+					li.item(data-target="security") #[a Security]
+					li.item(data-target="notifications") #[a Notifications]
+					li.item.float-right
+
+						p #[i.material-icons email] #{user.email}
 	.contain
 		.inner.nosub#settings
 			.grid-row
-				.xs-12.m-3
-					h4.what Settings
-					h6.what= user.firstname + ' ' + user.lastname
-					ul.list
-						li.item.active(data-target="profile") #[a Profile information]
-						li.item(data-target="account") #[a Account details]
-						li.item(data-target="security") #[a Security]
-						li.item(data-target="notifications") #[a Notifications]
-				.xs-12.m-9
+				.xs-12
 					.section#profile
 						.sub
 							h3 Profile information
 							p General information about your account
-						.input
-							h6 First name
-							input(type="text", value=user.firstname)
-						.input
-							h6 Last name
-							input(type="text", value=user.lastname)
-						.input
-							h6 Username
-							input(type="text", value=user.username)
-						.input
-							h6 Email
-							input(type="text", value=user.email)
-						a.button.green Update Preferences
+						.content
+							.input
+								h6 First name
+								input(type="text", value=user.firstname)
+							.input
+								h6 Last name
+								input(type="text", value=user.lastname)
+							.input
+								h6 Username
+								input(type="text", value=user.username)
+							.input
+								h6 Email
+								input(type="text", value=user.email)
+							a.button.green Update Preferences
 
 					.section#account
 						.sub
 							h3 Account details
 							p Change your password and email settings
-						.input
-							h6 Email
-							input(type="text", value=user.email)
-						.input
-							h6 Old password
-							input(type="password")
-						.input
-							h6 New password
-							input(type="password")
-						.input
-							h6 Re-enter new password
-							input(type="password")
-						a.button.green Update Account
+						.content
+							.input
+								h6 Email
+								input(type="text", value=user.email)
+							.input
+								h6 Old password
+								input(type="password")
+							.input
+								h6 New password
+								input(type="password")
+							.input
+								h6 Re-enter new password
+								input(type="password")
+							a.button.green Update Account
 
 					.section#security
 						.sub
 							h3 Security
 							p Control and manage your account security
-						.input
-							p Security pane will be here
+						.content
+							.input
+								p Security pane will be here
 
 					.section#notifications
 						.sub
 							h3 Notifications
 							p Manage your notifications and alerts
-						.input
-							p Notifications pane will be here
+						.content
+							.input
+								p Notifications pane will be here

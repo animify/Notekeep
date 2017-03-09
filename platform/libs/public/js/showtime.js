@@ -569,8 +569,8 @@ $(() => {
 		activities.all($(this).data('select'))
 	})
 
-	$('#settings .item a').bind('click', function(e) {
-		$('#settings .item').removeClass('active')
+	$('.selection .item a').bind('click', function(e) {
+		$('.selection .item').removeClass('active')
 		$(this).parent().addClass('active')
 		$('#settings .section').hide()
 		$('.switches').removeClass('open')
@@ -587,6 +587,9 @@ $(() => {
 
 	nk.init()
 
+editor.subscribe('editableKeydownEnter', (e,v) => {
+	console.log(e,v);
+})
 	$('.note_content').on('keydown keyup', function (event, editable) {
 		pushChanges(event, editable)
 	})

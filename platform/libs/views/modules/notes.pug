@@ -2,27 +2,31 @@ extends ../layout
 
 block content
 	include ../static/dashboard/nav.pug
-	.contain#notes
-		nav.nav.sub
-			h4.what #[span Team Notes] #[i.material-icons.switch_trigger(data-switch="switch_note") keyboard_arrow_down]
-			.switches#switch_note
-				a.switch(data-run="switch_note_mode", data-type="team") #[b Team Notes]
-					span All team notes
-				a.switch(data-run="switch_note_mode", data-type="private") #[b Private Notes]
-					span Notes available only to you
-				a.switch(data-run="switch_note_mode", data-type="draft") #[b Draft Notes]
-					span Unpublished saved notes
-			.float-right.actions
-				.input.sm
-					input(type="text", placeholder="Search notes")
-					a #[i.material-icons search]
-				a.switch_trigger.button.green.sm(data-switch="switch_teams") New Note
-			.switches.right#switch_teams
-				a.switch(data-teamid="0") #[b Private]
-					span Only available to you
-				for team in teams
-					a.switch(data-teamid=team._id) #[b= team.name]
-						span New note in #{team.name}
+	.strip
+		.contain
+			.bind
+				.about
+					h4.what #[span Team Notes] #[i.material-icons.switch_trigger(data-switch="switch_note") keyboard_arrow_down]
+					h6 Collaborate in realtime on team notes
+					.switches#switch_note
+						a.switch(data-run="switch_note_mode", data-type="team") #[b Team Notes]
+							span All team notes
+						a.switch(data-run="switch_note_mode", data-type="private") #[b Private Notes]
+							span Notes available only to you
+						a.switch(data-run="switch_note_mode", data-type="draft") #[b Draft Notes]
+							span Unpublished saved notes
+				.float-right.actions
+					.input.sm
+						input(type="text", placeholder="Search notes")
+						a #[i.material-icons search]
+					a.switch_trigger.button.invert.sm(data-switch="switch_teams") New Note
+				.switches.right#switch_teams
+					a.switch(data-teamid="0") #[b Private]
+						span Only available to you
+					for team in teams
+						a.switch(data-teamid=team._id) #[b= team.name]
+							span New note in #{team.name}
+	.contain
 		.inner#summary_notes
 			for team in teams
 				if (team.notes.length != 0)

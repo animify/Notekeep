@@ -2,9 +2,13 @@ extends ../layout
 
 block content
 	include ../static/dashboard/nav.pug
+	.strip
+		.contain
+			.bind
+				.about
+					h4.what Invites
+					h6 Manage your pending &amp; sent invites
 	.contain
-		nav.nav.sub
-			h4.what Invites
 		.inner#invites
 			.summary.light.nohover
 				.grid-row
