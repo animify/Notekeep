@@ -512,6 +512,21 @@ $(() => {
 			case 'presentation_mode':
 				$('.editor, .shard').toggleClass("presentation")
 				break
+			case 'update_preferences':
+				_data = JSON.stringify({firstname: $('#input_firstname').val(), lastname: $('#input_lastname').val(), email: $('#input_email').val()})
+				console.log(_data);
+				endpoint.call('/facets/endpoints/account/update', 'POST', _data, (res) => {
+					if (res.error) {
+						console.log(res.message);
+						iziToast.error({title: "Error updating", message: `${res.message[0].msg !== undefined ? res.message[0].msg : res.message}`})
+					} else {
+						iziToast.success({title: "Updated!", message: `Your profile details have been updated`})
+						accountHash.email = _data.email
+						accountHash.firstname = _data.firstname
+						accountHash.lastname = _data.lastname
+					}
+				})
+				break
 			case 'copy_shared_link':
 				copyField = document.getElementById("hidden_copy")
 				copyField.hidden = false

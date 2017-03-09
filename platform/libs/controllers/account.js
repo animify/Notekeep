@@ -19,3 +19,38 @@ exports.findByEmail = (req, res, email) => {
 		})
 	})
 }
+
+exports.updatePreferences = (req, res, callback) => {
+	req.sanitizeBody()
+	req.checkBody({
+	 'firstname': {
+			notEmpty: true,
+			errorMessage: `Please enter a first name`
+		},
+	 'lastname': {
+			notEmpty: true,
+			errorMessage: `Please enter a last name`
+		},
+	 'email': {
+			notEmpty: true,
+			isEmail: {
+				errorMessage: 'Please enter a valid email address'
+			}
+		}
+	})
+
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) {
+			return callback('100', errors.useFirstErrorOnly().array())
+		}
+
+		User.findOneAndUpdate(
+			{_id: req.user._id},
+			{$set: {firstname: req.body.firstname, lastname: req.body.lastname, email: req.body.email}},
+			{upsert: true},
+			(err, account) => {
+				if (err) return callback('100', 'Email already exists')
+				callback(null, account)
+			})
+	})
+}

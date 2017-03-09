@@ -13,16 +13,20 @@
 			i
 				font-size 1.4em
 	input[disabled], &.disabled
-		opacity .45
+		opacity .75
 		pointer-events none
 		cursor not-allowed
+		user-select none
+		background-color color-smoke
+		color lighten(body-dark, 20%)
 		&.display
 			opacity 1
 			cursor default
+			user-select all
 	input, textarea
 		font-family font-family-standard
 		font-size font-size-standard
-		color text-grey
+		color body-dark
 		margin 0
 		font-size 1em
 		max-width 100%
@@ -45,7 +49,7 @@
 		&.error
 			border-color color-red
 		&:focus
-			box-shadow inset 0 0 0 1px color-primary
+			box-shadow inset 0 0 0 1px darken(border-gray, 20%)
 			background-color #fff
 		+placeholder()
 			color lighten(body-color, 20%)

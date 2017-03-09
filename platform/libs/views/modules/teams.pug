@@ -21,13 +21,27 @@ block content
 						.xs-12#ls-teams
 							.intro
 								.desc
-									h5 Available teams
+									h5 Created teams
 							for team in teams
-								a.unit(href=`/team/${team._id}`)
-									.text-preview(style=`background-color:${team.color}`)
-										span= team.name.substr(0,1)
-									h6 #{team.name}
-									small #[i.material-icons person_outline]#{team.userlist.length + 1}
+								if (team.creator._id.toString() == user._id.toString())
+									a.unit(href=`/team/${team._id}`)
+										.text-preview(style=`border-color:${team.color}`)
+											span= team.name.substr(0,1)
+										h6 #{team.name}
+										small #[i.material-icons person_outline]#{team.userlist.length + 1} #[span.created=moment(team.created_at).calendar()]
+				.summary
+					.grid-row
+						.xs-12#ls-teams
+							.intro
+								.desc
+									h5 Other teams
+							for team in teams
+								if (team.creator._id.toString() != user._id.toString())
+									a.unit(href=`/team/${team._id}`)
+										.text-preview(style=`border-color:${team.color}`)
+											span= team.name.substr(0,1)
+										h6 #{team.name}
+										small #[i.material-icons person_outline]#{team.userlist.length + 1} #[span.created=moment(team.created_at).calendar()]
 			else
 				.grid-row
 					.xs-12

@@ -13,6 +13,8 @@ const User = require(jt.path('model/user'))
 const notesController = require(jt.path('controllers/notes'))
 const teamsController = require(jt.path('controllers/teams'))
 const activitiesController = require(jt.path('controllers/activities'))
+const accountController = require(jt.path('controllers/account'))
+const mailer = require(jt.path('controllers/mailer'))
 
 router.post('/notes/publish', (req, res) => {
 	notesController.newNote(req, res, false, (err, ret) => {
@@ -23,6 +25,13 @@ router.post('/notes/publish', (req, res) => {
 	notesController.findNote(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: 'Internal Error'})
 		res.send(ret)
+	})
+}).get('/sendmail', (req, res) => {
+	o = {}
+	o.email = "st.mansson@icloud.com"
+	o.token = "1234"
+	mailer.passwordReset(req, res, o, (err, ret) => {
+		console.log(err,ret);
 	})
 }).post('/notes/delete', (req, res) => {
 	notesController.deleteNote(req, res, (err, ret) => {
@@ -109,6 +118,11 @@ router.post('/notes/publish', (req, res) => {
 	teamsController.findTeam(req, res, req.body.team, (err, team) => {
 		if (err) return res.send({error: err})
 		res.send({team: team})
+	})
+}).post('/account/update', (req, res) => {
+	accountController.updatePreferences(req, res, (err, account) => {
+		if (err) return res.send({error: err, message: account})
+		res.send(account)
 	})
 })
 
