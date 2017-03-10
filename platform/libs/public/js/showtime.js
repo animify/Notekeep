@@ -58,6 +58,30 @@ let errorHandler = {
 	}
 }
 
+let comments = {
+	new: () => {
+		console.log(team);
+		_data = JSON.stringify({team: team.viewing, note: team.viewingNote, content: $('#comment_new').text()})
+		endpoint.call(`/facets/endpoints/comments/new`, 'POST', _data, (res) => {
+			console.log(res);
+			let errMsg = ''
+			res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
+		})
+	},
+	forNote: () => {
+		console.log(team);
+		_data = JSON.stringify({team: team.viewing, note: team.viewingNote})
+		endpoint.call(`/facets/endpoints/comments/get`, 'POST', _data, (res) => {
+			_.each(res, function(num){ return num.created = moment(num.created).fromNow() })
+			acts = _.template(templates.build_comments)({comments: res})
+			$('.comments_display').empty().append($(acts))
+			jdenticon.update(".comments-avatar")
+			let errMsg = ''
+			res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
+		})
+	}
+}
+
 let templates = {
 	teams: $('#tpl-teams').html(),
 	notes: $('#tpl-note').html(),
@@ -65,6 +89,7 @@ let templates = {
 	editorStatus: $('#tpl-editor_status').html(),
 	publishedNote: $('#tpl-note_created').html(),
 	build_activities: $('#tpl-build_activities').html(),
+	build_comments: $('#tpl-build_comments').html(),
 	act_create_note: $('#tpl-act-create_note').html(),
 	act_delete_note: $('#tpl-act-delete_note').html(),
 	act_sent_invite: $('#tpl-act-sent_invite').html(),
@@ -157,7 +182,6 @@ let activities = {
 					$(`#recent_activity`).append($(newStory))
 				}
 			})
-
 		})
 	}
 }
@@ -283,6 +307,8 @@ let modal = {
 
 		info.note.status == undefined ? $('.editor .priority a.toggle').attr('data-status', 0).html(`<i class="material-icons ${priority.classes[0]}">lens</i> ${priority.label[0]}`) : $('.editor .priority a.toggle').attr('data-status', info.note.status).html(`<i class="material-icons ${priority.classes[info.note.status]}">lens</i> ${priority.label[info.note.status]}`)
 
+		comments.forNote()
+
 		$('.note_headroom p').html($(editorStatus))
 		editor.setContent(templates.unescape(info.note.content), 0)
 
@@ -292,6 +318,7 @@ let modal = {
 		$('.editor').show('slide', {direction: 'left'}, 300)
 
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
+		jdenticon.update(".comments-avatar")
 
 		if (!info.note.private)
 			socket.emit('team_join', {space: info.team._id})
@@ -439,6 +466,9 @@ $(() => {
 					res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
 				})
 				break
+			case 'new_comment':
+
+				break
 			case 'delete_note':
 				_data = JSON.stringify({team: team.viewing, note: team.viewingNote})
 				endpoint.call(`/facets/endpoints/notes/delete`, 'POST', _data, (res) => {
@@ -540,6 +570,21 @@ $(() => {
 					iziToast.error({title: "Link copy error", message: `The link could not be copied to your clipboard`})
 				}
 				break
+			case 'toggle_comments':
+				if ($(this).hasClass('open')) {
+					$('.comments').hide('slide', {direction: 'right'}, 300,
+					() => {
+						$(this).toggleClass('open closed')
+						$(this).find('i').text('first_page')
+					})
+				} else {
+					$('.comments').show('slide', {direction: 'right'}, 300,
+					() => {
+						$(this).toggleClass('closed open')
+						$(this).find('i').text('last_page')
+					})
+				}
+				break
 			case 'open_editor':
 				nk.resetEditor()
 				modal.openEditor()
@@ -602,9 +647,15 @@ $(() => {
 
 	nk.init()
 
-editor.subscribe('editableKeydownEnter', (e,v) => {
-	console.log(e,v);
-})
+	editor.subscribe('editableKeydownEnter', (e,v) => {
+		console.log(e,v);
+	})
+
+	$('#comment_new').on('keydown', function (e) {
+		console.log(e)
+		if(e.keyCode == 13) comments.new()
+	})
+
 	$('.note_content').on('keydown keyup', function (event, editable) {
 		pushChanges(event, editable)
 	})

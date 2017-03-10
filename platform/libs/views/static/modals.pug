@@ -124,6 +124,7 @@ input#hidden_copy(type="text")
 					li #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
 			.publish.invert
 				a.slim(data-modal="open", data-modal-name="modal_publish") Publish note
+			a.slim.invert.hasicon.open(data-run="toggle_comments") #[i.material-icons last_page]
 	.options.presentation_tools
 		.float-left
 			a.toggle.slim.invert.hasicon.return(data-run="presentation_mode") #[i.material-icons close]
@@ -150,3 +151,12 @@ input#hidden_copy(type="text")
 							span.type.draft
 						h3(contenteditable="true")
 				textarea.note_content
+	.comments
+		.comments_container
+			.comments_display
+			.comments_input
+				.comments_who
+					svg.comments-avatar(data-jdenticon-hash=user.avatar)
+					span.user= user.firstname + ' ' + user.lastname
+				.comments_write#comment_new(contenteditable="true", placeholder="Write a comment")
+				small Hit enter to send

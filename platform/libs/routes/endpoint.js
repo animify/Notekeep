@@ -14,6 +14,7 @@ const notesController = require(jt.path('controllers/notes'))
 const teamsController = require(jt.path('controllers/teams'))
 const activitiesController = require(jt.path('controllers/activities'))
 const accountController = require(jt.path('controllers/account'))
+const commentsController = require(jt.path('controllers/comments'))
 const mailer = require(jt.path('controllers/mailer'))
 
 router.post('/notes/publish', (req, res) => {
@@ -123,6 +124,16 @@ router.post('/notes/publish', (req, res) => {
 	accountController.updatePreferences(req, res, (err, account) => {
 		if (err) return res.send({error: err, message: account})
 		res.send(account)
+	})
+}).post('/comments/new', (req, res) => {
+	commentsController.newComment(req, res, (err, comment) => {
+		if (err) return res.send({error: err, message: comment})
+		res.send(comment)
+	})
+}).post('/comments/get', (req, res) => {
+	commentsController.getComments(req, res, (err, comments) => {
+		if (err) return res.send({error: err, message: comments})
+		res.send(comments)
 	})
 })
 

@@ -4,26 +4,24 @@ const User = require('./user')
 const Team = require('./team')
 const Note = require('./notes')
 
-let	Activity = new Schema({
-	by: {
+let	Comment = new Schema({
+	creator: {
 		type: String,
 		ref: 'User',
 		required: true
 	},
-	to: {
-		type: String,
-		ref: 'User'
-	},
-	type: {
+	content: {
 		type: String
 	},
 	team: {
 		type: String,
-		ref: 'Team'
+		ref: 'Team',
+		required: true
 	},
 	note: {
 		type: String,
-		ref: 'Note'
+		ref: 'Note',
+		required: true
 	},
 	created: {
 		type: Date,
@@ -31,4 +29,4 @@ let	Activity = new Schema({
 	}
 })
 
-module.exports = mongoose.model('Activity', Activity)
+module.exports = mongoose.model('Comment', Comment)

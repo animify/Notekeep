@@ -99,3 +99,14 @@ script(type='text/html', id='tpl-build_activities')
 						h5!= '<%= date %>'
 			.xs-12
 	!= '<% }); %>'
+
+script(type='text/html', id='tpl-build_comments')
+	!= '<% _.each(comments, function(comment) { %>'
+	.comment.compact
+		.comments_who
+			svg.comments-avatar(data-jdenticon-hash!="<%= comment.creator.avatar %>")
+			span.user!= '<%= comment.creator.firstname %> <%= comment.creator.lastname %>'
+		.comment_content!= '<%= comment.content %>'
+		.comment_meta
+			small.when!= '<%= comment.created %>'
+	!= '<% }); %>'
