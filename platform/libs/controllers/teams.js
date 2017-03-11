@@ -6,9 +6,9 @@ const config = require(jt.path('config'))
 const Team = require(jt.path('model/team'))
 const Notes = require(jt.path('model/notes'))
 const Invite = require(jt.path('model/invite'))
-const auth = require(jt.path('auth/auth'))
 const invites = require(jt.path('controllers/invites'))
 const randomColor = require('randomcolor')
+const _ = require('underscore')
 
 exports.newTeam = (req, res, name, callback) => {
 	req.sanitizeBody()
@@ -37,7 +37,6 @@ exports.newTeam = (req, res, name, callback) => {
 
 	team.save((err) => {
 		if (!err) {
-			log.info("New team created with id: %s", team._id)
 			return callback(null, team)
 		} else {
 			if(err.name === 'ValidationError') {
@@ -62,6 +61,18 @@ exports.findUserTeams = (req, res, callback) => {
 	})
 }
 
+exports.isMember = (user, teamID, callback) => {
+	Team.findOne({_id: teamID})
+	.lean()
+	.exec((err, team) => {
+		isMember = _.filter(team.userlist, (member) => member.toString() == user._id.toString())
+		if (!err && (isMember.length == 1 || team.creator.toString() == user._id.toString()))
+			return callback(null, true)
+
+		callback(null, false)
+	})
+}
+
 exports.findTeam = (req, res, teamid, callback) => {
 	let populateQuery = [{path:'creator'}, {path:'userlist', model: 'User', populate:{path: 'userlist', model: 'User'}}]
 
@@ -70,7 +81,6 @@ exports.findTeam = (req, res, teamid, callback) => {
 	.lean()
 	.exec((err, team) => {
 		if (!err && !(team.length == 0)) {
-			console.log(team);
 			return callback(null, team)
 		} else {
 			return callback('404', 'Team could not be found')

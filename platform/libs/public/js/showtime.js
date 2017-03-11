@@ -327,7 +327,7 @@ let modal = {
 		jdenticon.update(".comments-avatar")
 
 		if (!info.note.private) {
-			socket.emit('team_join', {space: info.team._id})
+			socket.emit('team_join', {team: info.team._id, note: info.note._id})
 		}
 
 	},

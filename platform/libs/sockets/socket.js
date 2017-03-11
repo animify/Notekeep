@@ -5,6 +5,7 @@ const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const notes = require(jt.path('controllers/notes'))
 const comments = require(jt.path('controllers/comments'))
+const teams = require(jt.path('controllers/teams'))
 
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
@@ -26,19 +27,20 @@ exports.connect = (server, io, sessionStore, eSession) => {
 
 	updateNote = (noteID, noteBody, notePlain, teamID) => {
 		notes.updateNote(noteID, noteBody, notePlain, teamID, (err, ret) => {
+			console.log(err, ret);
 			log.info('saved')
 		})
 	}
 
 	io.use(sharedsession(eSession))
 	io.use(passportSocketIo.authorize({
-			passport: passport,
-			cookieParser: cookieParser,
-			key: 'connect.sid',
-			secret: 'secret',
-			store: sessionStore,
-			success: onAuthorizeSuccess,
-			fail: onAuthorizeFail
+		passport: passport,
+		cookieParser: cookieParser,
+		key: 'connect.sid',
+		secret: 'secret',
+		store: sessionStore,
+		success: onAuthorizeSuccess,
+		fail: onAuthorizeFail
 	}))
 
 	io.on('connection', (socket) => {
@@ -53,27 +55,29 @@ exports.connect = (server, io, sessionStore, eSession) => {
 				changeQueue.pop()
 			})
 		}).on('note-new_comment', (commentID) => {
-			console.log(commentID);
 			comments.findComment(commentID, (err, comment) => {
-				console.log(comment);
 				if (!err) return socket.broadcast.to(socket.teamSpace).emit('new_comment', comment)
 			})
 		}).on('preSave', (content) => {
 			if (saveTimer) clearTimeout(saveTimer)
 			saveTimer = setTimeout(() => {
-				updateNote(content._id, content.body, content.plain, socket.teamSpaceRaw)
+				updateNote(content._id, content.body, content.plain, socket.teamRaw)
 			}, 800)
 		}).on('team_join', (data) => {
 			if (socket.lastTeamSpace) {
 				socket.leave(socket.lastTeamSpace)
 				socket.lastTeamSpace = null
 			}
-			socket.teamSpaceRaw = data.space
-			socket.teamSpace = 'teamspace_' + data.space
-			socket.join(socket.teamSpace)
-			log.info('joined ' + socket.teamSpace)
-			socket.lastTeamSpace = socket.teamSpace
+			teams.isMember(socket.request.user, data.team, (err, isMember) => {
+				if (isMember) {
+					socket.teamRaw = data.team
+					socket.noteRaw = data.note
+					socket.teamSpace = `space-${data.team}_${data.note}`
+					socket.join(socket.teamSpace)
+					log.info('joined ' + socket.teamSpace)
+					socket.lastTeamSpace = socket.teamSpace
+				}
+			})
 		})
-
 	})
 }
