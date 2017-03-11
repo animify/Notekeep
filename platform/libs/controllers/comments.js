@@ -47,6 +47,19 @@ exports.newComment = (req, res, callback) => {
 	})
 }
 
+exports.findComment = (commentID, callback) => {
+	const populateQuery = [{path:'creator', select:'_id username avatar firstname lastname email'}]
+
+	Comment.findOne({_id: commentID})
+	.populate(populateQuery)
+	.lean()
+	.exec((err, comment) => {
+		console.log(err, comment);
+		if (!err && comment != null) return callback(null, comment)
+		callback('500', 'Internal error')
+	})
+}
+
 exports.getComments = (req, res, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
@@ -81,6 +94,8 @@ exports.getComments = (req, res, callback) => {
 execNewComment = (creator, content, teamID, noteID) => {
 	return new Promise((resolve, reject) => {
 
+		const populateQuery = [{path:'creator', select:'_id username avatar firstname lastname email'}]
+
 		let comm = new Comment({
 			creator: creator,
 			content: content,
@@ -88,11 +103,11 @@ execNewComment = (creator, content, teamID, noteID) => {
 			note: noteID
 		})
 
-		console.log(comm);
 		comm.save((err) => {
-			if (!err) return resolve(comm)
-			console.log(err);
-			return reject('Server error')
+			comm.populate(populateQuery, function(err) {
+			 if (!err) return resolve(comm)
+			 return reject('Server error')
+			});
 		})
 	})
 }

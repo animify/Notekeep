@@ -64,15 +64,20 @@ let comments = {
 		_data = JSON.stringify({team: team.viewing, note: team.viewingNote, content: $('#comment_new').text()})
 		endpoint.call(`/facets/endpoints/comments/new`, 'POST', _data, (res) => {
 			console.log(res);
-			let errMsg = ''
-			res.error ? errorHandler.modal(res.message[0].msg, res.message[0].param) : $(document).trigger('saved:editor')
+			if (res.error) return errorHandler.modal(res.message[0].msg, res.message[0].param)
+			res.created = moment(res.created).fromNow()
+			newComment = _.template(templates.comments_compact)(res)
+			$('.comments_display').prepend($(newComment))
+			$('.comment.new').slideDown('fast')
+			jdenticon.update('.comments-avatar')
+			socket.emit('note-new_comment', res._id)
 		})
 	},
 	forNote: () => {
 		console.log(team);
 		_data = JSON.stringify({team: team.viewing, note: team.viewingNote})
 		endpoint.call(`/facets/endpoints/comments/get`, 'POST', _data, (res) => {
-			_.each(res, function(num){ return num.created = moment(num.created).fromNow() })
+			_.each(res, (comm) => comm.created = moment(comm.created).fromNow())
 			acts = _.template(templates.build_comments)({comments: res})
 			$('.comments_display').empty().append($(acts))
 			jdenticon.update(".comments-avatar")
@@ -90,6 +95,7 @@ let templates = {
 	publishedNote: $('#tpl-note_created').html(),
 	build_activities: $('#tpl-build_activities').html(),
 	build_comments: $('#tpl-build_comments').html(),
+	comments_compact: $('#tpl-comments_compact').html(),
 	act_create_note: $('#tpl-act-create_note').html(),
 	act_delete_note: $('#tpl-act-delete_note').html(),
 	act_sent_invite: $('#tpl-act-sent_invite').html(),
@@ -320,8 +326,9 @@ let modal = {
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
 		jdenticon.update(".comments-avatar")
 
-		if (!info.note.private)
+		if (!info.note.private) {
 			socket.emit('team_join', {space: info.team._id})
+		}
 
 	},
 	closeEditor: () => {
@@ -652,8 +659,11 @@ $(() => {
 	})
 
 	$('#comment_new').on('keydown', function (e) {
-		console.log(e)
-		if(e.keyCode == 13) comments.new()
+		if(e.keyCode == 13) {
+			e.preventDefault()
+			comments.new()
+			$('#comment_new').text('')
+		}
 	})
 
 	$('.note_content').on('keydown keyup', function (event, editable) {
@@ -713,5 +723,12 @@ $(() => {
 				transform.replaceChange(chg.change)
 				break
 		}
+	})
+	.on('new_comment', (comment) => {
+		comment.created = moment(comment.created).fromNow()
+		newComment = _.template(templates.comments_compact)(comment)
+		$('.comments_display').prepend($(newComment))
+		$('.comment.new').slideDown('fast')
+		jdenticon.update('.comments-avatar')
 	})
 })

@@ -4586,9 +4586,13 @@ nav.nav.shard .user.open span {
   border-bottom: #1b2733 1px solid;
   background-color: #131b24;
 }
+.comment.new {
+  display: none;
+}
 .comment_content {
   margin-top: 0.6rem;
   color: #cbd2de;
+  font-weight: 500;
 }
 .comment_meta small.when {
   color: #b1bbce;

@@ -4,6 +4,7 @@ const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const notes = require(jt.path('controllers/notes'))
+const comments = require(jt.path('controllers/comments'))
 
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
@@ -51,16 +52,18 @@ exports.connect = (server, io, sessionStore, eSession) => {
 				socket.broadcast.to(socket.teamSpace).emit('change', change)
 				changeQueue.pop()
 			})
-		})
-
-		socket.on('preSave', (content) => {
+		}).on('note-new_comment', (commentID) => {
+			console.log(commentID);
+			comments.findComment(commentID, (err, comment) => {
+				console.log(comment);
+				if (!err) return socket.broadcast.to(socket.teamSpace).emit('new_comment', comment)
+			})
+		}).on('preSave', (content) => {
 			if (saveTimer) clearTimeout(saveTimer)
 			saveTimer = setTimeout(() => {
 				updateNote(content._id, content.body, content.plain, socket.teamSpaceRaw)
 			}, 800)
-		})
-
-		socket.on('team_join', (data) => {
+		}).on('team_join', (data) => {
 			if (socket.lastTeamSpace) {
 				socket.leave(socket.lastTeamSpace)
 				socket.lastTeamSpace = null
@@ -68,6 +71,7 @@ exports.connect = (server, io, sessionStore, eSession) => {
 			socket.teamSpaceRaw = data.space
 			socket.teamSpace = 'teamspace_' + data.space
 			socket.join(socket.teamSpace)
+			log.info('joined ' + socket.teamSpace)
 			socket.lastTeamSpace = socket.teamSpace
 		})
 

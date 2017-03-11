@@ -110,3 +110,12 @@ script(type='text/html', id='tpl-build_comments')
 		.comment_meta
 			small.when!= '<%= comment.created %>'
 	!= '<% }); %>'
+
+script(type='text/html', id='tpl-comments_compact')
+	.comment.compact.new
+		.comments_who
+			svg.comments-avatar(data-jdenticon-hash!="<%= creator.avatar %>")
+			span.user!= '<%= creator.firstname %> <%= creator.lastname %>'
+		.comment_content!= '<%= content %>'
+		.comment_meta
+			small.when!= '<%= created %>'
