@@ -709,6 +709,7 @@ nav.nav
 	max-width 17rem
 	width 100%
 	background-color color-nav-lighter
+	display none
 	fixed top right
 	height 100%
 	&_container
@@ -743,8 +744,9 @@ nav.nav
 			line-height 1.2rem
 	&_write[contenteditable=true]
 		color #fff
-		margin-top .6rem
-		padding-bottom 1.4rem
+		margin-top .5rem
+		padding-bottom 1.3rem
+		line-height 1.4rem
 		&:empty:before
 			content attr(placeholder)
 			display block
@@ -760,12 +762,13 @@ nav.nav
 	&.new
 		display none
 	&_content
-		margin-top .6rem
+		margin-top .5rem
 		color text-light-invert
 		font-weight 500
+		line-height 1.4rem
 	&_meta
 		small.when
 			color text-light-invert-sub
-			margin-top .6rem
+			margin-top .4rem
 			display block
 			font-weight 500

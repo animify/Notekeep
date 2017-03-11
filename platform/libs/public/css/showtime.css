@@ -4516,6 +4516,7 @@ nav.nav.shard .user.open span {
   max-width: 17rem;
   width: 100%;
   background-color: #202b37;
+  display: none;
   position: fixed;
   top: 0;
   right: 0;
@@ -4570,8 +4571,9 @@ nav.nav.shard .user.open span {
 }
 .comments_write[contenteditable=true] {
   color: #fff;
-  margin-top: 0.6rem;
-  padding-bottom: 1.4rem;
+  margin-top: 0.5rem;
+  padding-bottom: 1.3rem;
+  line-height: 1.4rem;
 }
 .comments_write[contenteditable=true]:empty:before {
   content: attr(placeholder);
@@ -4590,13 +4592,14 @@ nav.nav.shard .user.open span {
   display: none;
 }
 .comment_content {
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
   color: #cbd2de;
   font-weight: 500;
+  line-height: 1.4rem;
 }
 .comment_meta small.when {
   color: #b1bbce;
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
   display: block;
   font-weight: 500;
 }

@@ -286,7 +286,9 @@ let modal = {
 			$('.editor h6.team').text(teamSelect.team[0].name)
 		}
 		$('body, .wrap').addClass('noscroll')
-		$('.editor').show('slide', {direction: 'left'}, 300)
+		$('.editor').show('slide', {direction: 'left'}, 300, () => {
+			$('.comments').show('slide', {direction: 'right'}, 300)
+		})
 		jdenticon.update("#note-avatar", accountHash.avatar.toString())
 	},
 	editEditor: (info) => {
@@ -321,7 +323,9 @@ let modal = {
 		transform.oldHTML = editor.getContent()
 
 		$('body, .wrap').addClass('noscroll')
-		$('.editor').show('slide', {direction: 'left'}, 300)
+		$('.editor').show('slide', {direction: 'left'}, 300, () => {
+			$('.comments').show('slide', {direction: 'right'}, 300)
+		})
 
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
 		jdenticon.update(".comments-avatar")
@@ -335,7 +339,9 @@ let modal = {
 		$('body, .wrap').removeClass('noscroll')
 		team.viewing = null
 		team.viewingNote = null
-		$('.editor').hide('slide', {direction: 'left'}, 300)
+		$('.editor').hide('slide', {direction: 'left'}, 300, () => {
+			$('.comments').hide()
+		})
 	}
 }
 
@@ -702,8 +708,6 @@ $(() => {
 		socket.emit('preSave', { _id: team.viewingNote, body: newHTML, plain: $('.note_content').text()})
 		// console.timeEnd('Diff')
 	}
-
-
 
 	socket.on('connect', (sock) => {
 		console.log('Socket connection')
