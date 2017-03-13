@@ -14,7 +14,7 @@ body
 	text-rendering optimizeLegibility !important
 	-webkit-font-smoothing antialiased !important
 	&.light
-		background-color #fff
+		background-color background-lightest-gray
 
 p.sub
 	color body-color
@@ -337,7 +337,7 @@ nav.nav
 		display block
 		padding 1.3rem 1.8rem 1.4rem 1.8rem
 		width 100%
-		background-color background-lightest-gray
+		background-color background-light-gray
 		cf()
 		font-size 1.4em
 		& > h3
@@ -369,7 +369,7 @@ nav.nav
 			small
 				line-height 1.4rem
 	.intro
-		background-color background-lightest-gray
+		background-color background-light-gray
 		padding .8rem 1.2rem
 	& + .summary
 		margin-top 2rem
@@ -389,20 +389,20 @@ nav.nav
 		text-align center
 		color #fff
 		font-weight 800
-		line-height 1.4rem
+		line-height 1.74rem
 		text-transform uppercase
 		font-size .875em
-		border-radius 50%
+		border-radius 10px
 		width 1.7rem
 		margin-right .6rem
 		display inline-block
 		vertical-align top
-		border 2px solid color-nav
 	.unit
 		padding .64rem 1.2rem
 		position relative
 		width 100%
 		display block
+		background-color #fff
 		&.removed
 			p
 				opacity .5
@@ -652,7 +652,9 @@ nav.nav
 		border-radius 10px
 		min-height 100%
 	.note_headroom
-		padding 0 0 3rem 0
+		padding 0 0 1rem 0
+		position relative
+		margin-bottom 2rem
 		svg.avatar
 			height 4em
 			width 4em
@@ -661,6 +663,13 @@ nav.nav
 		svg.avatar, .note_desc
 			display inline-block
 			vertical-align top
+		&:after
+			content ''
+			width 6rem
+			height 1px
+			border-bottom 1px solid border-gray
+			display block
+			absolute bottom -.8rem left 0
 		p
 			color text-light
 			line-height 1.7em
@@ -680,13 +689,6 @@ nav.nav
 			line-height 1em
 			font-weight 800
 			position relative
-			&:after
-				content ''
-				width 2.4em
-				height 1px
-				border-bottom 1px solid border-gray
-				display block
-				absolute bottom -1.4rem left 0
 			&:empty:before
 				content 'Untitled'
 				display block
@@ -771,4 +773,46 @@ nav.nav
 			color text-light-invert-sub
 			margin-top .4rem
 			display block
+			font-weight 500
+
+.teams
+	h6.what
+		color body-dark
+		padding 0 0 1rem 0
+	& + .teams
+		margin-top 3rem
+	.team
+		width 100%
+		display block
+		border 1px solid border-gray
+		border-radius 10px
+		text-align center
+		padding 3.6rem 2rem
+		position relative
+		background-color #fff
+		.text-preview
+			height 1.9rem
+			background-color color-nav
+			text-align center
+			color #fff
+			font-weight 800
+			line-height 1.9rem
+			text-transform uppercase
+			font-size .925em
+			border-radius 10px
+			width 1.9rem
+			display block
+			margin -.8rem auto 0 auto
+		h6
+			margin-top .7rem
+			span
+				color text-light
+		&:hover
+			border-color primary-color
+		span.created
+			absolute bottom 1rem left
+			text-align center
+			width 100%
+			font-size .875em
+			color text-light
 			font-weight 500

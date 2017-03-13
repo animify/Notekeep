@@ -16,32 +16,30 @@ block content
 	.contain
 		.inner#teams
 			if (teams.length)
-				.summary
+				.teams
 					.grid-row
-						.xs-12#ls-teams
-							.intro
-								.desc
-									h5 Created teams
-							for team in teams
-								if (team.creator._id.toString() == user._id.toString())
-									a.unit(href=`/team/${team._id}`)
+						.xs-12
+							h6.what Created teams
+						for team in teams
+							if (team.creator._id.toString() == user._id.toString())
+								.xs-12.s-6.m-3
+									a.team(href=`/team/${team._id}`)
 										.text-preview(style=`border-color:${team.color}`)
 											span= team.name.substr(0,1)
-										h6 #{team.name}
-										small #[i.material-icons person_outline]#{team.userlist.length + 1} #[span.created=moment(team.created_at).calendar()]
-				.summary
+										h6 #{team.name} #[span (#{team.userlist.length + 1})]
+										span.created=moment(team.created_at).format("MMM Do YY")
+				.teams
 					.grid-row
-						.xs-12#ls-teams
-							.intro
-								.desc
-									h5 Other teams
-							for team in teams
-								if (team.creator._id.toString() != user._id.toString())
-									a.unit(href=`/team/${team._id}`)
+						.xs-12
+							h6.what Member in teams
+						for team in teams
+							if (team.creator._id.toString() != user._id.toString())
+								.xs-12.s-6.m-3
+									a.team(href=`/team/${team._id}`)
 										.text-preview(style=`border-color:${team.color}`)
 											span= team.name.substr(0,1)
-										h6 #{team.name}
-										small #[i.material-icons person_outline]#{team.userlist.length + 1} #[span.created=moment(team.created_at).calendar()]
+										h6 #{team.name} #[span (#{team.userlist.length + 1})]
+										span.created=moment(team.created_at).format("MMM Do YY")
 			else
 				.grid-row
 					.xs-12

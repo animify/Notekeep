@@ -1706,7 +1706,7 @@ footer ul.options li + li {
   overflow: hidden;
   border-radius: 5px;
   color: #2d3b4e;
-  background-color: #f2f5f7;
+  background-color: #f0f4f7;
   outline: 0;
   padding: 1em 2.1em;
   text-align: center;
@@ -1758,8 +1758,8 @@ footer ul.options li + li {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   background-color: transparent;
-  -webkit-box-shadow: inset 0px 0px 0px 1px #f2f5f7;
-  box-shadow: inset 0px 0px 0px 1px #f2f5f7;
+  -webkit-box-shadow: inset 0px 0px 0px 1px #f0f4f7;
+  box-shadow: inset 0px 0px 0px 1px #f0f4f7;
   color: #2d3b4e;
 }
 .button.outlined:hover {
@@ -1771,7 +1771,7 @@ footer ul.options li + li {
 .button:hover {
   -webkit-box-shadow: none;
   box-shadow: none;
-  background-color: #e0e7ec;
+  background-color: #dde6ed;
 }
 .button.red {
   color: #fff;
@@ -2137,7 +2137,7 @@ ol.ordered li[value]:before {
 }
 .label {
   font-size: 0.875em;
-  background-color: #f2f5f7;
+  background-color: #f0f4f7;
   color: #8ea2ab;
   padding: 0.55em 0.72em;
   display: inline-block;
@@ -2669,7 +2669,7 @@ ol.ordered li[value]:before {
   text-align: center;
 }
 .progress {
-  background-color: #f2f5f7;
+  background-color: #f0f4f7;
   *zoom: 1;
   border-radius: 5px;
   height: 1.7em;
@@ -2686,7 +2686,7 @@ ol.ordered li[value]:before {
 .progress .bar {
   height: 100%;
   border-radius: 5px;
-  background-color: #476173;
+  background-color: #406179;
   position: relative;
   width: 0;
 }
@@ -3554,7 +3554,7 @@ body:after {
   clear: both;
 }
 body.light {
-  background-color: #fff;
+  background-color: #f7f9fb;
 }
 p.sub {
   color: #6c7f90;
@@ -4016,7 +4016,7 @@ nav.nav.shard .user.open span {
   display: block;
   padding: 1.3rem 1.8rem 1.4rem 1.8rem;
   width: 100%;
-  background-color: #f7f9fb;
+  background-color: #f0f4f7;
   *zoom: 1;
   font-size: 1.4em;
 }
@@ -4063,7 +4063,7 @@ nav.nav.shard .user.open span {
   line-height: 1.4rem;
 }
 .summary .intro {
-  background-color: #f7f9fb;
+  background-color: #f0f4f7;
   padding: 0.8rem 1.2rem;
 }
 .summary + .summary {
@@ -4086,21 +4086,21 @@ nav.nav.shard .user.open span {
   text-align: center;
   color: #fff;
   font-weight: 800;
-  line-height: 1.4rem;
+  line-height: 1.74rem;
   text-transform: uppercase;
   font-size: 0.875em;
-  border-radius: 50%;
+  border-radius: 10px;
   width: 1.7rem;
   margin-right: 0.6rem;
   display: inline-block;
   vertical-align: top;
-  border: 2px solid #1b2733;
 }
 .summary .unit {
   padding: 0.64rem 1.2rem;
   position: relative;
   width: 100%;
   display: block;
+  background-color: #fff;
 }
 .summary .unit.removed p {
   opacity: 0.5;
@@ -4441,7 +4441,9 @@ nav.nav.shard .user.open span {
   min-height: 100%;
 }
 .editable .note_headroom {
-  padding: 0 0 3rem 0;
+  padding: 0 0 1rem 0;
+  position: relative;
+  margin-bottom: 2rem;
 }
 .editable .note_headroom svg.avatar {
   height: 4em;
@@ -4453,6 +4455,16 @@ nav.nav.shard .user.open span {
 .editable .note_headroom .note_desc {
   display: inline-block;
   vertical-align: top;
+}
+.editable .note_headroom:after {
+  content: '';
+  width: 6rem;
+  height: 1px;
+  border-bottom: 1px solid #e3e9ee;
+  display: block;
+  position: absolute;
+  bottom: -0.8rem;
+  left: 0;
 }
 .editable .note_headroom p {
   color: #8999af;
@@ -4478,16 +4490,6 @@ nav.nav.shard .user.open span {
   line-height: 1em;
   font-weight: 800;
   position: relative;
-}
-.editable .note_headroom h3:after {
-  content: '';
-  width: 2.4em;
-  height: 1px;
-  border-bottom: 1px solid #e3e9ee;
-  display: block;
-  position: absolute;
-  bottom: -1.4rem;
-  left: 0;
 }
 .editable .note_headroom h3:empty:before {
   content: 'Untitled';
@@ -4603,6 +4605,56 @@ nav.nav.shard .user.open span {
   display: block;
   font-weight: 500;
 }
+.teams h6.what {
+  color: #20304c;
+  padding: 0 0 1rem 0;
+}
+.teams + .teams {
+  margin-top: 3rem;
+}
+.teams .team {
+  width: 100%;
+  display: block;
+  border: 1px solid #e3e9ee;
+  border-radius: 10px;
+  text-align: center;
+  padding: 3.6rem 2rem;
+  position: relative;
+  background-color: #fff;
+}
+.teams .team .text-preview {
+  height: 1.9rem;
+  background-color: #1b2733;
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+  line-height: 1.9rem;
+  text-transform: uppercase;
+  font-size: 0.925em;
+  border-radius: 10px;
+  width: 1.9rem;
+  display: block;
+  margin: -0.8rem auto 0 auto;
+}
+.teams .team h6 {
+  margin-top: 0.7rem;
+}
+.teams .team h6 span {
+  color: #8999af;
+}
+.teams .team:hover {
+  border-color: #0e8cf1;
+}
+.teams .team span.created {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  font-size: 0.875em;
+  color: #8999af;
+  font-weight: 500;
+}
 .modal {
   width: 100%;
   height: 100%;
@@ -4644,7 +4696,7 @@ nav.nav.shard .user.open span {
 .modal .overlay {
   width: 100%;
   height: 100%;
-  background-color: rgba(129,131,138,0.77);
+  background-color: rgba(62,63,66,0.77);
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);

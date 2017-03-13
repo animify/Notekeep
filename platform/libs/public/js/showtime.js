@@ -286,9 +286,9 @@ let modal = {
 			$('.editor h6.team').text(teamSelect.team[0].name)
 		}
 		$('body, .wrap').addClass('noscroll')
-		$('.editor').show('slide', {direction: 'left'}, 300, () => {
-			$('.comments').show('slide', {direction: 'right'}, 300)
-		})
+		$('.comments').hide()
+		$('.editor').show('slide', {direction: 'left'}, 300)
+
 		jdenticon.update("#note-avatar", accountHash.avatar.toString())
 	},
 	editEditor: (info) => {
@@ -324,11 +324,15 @@ let modal = {
 
 		$('body, .wrap').addClass('noscroll')
 		$('.editor').show('slide', {direction: 'left'}, 300, () => {
+
 			$('.comments').show('slide', {direction: 'right'}, 300)
+			$('.note_container').animate({
+				marginLeft: -Math.abs($('.comments').outerWidth())
+			}, 300)
+			jdenticon.update(".comments-avatar")
 		})
 
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
-		jdenticon.update(".comments-avatar")
 
 		if (!info.note.private) {
 			socket.emit('team_join', {team: info.team._id, note: info.note._id})
@@ -340,6 +344,7 @@ let modal = {
 		team.viewing = null
 		team.viewingNote = null
 		$('.editor').hide('slide', {direction: 'left'}, 300, () => {
+			$('.note_container').css({marginLeft: 0})
 			$('.comments').hide()
 		})
 	}
@@ -585,6 +590,9 @@ $(() => {
 				break
 			case 'toggle_comments':
 				if ($(this).hasClass('open')) {
+					$('.note_container').stop().animate({
+						marginLeft: 0
+					}, 300)
 					$('.comments').hide('slide', {direction: 'right'}, 300,
 					() => {
 						$(this).toggleClass('open closed')
@@ -596,6 +604,9 @@ $(() => {
 						$(this).toggleClass('closed open')
 						$(this).find('i').text('last_page')
 					})
+					$('.note_container').stop().animate({
+						marginLeft: -Math.abs($('.comments').outerWidth())
+					}, 300)
 				}
 				break
 			case 'open_editor':
