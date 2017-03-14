@@ -3898,10 +3898,31 @@ nav.nav.shard .user.open span {
 .strip .avatar {
   height: 4.6rem;
   width: 4.6rem;
-  background-color: #1b2733;
-  margin-right: 1rem;
+  background-color: #fff;
+  border-radius: 3px;
+  margin-right: 1.5rem;
   display: inline-block;
   vertical-align: top;
+}
+.strip .text-preview {
+  text-shadow: rgba(27,39,51,0.13) 1px 2px 2px;
+  height: 2.4rem;
+  background-color: #fff;
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+  line-height: 2.08rem;
+  text-transform: uppercase;
+  font-size: 0.875em;
+  border-radius: 10px;
+  width: 2.4rem;
+  margin-right: 0.6rem;
+  display: inline-block;
+  vertical-align: top;
+  border: 3px solid rgba(27,39,51,0.08);
+  font-size: 1.4rem;
+  position: relative;
+  top: 3px;
 }
 .strip .bind > .float-right {
   margin-top: 0.7rem;
@@ -3914,6 +3935,9 @@ nav.nav.shard .user.open span {
   display: inline-block;
   vertical-align: top;
   max-width: 40em;
+}
+.strip .about.nodesc {
+  margin-top: 0.8rem;
 }
 .strip h6 {
   font-weight: 500;
@@ -3934,13 +3958,19 @@ nav.nav.shard .user.open span {
   font-size: 2.1em;
   color: #fff;
 }
+.strip h4.what i.switch_trigger {
+  color: #cbd2de;
+  cursor: pointer;
+  position: relative;
+  top: 3px;
+}
 .strip h4.what i.settings {
-  font-size: 1.4rem;
-  color: #ccd5d9;
+  font-size: 1.2rem;
+  color: #cbd2de;
   margin-left: 0.6rem;
 }
 .strip h4.what i.settings:hover {
-  color: #0e8cf1;
+  color: #fff;
   cursor: pointer;
 }
 .strip .members {
@@ -4014,7 +4044,7 @@ nav.nav.shard .user.open span {
 }
 .section .sub {
   display: block;
-  padding: 2.1rem 2rem 1.7rem 2rem;
+  padding: 2.1rem 2.2rem 1.9rem 2.2rem;
   width: 100%;
   border-bottom: 1px solid #e3e9ee;
   *zoom: 1;
@@ -4037,7 +4067,7 @@ nav.nav.shard .user.open span {
   color: #8999af;
 }
 .section .content {
-  padding: 1.7rem 2rem 1.7rem 2rem;
+  padding: 2rem 2.2rem 2rem 2.2rem;
 }
 .section .input + .input {
   margin-top: 2.2em;
@@ -4082,6 +4112,7 @@ nav.nav.shard .user.open span {
   letter-spacing: -0.03em;
 }
 .summary .text-preview {
+  text-shadow: rgba(27,39,51,0.13) 1px 2px 2px;
   height: 1.7rem;
   background-color: #fff;
   text-align: center;
@@ -4625,6 +4656,7 @@ nav.nav.shard .user.open span {
   background-color: #fff;
 }
 .teams .team .text-preview {
+  text-shadow: rgba(27,39,51,0.13) 1px 2px 2px;
   height: 1.9rem;
   background-color: #fff;
   text-align: center;

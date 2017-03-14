@@ -60,6 +60,13 @@ exports.findComment = (commentID, callback) => {
 	})
 }
 
+exports.deleteForTeam = (team) => {
+	Comment.remove({team: team}, (err) => {
+		log.info(`team: ${team}`);
+		if (err) info.debug('500', `Error deleting comments for team: ${team}`)
+	})
+}
+
 exports.getComments = (req, res, callback) => {
 	req.sanitizeBody()
 	req.checkBody({

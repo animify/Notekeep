@@ -246,10 +246,29 @@ nav.nav
 	.avatar
 		height 4.6rem
 		width 4.6rem
-		background-color color-nav
-		margin-right 1rem
+		background-color #fff
+		border-radius 3px
+		margin-right 1.5rem
 		display inline-block
 		vertical-align top
+	.text-preview
+		text-shadow rgba(27,39,51,0.13) 1px 2px 2px
+		height 2.4rem
+		background-color #fff
+		text-align center
+		color #fff
+		font-weight 800
+		line-height 2.08rem
+		text-transform uppercase
+		font-size .875em
+		border-radius 10px
+		width 2.4rem
+		margin-right .6rem
+		display inline-block
+		vertical-align top
+		border 3px solid rgba(color-nav,.08)
+		font-size 1.4rem
+		relative top 3px
 	.bind > .float-right
 		margin-top .7rem
 		& > *:not(.switches)
@@ -259,6 +278,8 @@ nav.nav
 		display inline-block
 		vertical-align top
 		max-width 40em
+		&.nodesc
+			margin-top .8rem
 	h6
 		font-weight 500
 		color text-light-invert
@@ -275,12 +296,16 @@ nav.nav
 		line-height 1.4em
 		font-size 2.1em
 		color #fff
+		i.switch_trigger
+			color text-light-invert
+			cursor pointer
+			relative top 3px
 		i.settings
-			font-size 1.4rem
-			color text-lightest
+			font-size 1.2rem
+			color text-light-invert
 			margin-left .6rem
 			&:hover
-				color color-primary
+				color #fff
 				cursor pointer
 	.members
 		margin-top .5rem
@@ -335,7 +360,7 @@ nav.nav
 	border 1px solid border-gray
 	.sub
 		display block
-		padding 2.1rem 2rem 1.7rem 2rem
+		padding 2.1rem 2.2rem 1.9rem 2.2rem
 		width 100%
 		border-bottom 1px solid border-gray
 		cf()
@@ -347,7 +372,7 @@ nav.nav
 			font-size 1rem
 			color text-light
 	.content
-		padding 1.7rem 2rem 1.7rem 2rem
+		padding 2rem 2.2rem 2rem 2.2rem
 	.input + .input
 		margin-top 2.2em
 	.button
@@ -385,6 +410,7 @@ nav.nav
 			font-size 1.04rem
 			letter-spacing -0.03em
 	.text-preview
+		text-shadow rgba(27,39,51,0.13) 1px 2px 2px
 		height 1.7rem
 		background-color #fff
 		text-align center
@@ -793,6 +819,7 @@ nav.nav
 		position relative
 		background-color #fff
 		.text-preview
+			text-shadow rgba(27,39,51,0.13) 1px 2px 2px
 			height 1.9rem
 			background-color #fff
 			text-align center

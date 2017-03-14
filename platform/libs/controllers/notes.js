@@ -8,6 +8,7 @@ const Team = require(jt.path('model/team'))
 const auth = require(jt.path('auth/auth'))
 const teams = require(jt.path('controllers/teams'))
 const activities = require(jt.path('controllers/activities'))
+const comments = require(jt.path('controllers/comments'))
 const moment = require('moment')
 const async = require('async')
 const _ = require('underscore')
@@ -400,6 +401,7 @@ exports.deleteNote = (req, res, callback) => {
 				{_id: req.body.note, team: req.body.team},
 				(err, sts) => {
 					if (err) return callback('400', err)
+					comments.deleteForTeam(req.body.team)
 					activities.newActivity(req.user._id, null, 'delete_note', req.body.team, sts._id)
 					callback(null, true)
 				})

@@ -5,11 +5,10 @@ block content
 	.strip
 		.contain
 			.bind
-				.about
-					h4.what #{team[0].name}
+				.about.nodesc
+					h4.what #[span.text-preview(style=`background-color:${team[0].color};`)= team[0].name.substr(0,1)] #{team[0].name}
 						if (team[0].creator._id == user._id.toString())
 							i.material-icons.settings(data-run="team_settings") settings
-					h6(contenteditable="true", placeholder="Add a team description...")
 				.members
 					small Members #[span (#{team[0].userlist.length + 1})]
 					for usr in team[0].userlist
