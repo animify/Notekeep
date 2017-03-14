@@ -1534,12 +1534,12 @@ footer ul.options li + li {
   min-width: 19em;
   z-index: 2000;
   display: none;
-  padding: 0.4em 0;
+  padding: 0.64rem 0;
   -webkit-box-shadow: 0 1px 6px 1px rgba(0,0,0,0.05);
   box-shadow: 0 1px 6px 1px rgba(0,0,0,0.05);
 }
 .dropdown li {
-  font-size: 1em;
+  font-size: 0.92rem;
   display: block;
   text-align: left !important;
 }
@@ -1563,7 +1563,8 @@ footer ul.options li + li {
   padding: 0.8rem 1rem;
   margin: 0 0.4rem;
   font-weight: 600;
-  font-size: 1.1em;
+  font-size: 1.04rem;
+  line-height: 1.1rem;
 }
 .dropdown li.header.sub {
   color: #8999af;
@@ -1572,7 +1573,7 @@ footer ul.options li + li {
 }
 .dropdown li.header + .header {
   padding: 0.54rem 1rem;
-  margin: -1.4rem 0.4rem 0 0.4rem;
+  margin: -1.04rem 0.4rem 0.7rem 0.4rem;
 }
 .dropdown li:hover a {
   color: #0e8cf1;
@@ -1583,9 +1584,10 @@ footer ul.options li + li {
 .dropdown li a {
   color: #20304c;
   display: block;
-  padding: 0.4rem 1rem;
+  padding: 0.6rem 1rem;
   margin: 0 0.4rem;
   font-weight: 500;
+  line-height: 1.4rem;
 }
 .dropdown li a:hover {
   color: #0e8cf1;
@@ -4162,7 +4164,7 @@ nav.nav.shard .user.open span {
   display: inline-block;
   vertical-align: top;
   color: #20304c;
-  font-size: 1em;
+  font-size: 0.92rem;
 }
 .summary .unit p.medium-p::before,
 .summary .unit h6.medium-p::before {
@@ -4380,7 +4382,7 @@ nav.nav.shard .user.open span {
   line-height: 1.4em;
   margin: 0.9rem 0 0.9rem 1rem;
 }
-.editor .options > * h6.team {
+.editor .options > * h6.group {
   font-weight: 600;
   color: #fff;
 }
@@ -4638,14 +4640,14 @@ nav.nav.shard .user.open span {
   display: block;
   font-weight: 500;
 }
-.teams h6.what {
+.groups h6.what {
   color: #20304c;
-  padding: 0 0 1rem 0;
+  padding: 0 0 0.7rem 0;
 }
-.teams + .teams {
+.groups + .groups {
   margin-top: 3rem;
 }
-.teams .team {
+.groups .group {
   width: 100%;
   display: block;
   border: 1px solid #e3e9ee;
@@ -4655,7 +4657,7 @@ nav.nav.shard .user.open span {
   position: relative;
   background-color: #fff;
 }
-.teams .team .text-preview {
+.groups .group .text-preview {
   text-shadow: rgba(27,39,51,0.13) 1px 2px 2px;
   height: 1.9rem;
   background-color: #fff;
@@ -4671,16 +4673,16 @@ nav.nav.shard .user.open span {
   margin: -0.8rem auto 0 auto;
   border: 2px solid rgba(27,39,51,0.08);
 }
-.teams .team h6 {
+.groups .group h6 {
   margin-top: 0.7rem;
 }
-.teams .team h6 span {
+.groups .group h6 span {
   color: #8999af;
 }
-.teams .team:hover {
+.groups .group:hover {
   border-color: #0e8cf1;
 }
-.teams .team span.created {
+.groups .group span.created {
   position: absolute;
   bottom: 1rem;
   left: 0;
