@@ -266,6 +266,26 @@ let editor = new MediumEditor('.note_content', {
 
 
 let modal = {
+	commentsClose: (_ele) => {
+		$('.note_container').stop().animate({
+			marginLeft: 0
+		}, 300)
+		$('.comments').hide('slide', {direction: 'right'}, 300,
+		() => {
+			$('[data-run="toggle_comments"]').removeClass('closed open').addClass('closed')
+			$('[data-run="toggle_comments"]').find('i').text('first_page')
+		})
+	},
+	commentsOpen: (_ele) => {
+		$('.comments').show('slide', {direction: 'right'}, 300,
+		() => {
+			$('[data-run="toggle_comments"]').removeClass('closed open').addClass('open')
+			$('[data-run="toggle_comments"]').find('i').text('last_page')
+		})
+		$('.note_container').stop().animate({
+			marginLeft: -Math.abs($('.comments').outerWidth())
+		}, 300)
+	},
 	open: (modalID) => {
 		$('body, .wrap').addClass('noscroll')
 		$(`#${modalID}`).addClass('active')
@@ -558,6 +578,7 @@ $(() => {
 				})
 				break
 			case 'presentation_mode':
+				modal.commentsClose()
 				$('.editor, .shard').toggleClass("presentation")
 				break
 			case 'update_preferences':
@@ -590,23 +611,9 @@ $(() => {
 				break
 			case 'toggle_comments':
 				if ($(this).hasClass('open')) {
-					$('.note_container').stop().animate({
-						marginLeft: 0
-					}, 300)
-					$('.comments').hide('slide', {direction: 'right'}, 300,
-					() => {
-						$(this).toggleClass('open closed')
-						$(this).find('i').text('first_page')
-					})
+					modal.commentsClose($(this))
 				} else {
-					$('.comments').show('slide', {direction: 'right'}, 300,
-					() => {
-						$(this).toggleClass('closed open')
-						$(this).find('i').text('last_page')
-					})
-					$('.note_container').stop().animate({
-						marginLeft: -Math.abs($('.comments').outerWidth())
-					}, 300)
+					modal.commentsOpen($(this))
 				}
 				break
 			case 'open_editor':

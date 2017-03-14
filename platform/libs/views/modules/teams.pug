@@ -12,31 +12,31 @@ block content
 					.input.sm
 						input(type="text", placeholder="Search for a team")
 						a #[i.material-icons search]
-					a.button.invert.sm(data-modal="open", data-modal-name="modal_team") New Team
+					a.button.green.sm(data-modal="open", data-modal-name="modal_team") New Team
 	.contain
 		.inner#teams
 			if (teams.length)
 				.teams
 					.grid-row
 						.xs-12
-							h6.what Created teams
+							h6.what Owned teams
 						for team in teams
 							if (team.creator._id.toString() == user._id.toString())
 								.xs-12.s-6.m-3
 									a.team(href=`/team/${team._id}`)
-										.text-preview(style=`border-color:${team.color}`)
+										.text-preview(style=`background-color:${team.color}`)
 											span= team.name.substr(0,1)
 										h6 #{team.name} #[span (#{team.userlist.length + 1})]
 										span.created=moment(team.created_at).format("MMM Do YY")
 				.teams
 					.grid-row
 						.xs-12
-							h6.what Member in teams
+							h6.what Other teams
 						for team in teams
 							if (team.creator._id.toString() != user._id.toString())
 								.xs-12.s-6.m-3
 									a.team(href=`/team/${team._id}`)
-										.text-preview(style=`border-color:${team.color}`)
+										.text-preview(style=`background-color:${team.color}`)
 											span= team.name.substr(0,1)
 										h6 #{team.name} #[span (#{team.userlist.length + 1})]
 										span.created=moment(team.created_at).format("MMM Do YY")
