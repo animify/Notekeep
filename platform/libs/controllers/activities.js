@@ -4,18 +4,18 @@ const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
-const Team = require(jt.path('model/team'))
+const Group = require(jt.path('model/group'))
 const Invite = require(jt.path('model/invite'))
 const Activity = require(jt.path('model/activity'))
 const auth = require(jt.path('auth/auth'))
-const teams = require(jt.path('controllers/teams'))
+const groups = require(jt.path('controllers/groups'))
 const account = require(jt.path('controllers/account'))
 const moment = require('moment')
 const async = require('async')
 const _ = require('underscore')
 
-exports.newActivity = (by, to, type, teamID, noteID, callback) => {
-	createActivity(by, to, type, teamID, noteID)
+exports.newActivity = (by, to, type, groupID, noteID, callback) => {
+	createActivity(by, to, type, groupID, noteID)
 	.then((story) => {
 		console.log(story)
 	})
@@ -24,12 +24,12 @@ exports.newActivity = (by, to, type, teamID, noteID, callback) => {
 	})
 }
 
-exports.teamActivities = (req, res, limit, callback) => {
+exports.groupActivities = (req, res, limit, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `Team identifier is empty`
+			errorMessage: `Group identifier is empty`
 		}
 	})
 
@@ -38,9 +38,9 @@ exports.teamActivities = (req, res, limit, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'team', select: '_id name'}, {path: 'note', select: '_id title'}]
+		const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'group', select: '_id name'}, {path: 'note', select: '_id title'}]
 
-		Activity.find({team: req.body.team})
+		Activity.find({group: req.body.group})
 		.sort({created: 'descending'})
 		.populate(populateQuery)
 		.limit(limit)
@@ -54,13 +54,13 @@ exports.teamActivities = (req, res, limit, callback) => {
 
 exports.userTimelineActivities = (req, res, listed, callback) => {
 
-	const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'team', select: '_id name'}, {path: 'note', select: '_id title'}]
+	const populateQuery = [{path:'by', select:'_id username firstname lastname email'}, {path:'to', select:'_id username firstname lastname email'}, {path: 'group', select: '_id name'}, {path: 'note', select: '_id title'}]
 
 	let timeline = {}
 
-	teams.findUserTeams(req, res, (err, userTeams) => {
-		async.each(userTeams, function (tm, cb) {
-			Activity.find({team: tm._id})
+	groups.findUserGroups(req, res, (err, userGroups) => {
+		async.each(userGroups, function (tm, cb) {
+			Activity.find({group: tm._id})
 			.populate(populateQuery)
 			.lean()
 			.limit(50)
@@ -106,21 +106,21 @@ exports.userTimelineActivities = (req, res, listed, callback) => {
 	})
 }
 
-createActivity = (by, to, type, teamID, noteID) => {
+createActivity = (by, to, type, groupID, noteID) => {
 	return new Promise((resolve, reject) => {
 		let doc = {}
 
 		doc.by = by || null
 		doc.to = to || null
 		doc.type = type || null
-		doc.teamID = teamID || null
+		doc.groupID = groupID || null
 		doc.noteID = noteID || null
 
 		let story = new Activity({
 			by: doc.by,
 			to: doc.to,
 			type: doc.type,
-			team: doc.teamID,
+			group: doc.groupID,
 			note: doc.noteID
 		})
 

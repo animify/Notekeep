@@ -4,39 +4,39 @@ const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
-const Team = require(jt.path('model/team'))
+const Group = require(jt.path('model/group'))
 const Invite = require(jt.path('model/invite'))
 const auth = require(jt.path('auth/auth'))
-const teams = require(jt.path('controllers/teams'))
+const groups = require(jt.path('controllers/groups'))
 const account = require(jt.path('controllers/account'))
 const activities = require(jt.path('controllers/activities'))
 const moment = require('moment')
 const async = require('async')
 const _ = require('underscore')
 
-exports.newInvite = (req, res, to, team, callback) => {
+exports.newInvite = (req, res, to, group, callback) => {
 	account.findByEmail(req, res, to).then((accountID) => {
-		Invite.findOne({'to': accountID, 'team': team})
+		Invite.findOne({'to': accountID, 'group': group})
 		.lean()
 		.exec((err, inv) => {
 			console.log(inv);
 			if (inv == null) {
-				Team.findOne({_id: team, $or:[{'creator':accountID}, {'userlist': { $in : [accountID]}}]})
+				Group.findOne({_id: group, $or:[{'creator':accountID}, {'userlist': { $in : [accountID]}}]})
 				.populate({ path: 'creator'})
 				.lean()
-				.exec((err, inTeam) => {
-					if (inTeam != null) return callback('100', 'User is already in that team.')
+				.exec((err, inGroup) => {
+					if (inGroup != null) return callback('100', 'User is already in that group.')
 					let invite = new Invite({
 						by: req.user._id,
 						to: accountID,
-						team: team
+						group: group
 					})
 					invite.save()
-					activities.newActivity(req.user._id, accountID, 'sent_invite', team, null)
+					activities.newActivity(req.user._id, accountID, 'sent_invite', group, null)
 					return callback(null, 'Invite has been sent.')
 				})
 			} else {
-				return callback('100', 'A team invite to that member already exists.')
+				return callback('100', 'A group invite to that member already exists.')
 			}
 		})
 	}).catch((error) => {
@@ -44,38 +44,38 @@ exports.newInvite = (req, res, to, team, callback) => {
 	})
 }
 
-exports.acceptInvite = (req, res, inviteID, teamID, callback) => {
+exports.acceptInvite = (req, res, inviteID, groupID, callback) => {
 	accept = () => {
 		return new Promise(function(resolve, reject) {
-			Team.findOneAndUpdate(
-				{_id: teamID},
+			Group.findOneAndUpdate(
+				{_id: groupID},
 				{$addToSet: {'userlist': req.user._id}},
 				{safe: true, upsert: true},
-				(err, team) => {
+				(err, group) => {
 					if (err) return reject(err)
-				activities.newActivity(req.user._id, null, 'accepted_invite', teamID, null)
-				resolve(team)
+				activities.newActivity(req.user._id, null, 'accepted_invite', groupID, null)
+				resolve(group)
 			})
 		})
 	}
 
-	accept().then((team) => {
-		callback(deleteInvite(team._id, inviteID))
+	accept().then((group) => {
+		callback(deleteInvite(group._id, inviteID))
 	}).catch((err) => {
 		callback(err)
 	})
 }
-exports.declineInvite = (req, res, inviteID, teamID, callback) => {
-	activities.newActivity(req.user._id, null, 'declined_invite', teamID, null)
-	callback(deleteInvite(teamID, inviteID))
+exports.declineInvite = (req, res, inviteID, groupID, callback) => {
+	activities.newActivity(req.user._id, null, 'declined_invite', groupID, null)
+	callback(deleteInvite(groupID, inviteID))
 }
 
-exports.deleteInvite = (teamID, inviteID) => {
-	deleteInvite(teamID, inviteID)
+exports.deleteInvite = (groupID, inviteID) => {
+	deleteInvite(groupID, inviteID)
 }
 
-deleteInvite = (teamID, inviteID, cb) => {
-	Invite.findOneAndRemove({_id: inviteID, team: teamID},
+deleteInvite = (groupID, inviteID, cb) => {
+	Invite.findOneAndRemove({_id: inviteID, group: groupID},
 		(wr, wrg) => {
 			return true
 	})

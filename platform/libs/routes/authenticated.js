@@ -11,7 +11,7 @@ const db = require(jt.path('db/mongoose'))
 const config = require(jt.path('config'))
 const User = require(jt.path('model/user'))
 const notesController = require(jt.path('controllers/notes'))
-const teamsController = require(jt.path('controllers/teams'))
+const groupsController = require(jt.path('controllers/groups'))
 const async = require('async')
 
 router.get('/', (req, res) => {
@@ -19,34 +19,34 @@ router.get('/', (req, res) => {
 })
 
 router.get('/notes', (req, res) => {
-	teamsController.findUserTeams(req, res, (err, teams) => {
-		async.eachOf(teams, (team, key, cb) => {
-			notesController.findPublishedTeamNotes(req, res, team._id, (err, notes) => {
-				teams[key].notes = notes
+	groupsController.findUserGroups(req, res, (err, groups) => {
+		async.eachOf(groups, (group, key, cb) => {
+			notesController.findPublishedGroupNotes(req, res, group._id, (err, notes) => {
+				groups[key].notes = notes
 				cb()
 			})
 		}, (err) => {
-			return res.render('notes', {title: 'Notes - Notekeep', teams: teams, user: req.user, selected: 'notes', light: true})
+			return res.render('notes', {title: 'Notes - Notekeep', groups: groups, user: req.user, selected: 'notes', light: true})
 		})
 	})
 })
 
-router.get('/teams', (req, res) => {
-	teamsController.findUserTeams(req, res, (err, teams) => {
+router.get('/groups', (req, res) => {
+	groupsController.findUserGroups(req, res, (err, groups) => {
 		if (err) return res.redirect('/')
-		res.render('teams', {title: 'Teams - Notekeep', user: req.user, selected: 'teams', teams: teams, light: true})
+		res.render('groups', {title: 'Groups - Notekeep', user: req.user, selected: 'groups', groups: groups, light: true})
 	})
 })
 
 router.get('/invites', (req, res) => {
 	async.parallel({
 		pending: (callback) => {
-			teamsController.findUserInvites(req, res, (err, invites) => {
+			groupsController.findUserInvites(req, res, (err, invites) => {
 				callback(err, invites)
 			})
 		},
 		sent: (callback) => {
-			teamsController.findSentInvites(req, res, (err, invites) => {
+			groupsController.findSentInvites(req, res, (err, invites) => {
 				callback(err, invites)
 			})
 		}
@@ -56,10 +56,10 @@ router.get('/invites', (req, res) => {
 	})
 })
 
-router.get('/team/:team', (req, res) => {
-	teamsController.findTeam(req, res, req.params.team, (err, team) => {
+router.get('/group/:group', (req, res) => {
+	groupsController.findGroup(req, res, req.params.group, (err, group) => {
 		if (err) return res.redirect('/')
-		res.render('team', {title: 'Team - Notekeep', user: req.user, selected: 'team', team: team, light: true})
+		res.render('group', {title: 'Group - Notekeep', user: req.user, selected: 'group', group: group, light: true})
 	})
 })
 

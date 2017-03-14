@@ -1,0 +1,46 @@
+extends ../layout
+
+block content
+	include ../static/dashboard/nav.pug
+	.strip
+		.contain
+			.bind
+				.about
+					h4.what All Groups
+					h6 Manage all of your groups
+				.float-right.actions
+					.input.sm
+						input(type="text", placeholder="Search for a group")
+						a #[i.material-icons search]
+					a.button.green.sm(data-modal="open", data-modal-name="modal_group") New Group
+	.contain
+		.inner#groups
+			if (groups.length)
+				.groups
+					.grid-row
+						.xs-12
+							h6.what Owned groups
+						for group in groups
+							if (group.creator._id.toString() == user._id.toString())
+								.xs-12.s-6.m-3
+									a.group(href=`/group/${group._id}`)
+										.text-preview(style=`background-color:${group.color}`)
+											span= group.name.substr(0,1)
+										h6 #{group.name} #[span (#{group.userlist.length + 1})]
+										span.created=moment(group.created_at).format("MMM Do YY")
+				.groups
+					.grid-row
+						.xs-12
+							h6.what Other groups
+						for group in groups
+							if (group.creator._id.toString() != user._id.toString())
+								.xs-12.s-6.m-3
+									a.group(href=`/group/${group._id}`)
+										.text-preview(style=`background-color:${group.color}`)
+											span= group.name.substr(0,1)
+										h6 #{group.name} #[span (#{group.userlist.length + 1})]
+										span.created=moment(group.created_at).format("MMM Do YY")
+			else
+				.grid-row
+					.xs-12
+						.text-red No groups yet! #[a(data-modal="open", data-modal-name="modal_group") Create one]

@@ -1,0 +1,48 @@
+extends ../layout
+
+block content
+	include ../static/dashboard/nav.pug
+	.strip
+		.contain
+			.bind
+				.about.nodesc
+					h4.what #[span.text-preview(style=`background-color:${group[0].color};`)= group[0].name.substr(0,1)] #{group[0].name}
+						if (group[0].creator._id == user._id.toString())
+							i.material-icons.settings(data-run="group_settings") settings
+				.members
+					small Members #[span (#{group[0].userlist.length + 1})]
+					for usr in group[0].userlist
+						.round_action
+							svg(data-jdenticon-hash=usr.avatar)
+					.round_action
+						svg(data-jdenticon-hash=group[0].creator.avatar)
+					.round_action.add(data-modal="open", data-modal-name="modal_invite", data-group=group[0]._id)
+						i.material-icons add
+						| Add
+	.contain
+		.inner#groups
+			.grid-row
+				.xs-12.s-7
+					.summary.light.nohover.populate(data-populate="populate_activity", data-group=group[0]._id)
+						.grid-row
+							.xs-12
+								.intro
+									.desc
+										h5 Activity Updates
+
+				.xs-12.s-5
+					.summary.nohover
+						.grid-row
+							.xs-12
+								.intro
+									.desc
+										h5 Members
+								.unit
+									svg.avatar(data-jdenticon-hash=`${group[0].creator.avatar}`)
+									p #{group[0].creator.firstname} #{group[0].creator.lastname}
+									small #{group[0].creator.email}
+								for user in group[0].userlist
+									.unit
+										svg.avatar(data-jdenticon-hash=`${user.avatar}`)
+										p= `${user.firstname} ${user.lastname}`
+										small= user.email

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const shortid = require('shortid')
 const User = require('./user')
-const Team = require('./team')
+const Group = require('./group')
 
 let	Note = new Schema({
 	_id: {
@@ -14,7 +14,7 @@ let	Note = new Schema({
 		required: true,
 		ref: 'User'
 	},
-	team: {
+	group: {
 		type: String,
 		trim: true
 	},

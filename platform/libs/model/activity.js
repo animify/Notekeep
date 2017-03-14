@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const	Schema = mongoose.Schema
 const User = require('./user')
-const Team = require('./team')
+const Group = require('./group')
 const Note = require('./notes')
 
 let	Activity = new Schema({
@@ -17,9 +17,9 @@ let	Activity = new Schema({
 	type: {
 		type: String
 	},
-	team: {
+	group: {
 		type: String,
-		ref: 'Team'
+		ref: 'Group'
 	},
 	note: {
 		type: String,

@@ -11,7 +11,7 @@ const db = require(jt.path('db/mongoose'))
 const config = require(jt.path('config'))
 const User = require(jt.path('model/user'))
 const notesController = require(jt.path('controllers/notes'))
-const teamsController = require(jt.path('controllers/teams'))
+const groupsController = require(jt.path('controllers/groups'))
 const activitiesController = require(jt.path('controllers/activities'))
 const accountController = require(jt.path('controllers/account'))
 const commentsController = require(jt.path('controllers/comments'))
@@ -49,8 +49,8 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).post('/activities/team', (req, res) => {
-	activitiesController.teamActivities(req, res, 10, (err, ret) => {
+}).post('/activities/group', (req, res) => {
+	activitiesController.groupActivities(req, res, 10, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
@@ -64,8 +64,8 @@ router.post('/notes/publish', (req, res) => {
 	})
 }).get('/notes/retrieve/:type', (req, res) => {
 	switch (req.params.type) {
-		case 'team':
-			notesController.findTeamNotes(req, res, (err, ret) => {
+		case 'group':
+			notesController.findGroupNotes(req, res, (err, ret) => {
 				if (err) return res.send({error: err, message: 'Internal Error'})
 				res.send(ret)
 			})
@@ -85,40 +85,40 @@ router.post('/notes/publish', (req, res) => {
 		default:
 			res.send('error')
 	}
-}).post('/teams/new', (req, res) => {
-	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
+}).post('/groups/new', (req, res) => {
+	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No group name found.'})
 
-	teamsController.newTeam(req, res, req.body.name, (err, ret) => {
+	groupsController.newGroup(req, res, req.body.name, (err, ret) => {
 		if (err) return res.send({error: err, message: ret[0].description})
-		res.send({team: ret, fn: req.user.firstname, ln: req.user.lastname})
+		res.send({group: ret, fn: req.user.firstname, ln: req.user.lastname})
 	})
-}).post('/teams/invite', (req, res) => {
-	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No team name found.'})
+}).post('/groups/invite', (req, res) => {
+	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No group name found.'})
 
-	teamsController.inviteToTeam(req, res, (err, ret) => {
+	groupsController.inviteToGroup(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
 }).post('/invites/accept', (req, res) => {
-	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team name found.'})
+	if (req.body.group === null || req.body.group == '') res.send({Error: 404, Message: 'No group name found.'})
 
-	teamsController.acceptInvite(req, res, (err, ret) => {
+	groupsController.acceptInvite(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
 }).post('/invites/decline', (req, res) => {
-	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team name found.'})
+	if (req.body.group === null || req.body.group == '') res.send({Error: 404, Message: 'No group name found.'})
 
-	teamsController.declineInvite(req, res, (err, ret) => {
+	groupsController.declineInvite(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).post('/teams/find', (req, res) => {
-	if (req.body.team === null || req.body.team == '') res.send({Error: 404, Message: 'No team found.'})
+}).post('/groups/find', (req, res) => {
+	if (req.body.group === null || req.body.group == '') res.send({Error: 404, Message: 'No group found.'})
 
-	teamsController.findTeam(req, res, req.body.team, (err, team) => {
+	groupsController.findGroup(req, res, req.body.group, (err, group) => {
 		if (err) return res.send({error: err})
-		res.send({team: team})
+		res.send({group: group})
 	})
 }).post('/account/update', (req, res) => {
 	accountController.updatePreferences(req, res, (err, account) => {

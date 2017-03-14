@@ -4,12 +4,12 @@ const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
-const Team = require(jt.path('model/team'))
+const Group = require(jt.path('model/group'))
 const Invite = require(jt.path('model/invite'))
 const Activity = require(jt.path('model/activity'))
 const Comment = require(jt.path('model/comment'))
 const auth = require(jt.path('auth/auth'))
-const teams = require(jt.path('controllers/teams'))
+const groups = require(jt.path('controllers/groups'))
 const account = require(jt.path('controllers/account'))
 const moment = require('moment')
 const async = require('async')
@@ -22,9 +22,9 @@ exports.newComment = (req, res, callback) => {
 			notEmpty: true,
 			errorMessage: `No comment content`
 		},
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `No team ID`
+			errorMessage: `No group ID`
 		},
 	 'note': {
 			notEmpty: true,
@@ -37,7 +37,7 @@ exports.newComment = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array()[0].msg)
 		}
 
-		execNewComment(req.user._id, req.body.content, req.body.team, req.body.note)
+		execNewComment(req.user._id, req.body.content, req.body.group, req.body.note)
 		.then((comment) => {
 			return callback(null, comment)
 		})
@@ -60,19 +60,19 @@ exports.findComment = (commentID, callback) => {
 	})
 }
 
-exports.deleteForTeam = (team) => {
-	Comment.remove({team: team}, (err) => {
-		log.info(`team: ${team}`);
-		if (err) info.debug('500', `Error deleting comments for team: ${team}`)
+exports.deleteForGroup = (group) => {
+	Comment.remove({group: group}, (err) => {
+		log.info(`group: ${group}`);
+		if (err) info.debug('500', `Error deleting comments for group: ${group}`)
 	})
 }
 
 exports.getComments = (req, res, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `No team ID`
+			errorMessage: `No group ID`
 		},
 	 'note': {
 			notEmpty: true,
@@ -85,9 +85,9 @@ exports.getComments = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array()[0].msg)
 		}
 
-		const populateQuery = [{path:'creator', select:'_id username avatar firstname lastname email'}, {path: 'team', select: '_id name'}, {path: 'note', select: '_id title'}]
+		const populateQuery = [{path:'creator', select:'_id username avatar firstname lastname email'}, {path: 'group', select: '_id name'}, {path: 'note', select: '_id title'}]
 
-		Comment.find({team: req.body.team, note: req.body.note})
+		Comment.find({group: req.body.group, note: req.body.note})
 		.sort({created: 'descending'})
 		.populate(populateQuery)
 		.lean()
@@ -98,7 +98,7 @@ exports.getComments = (req, res, callback) => {
 	})
 }
 
-execNewComment = (creator, content, teamID, noteID) => {
+execNewComment = (creator, content, groupID, noteID) => {
 	return new Promise((resolve, reject) => {
 
 		const populateQuery = [{path:'creator', select:'_id username avatar firstname lastname email'}]
@@ -106,7 +106,7 @@ execNewComment = (creator, content, teamID, noteID) => {
 		let comm = new Comment({
 			creator: creator,
 			content: content,
-			team: teamID,
+			group: groupID,
 			note: noteID
 		})
 

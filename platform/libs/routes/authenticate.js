@@ -83,7 +83,7 @@ console.log(user);
 	}
 })
 
-router.get('/shard/:team/:note', (req, res) => {
+router.get('/shard/:group/:note', (req, res) => {
 	let isLogged = null
 	if (req.isAuthenticated()) isLogged = req.user
 

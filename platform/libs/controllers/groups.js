@@ -3,25 +3,25 @@ const jetpack = require('fs-jetpack')
 const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
-const Team = require(jt.path('model/team'))
+const Group = require(jt.path('model/group'))
 const Notes = require(jt.path('model/notes'))
 const Invite = require(jt.path('model/invite'))
 const invites = require(jt.path('controllers/invites'))
 const randomColor = require('randomcolor')
 const _ = require('underscore')
 
-exports.newTeam = (req, res, name, callback) => {
+exports.newGroup = (req, res, name, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
 		'name' :{
 			notEmpty: true,
 			isLength: {
 				options: [{ min: 6 }],
-				errorMessage: 'A team name needs to be at least 6 characters long.'
+				errorMessage: 'A group name needs to be at least 6 characters long.'
 			},
 			isLength: {
 				options: [{ max: 30 }],
-				errorMessage: 'A team name can only be 30 characters long.'
+				errorMessage: 'A group name can only be 30 characters long.'
 			}
 		}
 	})
@@ -29,18 +29,18 @@ exports.newTeam = (req, res, name, callback) => {
 	let errors = req.validationErrors()
 	if (errors) return callback('500', errors)
 
-	let team = new Team({
+	let group = new Group({
 		name: name,
 		color: randomColor(),
 		creator: req.user._id
 	})
 
-	team.save((err) => {
+	group.save((err) => {
 		if (!err) {
-			return callback(null, team)
+			return callback(null, group)
 		} else {
 			if(err.name === 'ValidationError') {
-				return callback('400', 'There was an error validating your team name.')
+				return callback('400', 'There was an error validating your group name.')
 			} else {
 				return callback('500', 'Server error! Please try again soon.')
 			}
@@ -49,41 +49,41 @@ exports.newTeam = (req, res, name, callback) => {
 	})
 }
 
-exports.findUserTeams = (req, res, callback) => {
-	Team.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+exports.findUserGroups = (req, res, callback) => {
+	Group.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
 	.populate({ path: 'creator'})
 	.lean()
-	.exec((err, teams) => {
-		if (!err) return callback(null, teams)
+	.exec((err, groups) => {
+		if (!err) return callback(null, groups)
 
 		log.error('Internal error(%d): %s', '500',err.message)
 		callback('500', 'Server error! Please try again soon.')
 	})
 }
 
-exports.isMember = (user, teamID, callback) => {
-	Team.findOne({_id: teamID})
+exports.isMember = (user, groupID, callback) => {
+	Group.findOne({_id: groupID})
 	.lean()
-	.exec((err, team) => {
-		isMember = _.filter(team.userlist, (member) => member.toString() == user._id.toString())
-		if (!err && (isMember.length == 1 || team.creator.toString() == user._id.toString()))
+	.exec((err, group) => {
+		isMember = _.filter(group.userlist, (member) => member.toString() == user._id.toString())
+		if (!err && (isMember.length == 1 || group.creator.toString() == user._id.toString()))
 			return callback(null, true)
 
 		callback(null, false)
 	})
 }
 
-exports.findTeam = (req, res, teamid, callback) => {
+exports.findGroup = (req, res, groupid, callback) => {
 	let populateQuery = [{path:'creator'}, {path:'userlist', model: 'User', populate:{path: 'userlist', model: 'User'}}]
 
-	Team.find({_id: teamid, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+	Group.find({_id: groupid, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
 	.populate(populateQuery)
 	.lean()
-	.exec((err, team) => {
-		if (!err && !(team.length == 0)) {
-			return callback(null, team)
+	.exec((err, group) => {
+		if (!err && !(group.length == 0)) {
+			return callback(null, group)
 		} else {
-			return callback('404', 'Team could not be found')
+			return callback('404', 'Group could not be found')
 		}
 
 		return callback('500', 'Internal server error')
@@ -91,7 +91,7 @@ exports.findTeam = (req, res, teamid, callback) => {
 	})
 }
 
-exports.inviteToTeam = (req, res, callback) => {
+exports.inviteToGroup = (req, res, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
 	 'user': {
@@ -101,9 +101,9 @@ exports.inviteToTeam = (req, res, callback) => {
 				errorMessage: 'That isnt a valid email address'
 			}
 		},
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `No team selected`
+			errorMessage: `No group selected`
 		}
 	})
 
@@ -112,13 +112,13 @@ exports.inviteToTeam = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array()[0].msg)
 		}
 
-		Team.findOne({_id: req.body.team, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+		Group.findOne({_id: req.body.group, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
 		.populate({ path: 'creator'})
 		.lean()
-		.exec((err, team) => {
-			if (team == null) return callback('404', 'Something went wrong.')
+		.exec((err, group) => {
+			if (group == null) return callback('404', 'Something went wrong.')
 			if (!err) {
-				invites.newInvite(req, res, req.body.user, team._id, (err, ret) => {
+				invites.newInvite(req, res, req.body.user, group._id, (err, ret) => {
 					if (!err) return callback(null, ret)
 					return callback(err, ret)
 				})
@@ -131,7 +131,7 @@ exports.inviteToTeam = (req, res, callback) => {
 }
 
 exports.findUserInvites = (req, res, callback) => {
-	let populateQuery = [{path:'by', select:'firstname lastname avatar'}, {path:'team', select:'name'}]
+	let populateQuery = [{path:'by', select:'firstname lastname avatar'}, {path:'group', select:'name'}]
 	Invite.find({'to': req.user._id})
 	.populate(populateQuery)
 	.lean()
@@ -142,7 +142,7 @@ exports.findUserInvites = (req, res, callback) => {
 }
 
 exports.findSentInvites = (req, res, callback) => {
-	let populateQuery = [{path:'by', select:'firstname lastname avatar'}, {path:'team', select:'name'}]
+	let populateQuery = [{path:'by', select:'firstname lastname avatar'}, {path:'group', select:'name'}]
 	Invite.find({'by': req.user._id})
 	.populate(populateQuery)
 	.lean()
@@ -155,9 +155,9 @@ exports.findSentInvites = (req, res, callback) => {
 exports.acceptInvite = (req, res, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `No team selected`
+			errorMessage: `No group selected`
 		}
 	})
 	req.getValidationResult().then(function(errors) {
@@ -165,10 +165,10 @@ exports.acceptInvite = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		Invite.findOne({'to': req.user._id, 'team': req.body.team})
+		Invite.findOne({'to': req.user._id, 'group': req.body.group})
 		.lean()
 		.exec((err, inv) => {
-			invites.acceptInvite(req, res, inv._id, inv.team, (deleted) => {
+			invites.acceptInvite(req, res, inv._id, inv.group, (deleted) => {
 				return callback(null, true)
 			})
 		})
@@ -178,9 +178,9 @@ exports.acceptInvite = (req, res, callback) => {
 exports.declineInvite = (req, res, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `No team selected`
+			errorMessage: `No group selected`
 		}
 	})
 	req.getValidationResult().then(function(errors) {
@@ -188,10 +188,10 @@ exports.declineInvite = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		Invite.findOne({'to': req.user._id, 'team': req.body.team})
+		Invite.findOne({'to': req.user._id, 'group': req.body.group})
 		.lean()
 		.exec((err, inv) => {
-			invites.declineInvite(req, res, inv._id, inv.team, (deleted) => {
+			invites.declineInvite(req, res, inv._id, inv.group, (deleted) => {
 				return callback(null, true)
 			})
 		})

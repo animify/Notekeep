@@ -6,11 +6,11 @@ block content
 		.contain
 			.bind
 				.about
-					h4.what #[span Team Notes] #[i.material-icons.switch_trigger(data-switch="switch_note") keyboard_arrow_down]
-					h6 Collaborate in realtime on team notes
+					h4.what #[span Group Notes] #[i.material-icons.switch_trigger(data-switch="switch_note") keyboard_arrow_down]
+					h6 Collaborate in realtime on group notes
 					.switches#switch_note
-						a.switch(data-run="switch_note_mode", data-type="team") #[b Team Notes]
-							span All team notes
+						a.switch(data-run="switch_note_mode", data-type="group") #[b Group Notes]
+							span All group notes
 						a.switch(data-run="switch_note_mode", data-type="private") #[b Private Notes]
 							span Notes available only to you
 						a.switch(data-run="switch_note_mode", data-type="draft") #[b Draft Notes]
@@ -19,26 +19,26 @@ block content
 					.input.sm
 						input(type="text", placeholder="Search notes")
 						a #[i.material-icons search]
-					a.switch_trigger.button.green.sm(data-switch="switch_teams") New Note
-				.switches.right#switch_teams
-					a.switch(data-teamid="0") #[b Private]
+					a.switch_trigger.button.green.sm(data-switch="switch_groups") New Note
+				.switches.right#switch_groups
+					a.switch(data-groupid="0") #[b Private]
 						span Only available to you
-					for team in teams
-						a.switch(data-teamid=team._id) #[b= team.name]
-							span New note in #{team.name}
+					for group in groups
+						a.switch(data-groupid=group._id) #[b= group.name]
+							span New note in #{group.name}
 	.contain
 		.inner#summary_notes
-			for team in teams
-				if (team.notes.length != 0)
-					.summary(data-team_section=team._id)
+			for group in groups
+				if (group.notes.length != 0)
+					.summary(data-group_section=group._id)
 						.grid-row
 							.xs-12
 								.intro
 									.desc
-										span.text-preview(style=`background-color:${team.color};`)= team.name.substr(0,1)
-										h5= team.name
+										span.text-preview(style=`background-color:${group.color};`)= group.name.substr(0,1)
+										h5= group.name
 							.xs-12.all_notes
-								for note in team.notes
+								for note in group.notes
 									.unit(data-note=note._id, data-run="get_note")
 										h6(class=(note.status == 1) ? 'medium-p': (note.status == 2) && 'high-p') #{note.title}
 										small= `Edited ${moment(note.updated).fromNow()}`

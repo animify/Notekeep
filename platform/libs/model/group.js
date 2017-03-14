@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const shortid = require('shortid')
 const User = require('./user')
 
-let	Team = new Schema({
+let	Group = new Schema({
 	_id: {
 		type: String,
 		'default': shortid.generate
@@ -35,4 +35,4 @@ let	Team = new Schema({
 	}
 })
 
-module.exports = mongoose.model('Team', Team)
+module.exports = mongoose.model('Group', Group)

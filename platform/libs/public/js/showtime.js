@@ -23,10 +23,10 @@ let nk = {
 	init: () => {
 		$('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>')
 		$('.medium-editor-toolbar-close').html('<i class="material-icons">clear</i>')
-		$('.unit', '#ls-teams').sort(team.sortAlpha).appendTo('#ls-teams')
+		$('.unit', '#ls-groups').sort(group.sortAlpha).appendTo('#ls-groups')
 
 		if ($('.populate[data-populate="populate_activity"]').length) {
-			activities.team($('.populate[data-populate="populate_activity"]').data('team'))
+			activities.group($('.populate[data-populate="populate_activity"]').data('group'))
 		}
 
 		if ($('#activities_list').length) {
@@ -42,7 +42,7 @@ let nk = {
 		$('.copy_link').hide()
 		$('.create_link').show()
 		$('.note_headroom h3').text('')
-		$('.editor h6.team').text('')
+		$('.editor h6.group').text('')
 		$('.note_headroom p').find('span.user').text(`${accountHash.firstname} ${accountHash.lastname}`)
 		$('.note_headroom p').find('span.type').removeClass('draft published').addClass('draft')
 		$('.editor .priority a.toggle').attr('data-status', 0).html(`<i class="material-icons ${priority.classes[0]}">lens</i> ${priority.label[0]}`)
@@ -60,8 +60,8 @@ let errorHandler = {
 
 let comments = {
 	new: () => {
-		console.log(team);
-		_data = JSON.stringify({team: team.viewing, note: team.viewingNote, content: $('#comment_new').text()})
+		console.log(group);
+		_data = JSON.stringify({group: group.viewing, note: group.viewingNote, content: $('#comment_new').text()})
 		endpoint.call(`/facets/endpoints/comments/new`, 'POST', _data, (res) => {
 			console.log(res);
 			if (res.error) return errorHandler.modal(res.message[0].msg, res.message[0].param)
@@ -74,8 +74,7 @@ let comments = {
 		})
 	},
 	forNote: () => {
-		console.log(team);
-		_data = JSON.stringify({team: team.viewing, note: team.viewingNote})
+		_data = JSON.stringify({group: group.viewing, note: group.viewingNote})
 		endpoint.call(`/facets/endpoints/comments/get`, 'POST', _data, (res) => {
 			_.each(res, (comm) => comm.created = moment(comm.created).fromNow())
 			acts = _.template(templates.build_comments)({comments: res})
@@ -88,7 +87,7 @@ let comments = {
 }
 
 let templates = {
-	teams: $('#tpl-teams').html(),
+	groups: $('#tpl-groups').html(),
 	notes: $('#tpl-note').html(),
 	notes_private: $('#tpl-notes_private').html(),
 	editorStatus: $('#tpl-editor_status').html(),
@@ -136,9 +135,9 @@ let endpoint = {
 }
 
 let activities = {
-	team: (id) => {
-		_data = JSON.stringify({team: id})
-		endpoint.call('/facets/endpoints/activities/team', 'POST', _data, (res) => {
+	group: (id) => {
+		_data = JSON.stringify({group: id})
+		endpoint.call('/facets/endpoints/activities/group', 'POST', _data, (res) => {
 			if (res.length < 1) {
 				emptyActivities = _.template(templates.act_empty)({})
 				$('.populate .xs-12').append($(emptyActivities))
@@ -192,26 +191,26 @@ let activities = {
 	}
 }
 
-let team = {
+let group = {
 	selected: null,
 	viewing: null,
 	viewingNote: null,
 	append: (res) => {
-		let _team = {
-			color: res.team.color,
-			created: res.team.created_at,
+		let _group = {
+			color: res.group.color,
+			created: res.group.created_at,
 			firstname: res.fn,
 			lastname: res.ln,
-			modified: res.team.modified_at,
-			name: res.team.name,
-			initial: res.team.name.substr(0,1),
-			members: res.team.userlist.length + 1,
-			_id: res.team._id
+			modified: res.group.modified_at,
+			name: res.group.name,
+			initial: res.group.name.substr(0,1),
+			members: res.group.userlist.length + 1,
+			_id: res.group._id
 		}
 
 		modal.close()
-		let newTeam = _.template(templates.teams)(_team)
-		$('.unit', '#ls-teams').add($(newTeam)).sort(team.sortAlpha).appendTo('#ls-teams')
+		let newGroup = _.template(templates.groups)(_group)
+		$('.unit', '#ls-groups').add($(newGroup)).sort(group.sortAlpha).appendTo('#ls-groups')
 		$('.unit.new').slideDown()
 	},
 	sortAlpha: (a,b) => {
@@ -294,16 +293,16 @@ let modal = {
 		$('body, .wrap').removeClass('noscroll')
 		$(`.modal`).removeClass('active')
 	},
-	openEditor: (teamSelect) => {
+	openEditor: (groupSelect) => {
 		$('.copy_link').hide()
 		$('.create_link').hide()
 
-		if (teamSelect.private == 1) {
-			team.selected = 0
-			$('.editor h6.team').text('Private note')
+		if (groupSelect.private == 1) {
+			group.selected = 0
+			$('.editor h6.group').text('Private note')
 		} else {
-			team.selected = teamSelect.team[0]._id
-			$('.editor h6.team').text(teamSelect.team[0].name)
+			group.selected = groupSelect.group[0]._id
+			$('.editor h6.group').text(groupSelect.group[0].name)
 		}
 		$('body, .wrap').addClass('noscroll')
 		$('.comments').hide()
@@ -328,7 +327,7 @@ let modal = {
 			$('.copy_link').show()
 		}
 
-		(info.note.private) ? $('.editor h6.team').text('Private note') : $('.editor h6.team').text(info.team.name)
+		(info.note.private) ? $('.editor h6.group').text('Private note') : $('.editor h6.group').text(info.group.name)
 		$('.note_headroom h3').text(info.note.title)
 
 		let editorStatus = _.template(templates.editorStatus)({firstname: info.note.owner.firstname, lastname: info.note.owner.lastname, status: (info.note.draft) ? 'draft' : 'published'})
@@ -355,14 +354,14 @@ let modal = {
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
 
 		if (!info.note.private) {
-			socket.emit('team_join', {team: info.team._id, note: info.note._id})
+			socket.emit('group_join', {group: info.group._id, note: info.note._id})
 		}
 
 	},
 	closeEditor: () => {
 		$('body, .wrap').removeClass('noscroll')
-		team.viewing = null
-		team.viewingNote = null
+		group.viewing = null
+		group.viewingNote = null
 		$('.editor').hide('slide', {direction: 'left'}, 300, () => {
 			$('.note_container').css({marginLeft: 0})
 			$('.comments').hide()
@@ -414,16 +413,16 @@ $(() => {
 			 isEscape = (e.keyCode == 27)
 		 }
 		 (isEscape) && modal.close()
-	 }).bind('open:editor', function(e, teamid) {
-		 if (teamid.private != 1) {
-			 let _data = JSON.stringify(teamid)
-			 endpoint.call(`/facets/endpoints/teams/find`, 'POST', _data, (res) => {
+	 }).bind('open:editor', function(e, groupid) {
+		 if (groupid.private != 1) {
+			 let _data = JSON.stringify(groupid)
+			 endpoint.call(`/facets/endpoints/groups/find`, 'POST', _data, (res) => {
 				 nk.resetEditor()
 				 modal.openEditor(res)
 			 })
 		 } else {
 			 nk.resetEditor()
-			 modal.openEditor(teamid)
+			 modal.openEditor(groupid)
 		 }
 	 }).bind('saved:editor', function(e, msg) {
 
@@ -471,33 +470,33 @@ $(() => {
 		let _type = _this.data('run')
 		let _data = null
 		switch (_type) {
-			case 'new_team':
-				let teamname = $('#input-new_team').val()
-				if(_(teamname).isBlank()) return errorHandler.modal("You'll need to enter a name for the team to continue.")
-				if(teamname.length < 6) return errorHandler.modal('A team name needs to be at least 6 characters long.')
-				_data = JSON.stringify({name: teamname})
-				endpoint.call('/facets/endpoints/teams/new', 'POST', _data, (res) => {
-					res.error ? errorHandler.modal(res.message) : team.append(res)
+			case 'new_group':
+				let groupname = $('#input-new_group').val()
+				if(_(groupname).isBlank()) return errorHandler.modal("You'll need to enter a name for the group to continue.")
+				if(groupname.length < 6) return errorHandler.modal('A group name needs to be at least 6 characters long.')
+				_data = JSON.stringify({name: groupname})
+				endpoint.call('/facets/endpoints/groups/new', 'POST', _data, (res) => {
+					res.error ? errorHandler.modal(res.message) : group.append(res)
 				})
 				break
 			case 'publish_note':
-				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), plain: ($('.note_content').text()).substr(0,40), team: team.selected})
+				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), plain: ($('.note_content').text()).substr(0,40), group: group.selected})
 				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
-					console.log(res);
 					if (res.error) {
 						errorHandler.modal(res.message[0].msg, res.message[0].param)
 					} else {
 						modal.close()
 						publishedNote = _.template(templates.publishedNote)(res.Message)
-						$(`[data-team_section=${res.Message.team}] .all_notes`).append($(publishedNote))
+						$(`[data-group_section=${res.Message.group}] .all_notes`).append($(publishedNote))
+						$(`[data-note=${res.Message._id}]`).trigger("click")
 					}
 				})
 				break
 			case 'get_note':
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/get/${_this.data('note')}`, 'GET', _data, (res) => {
-					if (!res[0].note.private) team.viewing = res[0].team._id
-					team.viewingNote = res[0].note._id
+					if (!res[0].note.private) group.viewing = res[0].group._id
+					group.viewingNote = res[0].note._id
 					nk.resetEditor()
 					modal.editEditor(res[0])
 					let errMsg = ''
@@ -508,10 +507,10 @@ $(() => {
 
 				break
 			case 'delete_note':
-				_data = JSON.stringify({team: team.viewing, note: team.viewingNote})
+				_data = JSON.stringify({group: group.viewing, note: group.viewingNote})
 				endpoint.call(`/facets/endpoints/notes/delete`, 'POST', _data, (res) => {
 					if (res) {
-						const noteEl = $(`[data-note="${team.viewingNote}"]`)
+						const noteEl = $(`[data-note="${group.viewingNote}"]`)
 						if (!(noteEl.parent().children('.unit').length > 1)) noteEl.parent().closest('.summary').remove()
 						noteEl.remove()
 						modal.close()
@@ -541,33 +540,33 @@ $(() => {
 				})
 				break
 			case 'chg_priority':
-				_data = JSON.stringify({team: team.viewing, note: team.viewingNote, status: _this.data('status')})
+				_data = JSON.stringify({group: group.viewing, note: group.viewingNote, status: _this.data('status')})
 				endpoint.call('/facets/endpoints/notes/status', 'POST', _data, (res) => {
 					if (res.err) return console.debug('Internal error when changing priority')
 					$('.editor .priority a.toggle').attr('data-status', res.status).html(`<i class="material-icons ${priority.classes[res.status]}">lens</i> ${priority.label[res.status]}`)
 				})
 				break
 			case 'invite_member':
-				_data = JSON.stringify({user: $('#member-email').val(), team: $('.add').data('team')})
-				endpoint.call('/facets/endpoints/teams/invite', 'POST', _data, (res) => {
+				_data = JSON.stringify({user: $('#member-email').val(), group: $('.add').data('group')})
+				endpoint.call('/facets/endpoints/groups/invite', 'POST', _data, (res) => {
 					if (res.error) return errorHandler.modal(res.message)
-					iziToast.success({title: "Invite sent", message: `Team invite sent to ${$('#member-email').val()}`})
+					iziToast.success({title: "Invite sent", message: `Group invite sent to ${$('#member-email').val()}`})
 					modal.close()
 				})
 				break
 			case 'accept_invite':
-				_data = JSON.stringify({team: _this.parent().data('team')})
+				_data = JSON.stringify({group: _this.parent().data('group')})
 				endpoint.call('/facets/endpoints/invites/accept', 'POST', _data, (res) => {
 				})
 				break
 			case 'decline_invite':
-				_data = JSON.stringify({team: _this.parent().data('team')})
+				_data = JSON.stringify({group: _this.parent().data('group')})
 
 				endpoint.call('/facets/endpoints/invites/decline', 'POST', _data, (res) => {
 				})
 				break
 			case 'share_note':
-				_data = JSON.stringify({team: team.viewing, note: team.viewingNote})
+				_data = JSON.stringify({group: group.viewing, note: group.viewingNote})
 				endpoint.call('/facets/endpoints/notes/share', 'POST', _data, (res) => {
 					if (res.error) {
 						iziToast.error({title: "Already shared", message: `This note is already public`})
@@ -599,7 +598,7 @@ $(() => {
 			case 'copy_shared_link':
 				copyField = document.getElementById("hidden_copy")
 				copyField.hidden = false
-				copyField.value = `${window.location.origin}/shard/${team.viewing}/${team.viewingNote}`
+				copyField.value = `${window.location.origin}/shard/${group.viewing}/${group.viewingNote}`
 				copyField.select()
 				try {
 					const successful = document.execCommand('copy')
@@ -647,9 +646,9 @@ $(() => {
 		$('#notes h4.what span').text(selectedName)
 	})
 
-	$('.switches#switch_teams .switch').bind('click', function(e) {
-		if ($(this).data('teamid') != 0) {
-			$(document).trigger('open:editor', [{private: 0, team: $(this).data('teamid')}])
+	$('.switches#switch_groups .switch').bind('click', function(e) {
+		if ($(this).data('groupid') != 0) {
+			$(document).trigger('open:editor', [{private: 0, group: $(this).data('groupid')}])
 		} else {
 			$(document).trigger('open:editor', [{private: 1}])
 		}
@@ -700,7 +699,7 @@ $(() => {
 
 	pushChanges = (event, editable) => {
 		// console.time('Diff')
-		if (_.isBlank(team.viewingNote)) return
+		if (_.isBlank(group.viewingNote)) return
 		oldHTML = transform.oldHTML
 		newHTML = editor.getContent()
 		ld = 0
@@ -723,7 +722,7 @@ $(() => {
 		transform.oldHTML = newHTML
 
 		socket.emit('change', arChange)
-		socket.emit('preSave', { _id: team.viewingNote, body: newHTML, plain: $('.note_content').text()})
+		socket.emit('preSave', { _id: group.viewingNote, body: newHTML, plain: $('.note_content').text()})
 		// console.timeEnd('Diff')
 	}
 

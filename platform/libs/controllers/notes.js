@@ -4,9 +4,9 @@ const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
 const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
-const Team = require(jt.path('model/team'))
+const Group = require(jt.path('model/group'))
 const auth = require(jt.path('auth/auth'))
-const teams = require(jt.path('controllers/teams'))
+const groups = require(jt.path('controllers/groups'))
 const activities = require(jt.path('controllers/activities'))
 const comments = require(jt.path('controllers/comments'))
 const moment = require('moment')
@@ -34,7 +34,7 @@ exports.newNote = (req, res, drafttype, callback) => {
 			notEmpty: true,
 			errorMessage: `Why make a note with no content?!`
 		},
-	 'team': {
+	 'group': {
 			notEmpty: true
 		}
 	})
@@ -44,11 +44,11 @@ exports.newNote = (req, res, drafttype, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		if (req.body.team != 0) {
-			teams.findTeam(req, res, req.body.team, (err, team) => {
+		if (req.body.group != 0) {
+			groups.findGroup(req, res, req.body.group, (err, group) => {
 				if (err) return callback('404', [{msg: 'Note could not be published'}])
 				saveNote().then((note) => {
-					activities.newActivity(req.user._id, null, 'create_note', team[0]._id, note._id)
+					activities.newActivity(req.user._id, null, 'create_note', group[0]._id, note._id)
 					return callback(null, note)
 				}).catch((err) => {
 					return callback('404', err)
@@ -56,7 +56,7 @@ exports.newNote = (req, res, drafttype, callback) => {
 			})
 		} else {
 			saveNote().then((note) => {
-				activities.newActivity(req.user._id, null, 'create_note', req.body.team, note._id)
+				activities.newActivity(req.user._id, null, 'create_note', req.body.group, note._id)
 				return callback(null, note)
 			}).catch((err) => {
 				return callback('404', err)
@@ -72,10 +72,10 @@ exports.newNote = (req, res, drafttype, callback) => {
 				title: req.body.title,
 				content: req.body.content,
 				plain: req.body.plain,
-				team: req.body.team,
+				group: req.body.group,
 				created: moment().format(),
 				draft: drafttype,
-				private: (req.body.team == 0) ? true : false
+				private: (req.body.group == 0) ? true : false
 			})
 
 			note.save((err) => {
@@ -116,12 +116,12 @@ exports.findNote = (req, res, callback) => {
 		.populate(populateQuery)
 		.exec((err, note) => {
 			if(!note) return callback('400', 'Validation error')
-			if (note.team == "0") return callback(null, [{note:note}])
+			if (note.group == "0") return callback(null, [{note:note}])
 
 			if (!err) {
-				teams.findTeam(req, res, note.team, (err, team) => {
-					if (team[0]._id) {
-						return callback(null, [{note:note, team:team[0]}])
+				groups.findGroup(req, res, note.group, (err, group) => {
+					if (group[0]._id) {
+						return callback(null, [{note:note, group:group[0]}])
 					}
 
 					return callback('400', 'Validation error')
@@ -138,9 +138,9 @@ exports.findShard = (req, res, callback) => {
 
 	req.sanitizeParams()
 	req.checkParams({
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `Team ID is empty`
+			errorMessage: `Group ID is empty`
 		},
 	 'note': {
 			notEmpty: true,
@@ -153,9 +153,9 @@ exports.findShard = (req, res, callback) => {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
 
-		const populateQuery = [{path:'owner', select:'_id username firstname lastname email avatar'}, {path: 'team'}]
+		const populateQuery = [{path:'owner', select:'_id username firstname lastname email avatar'}, {path: 'group'}]
 
-		Notes.findOne({_id: req.params.note, team: req.params.team, shared: true})
+		Notes.findOne({_id: req.params.note, group: req.params.group, shared: true})
 		.populate(populateQuery)
 		.exec((err, note) => {
 			if(!note) {
@@ -172,10 +172,10 @@ exports.findShard = (req, res, callback) => {
 	})
 }
 
-exports.findPublishedTeamNotes = (req, res, teamid, callback) => {
+exports.findPublishedGroupNotes = (req, res, groupid, callback) => {
 	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
 
-	Notes.find({team: teamid, draft: false, private: false})
+	Notes.find({group: groupid, draft: false, private: false})
 	.populate(populateQuery)
 	.exec((err, notes) => {
 		if(!notes) {
@@ -193,7 +193,7 @@ exports.findPublishedTeamNotes = (req, res, teamid, callback) => {
 exports.findPrivateNotes = (req, res, callback) => {
 	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
 
-	Notes.find({owner: req.user._id, team: "0", draft: false, private: true})
+	Notes.find({owner: req.user._id, group: "0", draft: false, private: true})
 	.populate(populateQuery)
 	.exec((err, notes) => {
 		if(!notes) {
@@ -208,13 +208,13 @@ exports.findPrivateNotes = (req, res, callback) => {
 	})
 }
 
-exports.findTeamNotes = (req, res, callback) => {
+exports.findGroupNotes = (req, res, callback) => {
 	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
 
-	Team.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+	Group.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
 	.populate({ path: 'creator'})
 	.lean()
-	.exec((err, teams) => {
+	.exec((err, groups) => {
 		let retrievedNotes = []
 
 		if (err) {
@@ -222,21 +222,21 @@ exports.findTeamNotes = (req, res, callback) => {
 			callback('500', 'Server error! Please try again soon.')
 		}
 
-		let teamObj = {}
-		async.each(teams, function (tm, cb) {
-			Notes.find({team: tm._id, draft: false, private: false})
+		let groupObj = {}
+		async.each(groups, function (tm, cb) {
+			Notes.find({group: tm._id, draft: false, private: false})
 			.populate(populateQuery)
 			.lean()
 			.exec((err, notes) => {
 				if(notes.length > 0) {
-					teamObj[tm._id] = {}
-					teamObj[tm._id]._id = tm._id
-					teamObj[tm._id].color = tm.color
-					teamObj[tm._id].name = tm.name
-					teamObj[tm._id].short = tm.name.substr(0, 1)
-					teamObj[tm._id].notes = []
+					groupObj[tm._id] = {}
+					groupObj[tm._id]._id = tm._id
+					groupObj[tm._id].color = tm.color
+					groupObj[tm._id].name = tm.name
+					groupObj[tm._id].short = tm.name.substr(0, 1)
+					groupObj[tm._id].notes = []
 					_.each(notes, (note) => {
-						teamObj[tm._id].notes.push(note)
+						groupObj[tm._id].notes.push(note)
 						if (notes.indexOf(note) + 1 == notes.length)
 							cb()
 					})
@@ -246,7 +246,7 @@ exports.findTeamNotes = (req, res, callback) => {
 			})
 		}, function (err) {
 			if (err) return callback(400, err.message)
-			callback(null, teamObj)
+			callback(null, groupObj)
 		})
 	})
 }
@@ -254,10 +254,10 @@ exports.findTeamNotes = (req, res, callback) => {
 exports.findDraftNotes = (req, res, callback) => {
 	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
 
-	Team.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+	Group.find({$or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
 	.populate({ path: 'creator'})
 	.lean()
-	.exec((err, teams) => {
+	.exec((err, groups) => {
 		let retrievedNotes = []
 
 		if (err) {
@@ -265,21 +265,21 @@ exports.findDraftNotes = (req, res, callback) => {
 			callback('500', 'Server error! Please try again soon.')
 		}
 
-		let teamObj = {}
-		async.each(teams, function (tm, cb) {
-			Notes.find({team: tm._id, draft: true})
+		let groupObj = {}
+		async.each(groups, function (tm, cb) {
+			Notes.find({group: tm._id, draft: true})
 			.populate(populateQuery)
 			.lean()
 			.exec((err, notes) => {
 				if(notes.length > 0) {
-					teamObj[tm._id] = {}
-					teamObj[tm._id]._id = tm._id
-					teamObj[tm._id].color = tm.color
-					teamObj[tm._id].name = tm.name
-					teamObj[tm._id].short = tm.name.substr(0, 1)
-					teamObj[tm._id].notes = []
+					groupObj[tm._id] = {}
+					groupObj[tm._id]._id = tm._id
+					groupObj[tm._id].color = tm.color
+					groupObj[tm._id].name = tm.name
+					groupObj[tm._id].short = tm.name.substr(0, 1)
+					groupObj[tm._id].notes = []
 					_.each(notes, (note) => {
-						teamObj[tm._id].notes.push(note)
+						groupObj[tm._id].notes.push(note)
 						if (notes.indexOf(note) + 1 == notes.length)
 							cb()
 					})
@@ -289,16 +289,16 @@ exports.findDraftNotes = (req, res, callback) => {
 			})
 		}, function (err) {
 			if (err) return callback(400, err.message)
-			callback(null, teamObj)
+			callback(null, groupObj)
 		})
 	})
 }
 
-exports.updateNote = (noteID, noteBody, notePlain, teamID, callback) => {
-	if (teamID === undefined) teamID = "0"
+exports.updateNote = (noteID, noteBody, notePlain, groupID, callback) => {
+	if (groupID === undefined) groupID = "0"
 
 	Notes.findOneAndUpdate(
-		{_id: noteID, team: teamID},
+		{_id: noteID, group: groupID},
 		{$set: {content: noteBody, plain: notePlain}},
 		{upsert: true, new: true},
 		(err, doc) => {
@@ -313,9 +313,9 @@ exports.updateStatus = (req, res, callback) => {
 			notEmpty: true,
 			errorMessage: `Note ID is empty`
 		},
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `Team ID is empty`
+			errorMessage: `Group ID is empty`
 		},
 	 'status': {
 			notEmpty: true,
@@ -327,12 +327,12 @@ exports.updateStatus = (req, res, callback) => {
 		if (!errors.isEmpty()) {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
-		Team.findOne({_id: req.body.team, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+		Group.findOne({_id: req.body.group, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
 		.lean()
-		.exec((err, team) => {
-			if (team == null) return callback(400, "Team not found")
+		.exec((err, group) => {
+			if (group == null) return callback(400, "Group not found")
 			Notes.findOneAndUpdate(
-				{_id: req.body.note, team: req.body.team},
+				{_id: req.body.note, group: req.body.group},
 				{$set: {status: req.body.status}},
 				{upsert: true, new: true},
 				(err, note) => {
@@ -349,9 +349,9 @@ exports.shareNote = (req, res, callback) => {
 			notEmpty: true,
 			errorMessage: `Note ID is empty`
 		},
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `Team ID is empty`
+			errorMessage: `Group ID is empty`
 		}
 	})
 
@@ -359,17 +359,17 @@ exports.shareNote = (req, res, callback) => {
 		if (!errors.isEmpty()) {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
-		Team.findOne({_id: req.body.team, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
+		Group.findOne({_id: req.body.group, $or:[{'creator':req.user._id}, {'userlist': { $in : [req.user._id]}}]})
 		.lean()
-		.exec((err, team) => {
-			if (team == null) return callback(400, "Team not found")
+		.exec((err, group) => {
+			if (group == null) return callback(400, "Group not found")
 			Notes.findOneAndUpdate(
-				{_id: req.body.note, team: req.body.team},
+				{_id: req.body.note, group: req.body.group},
 				{$set: {shared: true}},
 				{upsert: true},
 				(err, note) => {
 					if (note.shared) return callback('100', 'Note is already shared')
-					const shareURL = `${req.protocol}://${req.get('host')}/shard/${req.body.team}/${req.body.note}`
+					const shareURL = `${req.protocol}://${req.get('host')}/shard/${req.body.group}/${req.body.note}`
 					callback(null, shareURL)
 				})
 		})
@@ -383,9 +383,9 @@ exports.deleteNote = (req, res, callback) => {
 			notEmpty: true,
 			errorMessage: `Note ID is empty`
 		},
-	 'team': {
+	 'group': {
 			notEmpty: true,
-			errorMessage: `Team ID is empty`
+			errorMessage: `Group ID is empty`
 		}
 	})
 
@@ -393,16 +393,16 @@ exports.deleteNote = (req, res, callback) => {
 		if (!errors.isEmpty()) {
 			return callback('100', errors.useFirstErrorOnly().array())
 		}
-		Team.findOne({_id: req.body.team, 'creator':req.user._id})
+		Group.findOne({_id: req.body.group, 'creator':req.user._id})
 		.lean()
-		.exec((err, team) => {
-			if (team == null) return callback(400, "Team not found")
+		.exec((err, group) => {
+			if (group == null) return callback(400, "Group not found")
 			Notes.findOneAndRemove(
-				{_id: req.body.note, team: req.body.team},
+				{_id: req.body.note, group: req.body.group},
 				(err, sts) => {
 					if (err) return callback('400', err)
-					comments.deleteForTeam(req.body.team)
-					activities.newActivity(req.user._id, null, 'delete_note', req.body.team, sts._id)
+					comments.deleteForGroup(req.body.group)
+					activities.newActivity(req.user._id, null, 'delete_note', req.body.group, sts._id)
 					callback(null, true)
 				})
 		})

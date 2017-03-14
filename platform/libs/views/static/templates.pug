@@ -1,5 +1,5 @@
-script(type='text/html', id='tpl-teams')
-	a.unit.new(href!="/team/<%= _id %>")
+script(type='text/html', id='tpl-groups')
+	a.unit.new(href!="/group/<%= _id %>")
 		.text-preview(style!="background-color:<%= color %>")
 			span!= '<%= initial %>'
 		h6!= '<%= name %>'
@@ -60,21 +60,21 @@ script(type='text/html', id='tpl-act-sent_invite')
 	.unit
 		p
 			i.material-icons.text-green person_add
-			!= '<%= by.firstname %> <%= by.lastname %> invited <b><%= to.firstname %> <%= to.lastname %></b> to <b><%= team.name %></b>.'
+			!= '<%= by.firstname %> <%= by.lastname %> invited <b><%= to.firstname %> <%= to.lastname %></b> to <b><%= group.name %></b>.'
 		small!= '<%= created %>'
 
 script(type='text/html', id='tpl-act-declined_invite')
 	.unit
 		p
 			i.material-icons.text-red sentiment_dissatisfied
-			!= '<%= by.firstname %> <%= by.lastname %> declined the invite <b><%= team.name %></b>.'
+			!= '<%= by.firstname %> <%= by.lastname %> declined the invite <b><%= group.name %></b>.'
 		small!= '<%= created %>'
 
 script(type='text/html', id='tpl-act-accepted_invite')
 	.unit
 		p
 			i.material-icons.text-green done_all
-			!= '<%= by.firstname %> <%= by.lastname %> has joined <b><%= team.name %></b>.'
+			!= '<%= by.firstname %> <%= by.lastname %> has joined <b><%= group.name %></b>.'
 		small!= '<%= created %>'
 
 script(type='text/html', id='tpl-act-empty')

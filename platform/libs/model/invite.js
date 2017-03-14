@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const	Schema = mongoose.Schema
 const User = require('./user')
 const shortid = require('shortid')
-const Team = require('./team')
+const Group = require('./group')
 
 let	Invite = new Schema({
 	_id: {
@@ -19,10 +19,10 @@ let	Invite = new Schema({
 		required: true,
 		ref: 'User'
 	},
-	team: {
+	group: {
 		type: String,
 		required: true,
-		ref: 'Team'
+		ref: 'Group'
 	},
 	created: {
 		type: Date,

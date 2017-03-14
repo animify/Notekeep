@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const	Schema = mongoose.Schema
 const User = require('./user')
-const Team = require('./team')
+const Group = require('./group')
 const Note = require('./notes')
 
 let	Comment = new Schema({
@@ -13,9 +13,9 @@ let	Comment = new Schema({
 	content: {
 		type: String
 	},
-	team: {
+	group: {
 		type: String,
-		ref: 'Team',
+		ref: 'Group',
 		required: true
 	},
 	note: {

@@ -14,8 +14,8 @@ nav.nav.pin.top(class= shard ? "shard" : "")
 							a(href="/") Dashboard
 						li(class= selected == "notes" ? "active" : "")
 							a(href="/notes") Notes
-						li(class= selected == "teams" ? "active" : "")
-							a(href="/teams") Teams
+						li(class= selected == "groups" ? "active" : "")
+							a(href="/groups") Groups
 					else
 						li
 							a.present(data-run="presentation_mode") #[i.material-icons present_to_all] Toggle Presentation mode
@@ -33,7 +33,7 @@ nav.nav.pin.top(class= shard ? "shard" : "")
 						li.divider
 						li #[a(href="/invites") Invites]
 						li #[a(href="/settings") My Account]
-						li #[a(href="/teams") Manage Teams]
+						li #[a(href="/groups") Manage Groups]
 						li #[a.text-red Sign Out]
 		else
 			.float-right
