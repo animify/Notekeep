@@ -30,6 +30,16 @@
 							h5 Your private notes
 				.xs-12.all_notes
 
+	script(type='text/html', id='tpl-new_notegroup')
+		.summary(data-group_section!="<%= _id %>")
+			.grid-row
+				.xs-12
+					.intro
+						.desc
+							span.text-preview(style!="background-color:<%= color %>")!="<%= name.substr(0,1) %>" 
+							h5!="<%= name %>"
+				.xs-12.all_notes
+
 	script(type='text/html', id='tpl-note')
 		.unit(data-note!="<%= _id %>", data-run="get_note")
 			h6!="<%= title %>"

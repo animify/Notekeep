@@ -112,9 +112,9 @@ execNewComment = (creator, content, groupID, noteID) => {
 
 		comm.save((err) => {
 			comm.populate(populateQuery, function(err) {
-			 if (!err) return resolve(comm)
-			 return reject('Server error')
-			});
+				if (!err) return resolve(comm)
+				return reject('Server error')
+			})
 		})
 	})
 }

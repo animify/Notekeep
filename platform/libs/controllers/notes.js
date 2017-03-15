@@ -80,7 +80,13 @@ exports.newNote = (req, res, drafttype, callback) => {
 
 			note.save((err) => {
 				if (!err) {
-					return resolve(note)
+					const populateQuery = [{path:'group', select:'_id color name'}]
+
+					note.populate(populateQuery, function(err) {
+						console.log(note);
+						if (!err) return resolve(note)
+						return reject('Server error')
+					})
 				} else {
 					if(err.name === 'ValidationError') {
 						return reject('Validation error')

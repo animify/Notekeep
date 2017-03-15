@@ -89,6 +89,7 @@ let comments = {
 let templates = {
 	groupsFromEmpty: $('#tpl-group_fromempty').html(),
 	groups: $('#tpl-groups').html(),
+	newNoteGroup: $('#tpl-new_notegroup').html(),
 	notes: $('#tpl-note').html(),
 	notes_private: $('#tpl-notes_private').html(),
 	editorStatus: $('#tpl-editor_status').html(),
@@ -490,14 +491,15 @@ $(() => {
 			case 'publish_note':
 				_data = JSON.stringify({title: $('.note_headroom h3').text(), content: templates.escape(editor.getContent()), plain: ($('.note_content').text()).substr(0,40), group: group.selected})
 				endpoint.call('/facets/endpoints/notes/publish', 'POST', _data, (res) => {
-					if (res.error) {
-						errorHandler.modal(res.message[0].msg, res.message[0].param)
-					} else {
-						modal.close()
-						publishedNote = _.template(templates.publishedNote)(res.Message)
-						$(`[data-group_section=${res.Message.group}] .all_notes`).append($(publishedNote))
-						$(`[data-note=${res.Message._id}]`).trigger("click")
+					if (res.error) return errorHandler.modal(res.message[0].msg, res.message[0].param)
+					modal.close()
+					if ($(`[data-group_section=${res.Message.group._id}]`).length == 0) {
+						newGroup = _.template(templates.newNoteGroup)(res.Message.group)
+						$(`#summary_notes`).append(newGroup)
 					}
+					publishedNote = _.template(templates.publishedNote)(res.Message)
+					$(`[data-group_section=${res.Message.group._id}] .all_notes`).append($(publishedNote))
+					$(`[data-note=${res.Message._id}]`).trigger("click")
 				})
 				break
 			case 'get_note':

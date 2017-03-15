@@ -16,7 +16,8 @@ let	Note = new Schema({
 	},
 	group: {
 		type: String,
-		trim: true
+		trim: true,
+		ref: 'Group'
 	},
 	title : {
 		type: String
