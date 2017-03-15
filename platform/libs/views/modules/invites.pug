@@ -6,8 +6,8 @@ block content
 		.contain
 			.bind
 				.about
-					h4.what Invites
-					h6 Manage your pending &amp; sent invites
+					h4.what Your Invites
+					h6 Manage your pending &amp; sent group invites
 	.contain
 		.inner#invites
 			.summary.light.nohover
@@ -16,20 +16,28 @@ block content
 						.intro
 							.desc
 								h5 Pending Invites
-						for inv in invites.pending
+						if (invites.pending.length > 0)
+							for inv in invites.pending
+								.unit
+									svg.avatar(data-jdenticon-hash=`${inv.by.avatar}`)
+									p #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.group.name}]
+									span.actions(data-group=inv.group._id)
+										a.clr-accept(data-run="accept_invite") Accept
+										a.clr-decline(data-run="decline_invite") Decline
+						else
 							.unit
-								svg.avatar(data-jdenticon-hash=`${inv.by.avatar}`)
-								p #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.group.name}]
-								span.actions(data-group=inv.group._id)
-									a.clr-accept(data-run="accept_invite") Accept
-									a.clr-decline(data-run="decline_invite") Decline
+								p #[i.material-icons.text-yellow sentiment_dissatisfied] You haven't recieved any group invites yet
 			.summary.light.nohover
 				.grid-row
 					.xs-12
 						.intro
 							.desc
 								h5 Sent Invites
-						for inv in invites.sent
+						if (invites.sent.length > 0)
+							for inv in invites.sent
+								.unit
+									p #[i.material-icons.text-grey swap_horiz] You have invited #{inv.to.firstname} #{inv.to.lastname} to #[b #{inv.group.name}]
+									small Sent #{moment(inv.created).fromNow()}
+						else
 							.unit
-								p #[i.material-icons.text-grey swap_horiz] You have invited #{inv.to.firstname} #{inv.to.lastname} to #[b #{inv.group.name}]
-								small Sent #{moment(inv.created).fromNow()}
+								p #[i.material-icons.text-yellow swap_horiz] You haven't sent out any group invites yet

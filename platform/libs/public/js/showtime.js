@@ -87,6 +87,7 @@ let comments = {
 }
 
 let templates = {
+	groupsFromEmpty: $('#tpl-group_fromempty').html(),
 	groups: $('#tpl-groups').html(),
 	notes: $('#tpl-note').html(),
 	notes_private: $('#tpl-notes_private').html(),
@@ -196,6 +197,7 @@ let group = {
 	viewing: null,
 	viewingNote: null,
 	append: (res) => {
+		console.log(res);
 		let _group = {
 			color: res.group.color,
 			created: res.group.created_at,
@@ -209,9 +211,15 @@ let group = {
 		}
 
 		modal.close()
-		let newGroup = _.template(templates.groups)(_group)
-		$('.unit', '#ls-groups').add($(newGroup)).sort(group.sortAlpha).appendTo('#ls-groups')
-		$('.unit.new').slideDown()
+		if ($('.groups.owned').length) {
+			let newGroup = _.template(templates.groups)(_group)
+			$('.groups.owned .grid-row').add($(newGroup)).sort(group.sortAlpha).appendTo('.groups.owned .grid-row')
+			$('.group.new').slideDown('fast')
+		} else {
+			let newGroup = _.template(templates.groupsFromEmpty)(_group)
+			$('#groups').empty().append($(newGroup))
+			$('.group.new').slideDown('fast')
+		}
 	},
 	sortAlpha: (a,b) => {
 		return $(a).find('h6').text().toLowerCase().localeCompare($(b).find('h6').text().toLowerCase())

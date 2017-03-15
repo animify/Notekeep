@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 	return res.render('dashboard', {title: 'Dashboard - Notekeep', user: req.user, selected: 'dashboard', light: true})
 })
 
-router.get('/notes', (req, res) => {
+router.get('/notes/:note?', (req, res) => {
 	groupsController.findUserGroups(req, res, (err, groups) => {
 		async.eachOf(groups, (group, key, cb) => {
 			notesController.findPublishedGroupNotes(req, res, group._id, (err, notes) => {

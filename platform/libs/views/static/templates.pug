@@ -1,121 +1,136 @@
-script(type='text/html', id='tpl-groups')
-	a.unit.new(href!="/group/<%= _id %>")
-		.text-preview(style!="background-color:<%= color %>")
-			span!= '<%= initial %>'
-		h6!= '<%= name %>'
-		small #[i.material-icons person_outline]
-			| <%= members %>
+#templates
+	script(type='text/html', id='tpl-group_fromempty')
+		.groups
+			.grid-row
+				.xs-12
+					h6.what Owned groups
+				.xs-12.s-6.m-3
+					a.group.new(href!="/group/<%= _id %>")
+						.text-preview(style!="background-color:<%= color %>")
+							span!= '<%= initial %>'
+						h6!= '<%= name %>'
+							span!= ' (<%= members %>)'
+						span.created Few moments ago
+						
+	script(type='text/html', id='tpl-groups')
+		.xs-12.s-6.m-3
+			a.group.new(href!="/group/<%= _id %>")
+				.text-preview(style!="background-color:<%= color %>")
+					span!= '<%= initial %>'
+				h6!= '<%= name %>'
+					span!= ' (<%= members %>)'
+				span.created Few moments ago
+						
+	script(type='text/html', id='tpl-notes_private')
+		.summary
+			.grid-row
+				.xs-12
+					.intro
+						.desc
+							h5 Your private notes
+				.xs-12.all_notes
 
-script(type='text/html', id='tpl-notes_private')
-	.summary
-		.grid-row
-			.xs-12
-				.intro
-					.desc
-						h5 Your private notes
-			.xs-12.all_notes
+	script(type='text/html', id='tpl-note')
+		.unit(data-note!="<%= _id %>", data-run="get_note")
+			h6!="<%= title %>"
+			small Edited just now
+			.content_plain
+				p!= '<%= plain %>'
 
-script(type='text/html', id='tpl-note')
-	.unit(data-note!="<%= _id %>", data-run="get_note")
-		h6!="<%= title %>"
-		small Edited just now
-		.content_plain
-			p!= '<%= plain %>'
+	script(type='text/html', id='tpl-note_created')
+		.unit(data-note!="<%= _id %>", data-run="get_note")
+			h6!= '<%= title %>'
+			small Edited just now
+			.content_plain
+				p!= '<%= plain %>'
 
-script(type='text/html', id='tpl-note_created')
-	.unit(data-note!="<%= _id %>", data-run="get_note")
-		h6!= '<%= title %>'
-		small Edited just now
-		.content_plain
-			p!= '<%= plain %>'
+	script(type='text/html', id='tpl-editor_status')
+		span.user!='<%= firstname %> <%= lastname %>'
+		span.type(class!="<%= status %>")
 
-script(type='text/html', id='tpl-editor_status')
-	span.user!='<%= firstname %> <%= lastname %>'
-	span.type(class!="<%= status %>")
-
-script(type='text/html', id='tpl-act-create_note')
-	!= '<% if (note != null) { %>'
-	.unit
-		p
-			i.material-icons.text-green create
-			!= '<%= by.firstname %> <%= by.lastname %> created note <a href="/notes/<%= note._id %>"><%= note.title %></a>.'
-		small!= '<%= created %>'
-	!= '<% } else { %>'
-	.unit.removed
-		p
-			i.material-icons create
-			!= '<%= by.firstname %> <%= by.lastname %> created a [deleted] note.'
-		small!= '<%= created %>'
-	!= '<% } %>'
+	script(type='text/html', id='tpl-act-create_note')
+		!= '<% if (note != null) { %>'
+		.unit
+			p
+				i.material-icons.text-green create
+				!= '<%= by.firstname %> <%= by.lastname %> created note <a href="/notes/<%= note._id %>"><%= note.title %></a>.'
+			small!= '<%= created %>'
+		!= '<% } else { %>'
+		.unit.removed
+			p
+				i.material-icons create
+				!= '<%= by.firstname %> <%= by.lastname %> created a [deleted] note.'
+			small!= '<%= created %>'
+		!= '<% } %>'
 
 
-script(type='text/html', id='tpl-act-delete_note')
-	.unit
-		p
-			i.material-icons.text-red delete_sweep
-			!= '<%= by.firstname %> <%= by.lastname %> deleted a note</b>.'
-		small!= '<%= created %>'
+	script(type='text/html', id='tpl-act-delete_note')
+		.unit
+			p
+				i.material-icons.text-red delete_sweep
+				!= '<%= by.firstname %> <%= by.lastname %> deleted a note</b>.'
+			small!= '<%= created %>'
 
-script(type='text/html', id='tpl-act-sent_invite')
-	.unit
-		p
-			i.material-icons.text-green person_add
-			!= '<%= by.firstname %> <%= by.lastname %> invited <b><%= to.firstname %> <%= to.lastname %></b> to <b><%= group.name %></b>.'
-		small!= '<%= created %>'
+	script(type='text/html', id='tpl-act-sent_invite')
+		.unit
+			p
+				i.material-icons.text-green person_add
+				!= '<%= by.firstname %> <%= by.lastname %> invited <b><%= to.firstname %> <%= to.lastname %></b> to <b><%= group.name %></b>.'
+			small!= '<%= created %>'
 
-script(type='text/html', id='tpl-act-declined_invite')
-	.unit
-		p
-			i.material-icons.text-red sentiment_dissatisfied
-			!= '<%= by.firstname %> <%= by.lastname %> declined the invite <b><%= group.name %></b>.'
-		small!= '<%= created %>'
+	script(type='text/html', id='tpl-act-declined_invite')
+		.unit
+			p
+				i.material-icons.text-red sentiment_dissatisfied
+				!= '<%= by.firstname %> <%= by.lastname %> declined the invite <b><%= group.name %></b>.'
+			small!= '<%= created %>'
 
-script(type='text/html', id='tpl-act-accepted_invite')
-	.unit
-		p
-			i.material-icons.text-green done_all
-			!= '<%= by.firstname %> <%= by.lastname %> has joined <b><%= group.name %></b>.'
-		small!= '<%= created %>'
+	script(type='text/html', id='tpl-act-accepted_invite')
+		.unit
+			p
+				i.material-icons.text-green done_all
+				!= '<%= by.firstname %> <%= by.lastname %> has joined <b><%= group.name %></b>.'
+			small!= '<%= created %>'
 
-script(type='text/html', id='tpl-act-empty')
-	.unit
-		p
-			i.material-icons.text-yellow notifications_off
-			span.text-light No activites yet.
+	script(type='text/html', id='tpl-act-empty')
+		.unit
+			p
+				i.material-icons.text-yellow notifications_off
+				span.text-light No activites yet.
 
-script(type='text/html', id='tpl-act-none')
-	.unit.act_none
-		p
-			i.material-icons.text-yellow notifications_paused
-			span.text-light No such activity on this date.
+	script(type='text/html', id='tpl-act-none')
+		.unit.act_none
+			p
+				i.material-icons.text-yellow notifications_paused
+				span.text-light No such activity on this date.
 
-script(type='text/html', id='tpl-build_activities')
-	!= '<% _.each(dates, function(date) { %>'
-	.summary.nohover.light(data-timeline!="<%= date %>")
-		.grid-row
-			.xs-12
-				.intro
-					.desc
-						h5!= '<%= date %>'
-			.xs-12
-	!= '<% }); %>'
+	script(type='text/html', id='tpl-build_activities')
+		!= '<% _.each(dates, function(date) { %>'
+		.summary.nohover.light(data-timeline!="<%= date %>")
+			.grid-row
+				.xs-12
+					.intro
+						.desc
+							h5!= '<%= date %>'
+				.xs-12
+		!= '<% }); %>'
 
-script(type='text/html', id='tpl-build_comments')
-	!= '<% _.each(comments, function(comment) { %>'
-	.comment.compact
-		.comments_who
-			svg.comments-avatar(data-jdenticon-hash!="<%= comment.creator.avatar %>")
-			span.user!= '<%= comment.creator.firstname %> <%= comment.creator.lastname %>'
-		.comment_content!= '<%= comment.content %>'
-		.comment_meta
-			small.when!= '<%= comment.created %>'
-	!= '<% }); %>'
+	script(type='text/html', id='tpl-build_comments')
+		!= '<% _.each(comments, function(comment) { %>'
+		.comment.compact
+			.comments_who
+				svg.comments-avatar(data-jdenticon-hash!="<%= comment.creator.avatar %>")
+				span.user!= '<%= comment.creator.firstname %> <%= comment.creator.lastname %>'
+			.comment_content!= '<%= comment.content %>'
+			.comment_meta
+				small.when!= '<%= comment.created %>'
+		!= '<% }); %>'
 
-script(type='text/html', id='tpl-comments_compact')
-	.comment.compact.new
-		.comments_who
-			svg.comments-avatar(data-jdenticon-hash!="<%= creator.avatar %>")
-			span.user!= '<%= creator.firstname %> <%= creator.lastname %>'
-		.comment_content!= '<%= content %>'
-		.comment_meta
-			small.when!= '<%= created %>'
+	script(type='text/html', id='tpl-comments_compact')
+		.comment.compact.new
+			.comments_who
+				svg.comments-avatar(data-jdenticon-hash!="<%= creator.avatar %>")
+				span.user!= '<%= creator.firstname %> <%= creator.lastname %>'
+			.comment_content!= '<%= content %>'
+			.comment_meta
+				small.when!= '<%= created %>'

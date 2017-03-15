@@ -787,7 +787,7 @@ nav.nav
 .comment
 	padding 1.4rem
 	border-bottom color-nav 1px solid
-	background-color darken(color-nav, 30%)
+	background-color color-nav-lightest
 	&.new
 		display none
 	&_content
@@ -805,18 +805,21 @@ nav.nav
 .groups
 	h6.what
 		color body-dark
-		padding 0 0 .7rem 0
 	& + .groups
-		margin-top 3rem
+		margin-top 2.2rem
 	.group
 		width 100%
 		display block
 		border 1px solid border-gray
 		border-radius 10px
 		text-align center
-		padding 3.6rem 2rem
+		padding 4.2rem 2rem
 		position relative
 		background-color #fff
+		margin .7rem 0
+		height 12rem
+		&.new
+			display none
 		.text-preview
 			text-shadow rgba(27,39,51,0.13) 1px 2px 2px
 			height 1.9rem
@@ -830,7 +833,7 @@ nav.nav
 			border-radius 10px
 			width 1.9rem
 			display block
-			margin -.8rem auto 0 auto
+			margin -1.5rem auto 0 auto
 			border 2px solid rgba(color-nav,.08)
 		h6
 			margin-top .7rem
