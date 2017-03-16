@@ -4005,6 +4005,7 @@ nav.nav.shard .user.open span {
   transition: all 0.14s ease;
   font-weight: 600;
   padding: 0 0.6rem 0 0.3rem;
+  line-height: 1.9rem;
 }
 .strip .members .round_action.add i {
   color: #0fd294;
