@@ -16,9 +16,6 @@ const _ = require('underscore')
 
 exports.newActivity = (by, to, type, groupID, noteID, callback) => {
 	createActivity(by, to, type, groupID, noteID)
-	.then((story) => {
-		console.log(story)
-	})
 	.catch((err) => {
 		log.error(err)
 	})
@@ -65,7 +62,6 @@ exports.userTimelineActivities = (req, res, listed, callback) => {
 			.lean()
 			.limit(50)
 			.exec((err, activities) => {
-				console.log(activities);
 				if (!listed) {
 					if (activities.length > 0) {
 						async.each(activities, function (at, cbb) {
@@ -95,7 +91,7 @@ exports.userTimelineActivities = (req, res, listed, callback) => {
 			})
 		}, function (err) {
 			if (err) return callback(400, err)
-			if (listed) {
+			if (listed && timeline.recent !== undefined) {
 				timeline.recent.sort((a,b) => {
 					if (a.created < b.created) return 1
 				})

@@ -16,6 +16,7 @@ const activitiesController = require(jt.path('controllers/activities'))
 const accountController = require(jt.path('controllers/account'))
 const commentsController = require(jt.path('controllers/comments'))
 const mailer = require(jt.path('controllers/mailer'))
+const sessions = require(jt.path('controllers/sessions'))
 
 router.post('/notes/publish', (req, res) => {
 	notesController.newNote(req, res, false, (err, ret) => {
@@ -60,6 +61,10 @@ router.post('/notes/publish', (req, res) => {
 
 	activitiesController.userTimelineActivities(req, res, listed, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
+		res.send(ret)
+	})
+}).get('/sessions', (req, res) => {
+	sessions.userSessions(req, res, (err, ret) => {
 		res.send(ret)
 	})
 }).get('/notes/retrieve/:type', (req, res) => {

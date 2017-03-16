@@ -1,4 +1,5 @@
 const express = require('express')
+const useragent = require('express-useragent')
 const app = express()
 const fs = require('fs')
 const jetpack = require('fs-jetpack')
@@ -29,7 +30,7 @@ const oauth2 = require(jt.path('auth/oauth2'))
 const User = require(jt.path('model/user'))
 const socketjs = require(jt.path('sockets/socket'))
 
-const sessionStore = new mongoStore({ mongooseConnection: db.connection })
+const sessionStore = new mongoStore({ mongooseConnection: db.connection, stringify: false, autoRemove: 'native' })
 
 const eSession = session({
 	key: 'connect.sid',
@@ -39,18 +40,35 @@ const eSession = session({
 	saveUninitialized: true
 })
 
+
 app.locals.moment = require('moment')
+
+app.set('connection', db.connection)
 app.use(eSession)
 app.use(express.static("libs/public"))
 app.use(bodyParser())
+app.use(useragent.express())
 
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use((req, res, next) => {
+	req.session._garbage = Date()
+	req.session.touch()
+	next()
+})
+
 socketjs.connect(server, io, sessionStore, eSession)
 
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+passport.serializeUser(function(user, done) {
+	done(null, {_id: user._id, agent: user.useragent, ip_address: user.ip_address, location: user.location})
+})
+
+passport.deserializeUser(function(user, done) {
+	User.findOne(user._id, function(err, user) {
+		done(err, user)
+	})
+})
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))

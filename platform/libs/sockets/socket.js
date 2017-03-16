@@ -21,7 +21,7 @@ exports.connect = (server, io, sessionStore, eSession) => {
 	}
 
 	onAuthorizeFail = (data, message, error, accept) => {
-		log.error('Unauthenticated connection to socket.io: ', data, message)
+		log.error('Unauthenticated connection to socket.io: ')
 		error && accept(new Error(message))
 	}
 

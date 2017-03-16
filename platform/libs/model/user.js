@@ -27,6 +27,16 @@ let	User = new Schema({
 		unique: true,
 		required: true
 	},
+	ip_address: {
+		type: String
+	},
+	location: {
+		name: String,
+		code: String,
+	},
+	useragent: {
+		type: Array
+	},
 	hashedPassword: {
 		type: String,
 		required: true
@@ -49,9 +59,9 @@ let	User = new Schema({
 User.plugin(passportLocalMongoose)
 
 User.virtual('userId')
-.get(function () {
-	return this.id
-})
+	.get(function () {
+		return this.id
+	})
 
 User.methods.generateHash = function(password) {
 	return bcrypt.hashSync(password, this.salt, null)
