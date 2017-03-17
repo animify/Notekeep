@@ -658,6 +658,41 @@ $(() => {
 		}
 	})
 
+	$('input.filter').bind('keyup', function() {
+		const filterType = $(this).data('filter-type')
+		const filterSearch = $(this).val().toLowerCase()
+
+		switch (filterType) {
+			case 'notes':
+				$("#summary_notes .unit").each(function() {
+					if ($(this).text().toLowerCase().indexOf(filterSearch) > -1) {
+
+						$(this).show()
+
+						if ($(this).parent().find('.unit:hidden').length > 0)
+							$(this).closest('.summary').fadeIn('fast')
+					}
+					else {
+						$(this).hide()
+
+						if ($(this).parent().find('.unit:visible').length == 0)
+							$(this).closest('.summary').fadeOut('fast')
+					}
+				})
+			break
+			case 'groups':
+				$("#groups .group").each(function() {
+					if ($(this).find('h6').text().toLowerCase().indexOf(filterSearch) > -1) {
+						$(this).show()
+					}
+					else {
+						$(this).hide()
+					}
+				})
+			break
+		}
+	})
+
 	$('input').bind('click change', function() {
 		if (!$(this).hasClass('error')) return
 
@@ -771,7 +806,7 @@ $(() => {
 				transform.addToPoint(chg.change)
 				break
 			case "+all":
-				console.log(chg);
+				console.log(chg)
 				transform.replaceAll(chg.change)
 			case "+change":
 				transform.replaceChange(chg.change)
