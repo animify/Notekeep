@@ -10,12 +10,10 @@ const _ = require('underscore')
 
 exports.userSessions = (req, res, callback) => {
 	const connection = req.app.get('connection')
-	connection.db.collection("sessions", function(err, collection){
-		console.log(req.user.username);
-		collection.find({"session.passport.user._id": req.user._id}).toArray((err, session) => {
-			if (session.length == 0) return callback(101, "No sessions")
-			console.log('data', session)
-			callback(null, session[1].session.passport)
+	connection.db.collection("sessions", (err, collection) => {
+		collection.find({"session.passport.user._id": req.user._id}).toArray((err, sessions) => {
+			if (sessions.length == 0) return callback(101, "No sessions")
+			callback(null, sessions)
 		})
 	})
 }

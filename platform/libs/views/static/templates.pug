@@ -144,3 +144,12 @@
 			.comment_content!= '<%= content %>'
 			.comment_meta
 				small.when!= '<%= created %>'
+
+	script(type='text/html', id='tpl-session')
+		.setting.item
+			.setting_meta
+				h6!= '<%= session.passport.user.agent[0].browser %> on <%= session.passport.user.agent[0].os %>'
+				small.when!= '<%= session.passport.user.location.city %>, <%= session.passport.user.location.country %>, <%= session.passport.user.location.code %>'
+			.float-right
+				small!= '<%= moment(session._garbage).fromNow() %>'
+					i.info.material-icons(data-tooltip!='Session IP address <%= session.passport.user.ip_address %>', data-tooltip-position="left middle") info_outline

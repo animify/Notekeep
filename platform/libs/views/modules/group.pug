@@ -12,9 +12,9 @@ block content
 				.members
 					small Members #[span (#{group[0].userlist.length + 1})]
 					for usr in group[0].userlist
-						.round_action
+						.round_action(data-tooltip=`${usr.firstname} ${usr.lastname}`, data-tooltip-position="left middle")
 							svg(data-jdenticon-hash=usr.avatar)
-					.round_action
+					.round_action(data-tooltip=`${group[0].creator.firstname} ${group[0].creator.lastname}`, data-tooltip-position="left middle")
 						svg(data-jdenticon-hash=group[0].creator.avatar)
 					.round_action.add(data-modal="open", data-modal-name="modal_invite", data-group=group[0]._id)
 						i.material-icons add

@@ -53,7 +53,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use((req, res, next) => {
-	req.session._garbage = Date()
+	req.session._garbage = new Date().toISOString()
 	req.session.touch()
 	next()
 })

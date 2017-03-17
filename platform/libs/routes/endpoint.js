@@ -63,7 +63,7 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).get('/sessions', (req, res) => {
+}).get('/account/sessions', (req, res) => {
 	sessions.userSessions(req, res, (err, ret) => {
 		res.send(ret)
 	})

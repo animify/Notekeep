@@ -25,17 +25,21 @@ let nk = {
 		$('.medium-editor-toolbar-close').html('<i class="material-icons">clear</i>')
 		$('.unit', '#ls-groups').sort(group.sortAlpha).appendTo('#ls-groups')
 
-		if ($('.populate[data-populate="populate_activity"]').length) {
+		if ($('.populate[data-populate="populate_activity"]').length)
 			activities.group($('.populate[data-populate="populate_activity"]').data('group'))
-		}
 
-		if ($('#activities_list').length) {
+		if ($('#activities_list').length)
 			activities.all()
-		}
 
-		if ($('#recent_activity').length) {
+		if ($('#recent_activity').length)
 			activities.recent()
-		}
+
+		if ($('#recent_activity').length)
+			activities.recent()
+
+		if ($('#all_sessions').length)
+			sessions.all()
+
 	},
 	resetEditor: () => {
 		editor.resetContent()
@@ -89,6 +93,7 @@ let comments = {
 let templates = {
 	groupsFromEmpty: $('#tpl-group_fromempty').html(),
 	groups: $('#tpl-groups').html(),
+	session: $('#tpl-session').html(),
 	newNoteGroup: $('#tpl-new_notegroup').html(),
 	notes: $('#tpl-note').html(),
 	notes_private: $('#tpl-notes_private').html(),
@@ -131,6 +136,24 @@ let endpoint = {
 			contentType: 'application/json',
 			success: (res) => {
 				callback(res)
+			}
+		})
+	}
+}
+
+let sessions = {
+	all: () => {
+		_data = JSON.stringify()
+		endpoint.call('/facets/endpoints/account/sessions', 'GET', _data, (res) => {
+			if (res.length < 1) {
+				emptyActivities = _.template(templates.act_empty)({})
+				$('.populate .xs-12').append($(emptyActivities))
+			} else {
+				_.each(res, (session) => {
+					sessionItem = _.template(templates.session)(session)
+					$('.sessions').append($(sessionItem))
+				})
+				Tooltip.init()
 			}
 		})
 	}

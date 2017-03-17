@@ -177,28 +177,12 @@ nav.nav
 			border-top 1px solid border-gray
 			padding-top 1em
 		.item
-			padding .8rem 0
-			&.active
-				a
-					color color-primary
-					opacity 1
-					padding .14em 0 .14em 1.3em
-					&:before
-						height 100%
-						absolute left top
-						width 2px
-						background-color color-primary
-						content ''
-						display block
-			a
-				font-weight 500
-				padding .14em 0 .14em 0
-				position relative
-				font-size 1.1em
-				opacity .6
-				&:hover
-					color color-primary
-					opacity 1
+			padding 1rem 0
+			h6
+				line-height 1rem
+				margin-bottom .3rem
+			& + .item
+				border-top 1px solid border-gray
 		.input h6
 			font-size font-size-standard
 			line-height 1em
@@ -849,3 +833,18 @@ nav.nav
 			font-size .875em
 			color text-light
 			font-weight 500
+
+.setting
+	& > *
+		display inline-block
+		vertical-align top
+	small
+		font-weight 500
+		color text-light
+		.info
+			vertical-align middle
+			color body-dark
+			font-size 1.3rem
+			margin-left .6rem
+			&:hover
+				color color-primary
