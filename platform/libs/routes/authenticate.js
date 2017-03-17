@@ -4,7 +4,8 @@ const passport = require('passport')
 const mongoose = require('mongoose')
 const crypto = require('crypto')
 const jetpack = require('fs-jetpack')
-const geoip = require("geoip-native")
+const geoip = require("geoip-lite")
+const countries = require('country-data').countries
 
 const jt = jetpack.cwd('./libs/')
 const log = require(jt.path('logs/log'))(module)
@@ -55,10 +56,11 @@ router.post('/signup', (req, res) => {
 		return res.send(errors)
 	} else {
 		if (req.body.password == req.body.repassword) {
+			let geoAddr = geoip.lookup('109.246.253.155') //TEST
+			geoAddr.cName = countries[geoAddr.country].name
 			let newid = mongoose.Types.ObjectId()
 			let user = new User()
 			// geoAddr = geoip.lookup(req.ip) PRODUCTION
-			geoAddr = geoip.lookup('109.246.253.155') //TEST
 
 			user._id = newid
 			user.avatar = crypto.createHash('md5').update(req.body.username).digest("hex")
@@ -69,10 +71,10 @@ router.post('/signup', (req, res) => {
 			user.password = req.body.password
 			user.ip_address = req.ip
 			user.useragent = req.useragent
-			user.location.name = geoAddr.name
-			user.location.code = geoAddr.code
+			user.location.country = geoAddr.cName
+			user.location.code = geoAddr.country
+			user.location.city = geoAddr.city
 
-			console.log(geoAddr, user);
 			user.save((err, user) => {
 				if(!err) {
 					req.login(user, function(err) {

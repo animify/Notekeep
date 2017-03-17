@@ -31,8 +31,9 @@ let	User = new Schema({
 		type: String
 	},
 	location: {
-		name: String,
-		code: String,
+		city: String,
+		country: String,
+		code: String
 	},
 	useragent: {
 		type: Array

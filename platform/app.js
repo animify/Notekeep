@@ -61,7 +61,16 @@ app.use((req, res, next) => {
 socketjs.connect(server, io, sessionStore, eSession)
 
 passport.serializeUser(function(user, done) {
-	done(null, {_id: user._id, agent: user.useragent, ip_address: user.ip_address, location: user.location})
+	done(null, {
+		_id: user._id,
+		agent: user.useragent,
+		ip_address: user.ip_address,
+		location: {
+			country: user.location.country,
+			code: user.location.code,
+			city: user.location.city
+		}
+	})
 })
 
 passport.deserializeUser(function(user, done) {

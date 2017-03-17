@@ -4,6 +4,8 @@ const BasicStrategy = require('passport-http').BasicStrategy
 const ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy
 const BearerStrategy = require('passport-http-bearer').Strategy
 const jetpack = require('fs-jetpack')
+const geoip = require("geoip-lite")
+const countries = require('country-data').countries
 
 const jt = jetpack.cwd('./libs/')
 
@@ -14,21 +16,35 @@ const Client = require(jt.path('model/client'))
 const AccessToken = require(jt.path('model/accessToken'))
 const RefreshToken = require(jt.path('model/refreshToken'))
 
-passport.use('local', new LocalStategy((email, password, done) => {
+passport.use('local', new LocalStategy({passReqToCallback: true}, (req, email, password, done) => {
 		User.findOne({'email': new RegExp('^'+email+'$', "i")})
 		.exec((err, user) => {
-			if (err) {
-				return done(err)
-			}
+			if (err) return done(err)
 
-			if (!user) {
+			if (!user)
 				return done(null, false, { message: 'Unknown user' })
-			}
 
 			if (!user.checkPassword(password))
 				return done(null, false, { message: 'Incorrect password' })
 
-			return done(null, user)
+			let geoAddr = geoip.lookup('109.246.253.155')
+			geoAddr.cName = countries[geoAddr.country].name
+
+			User.findOneAndUpdate({ _id: user._id},
+				{$set: {
+					useragent: [req.useragent],
+					location: {
+						country: geoAddr.cName,
+						code: geoAddr.country,
+						city: geoAddr.city
+					}
+				}},
+				{ new: true },
+				(err, updatedUser) => {
+					console.log(err, updatedUser);
+					return done(null, updatedUser)
+			})
+
 		})
 	}
 ))
