@@ -1,20 +1,16 @@
 doctype html
 html(lang="en")
 	body
-		| <style>
-		include ../styling/styling.css
-		| </style>
 		.email
 			.email-outer
 				include ../header.pug
 				.email-inner
-					h4 Oh snap! Forgot your password?
-					p Hi #{firstname}!
 					p It looks like you've requested a password reset, simply click the button or paste the link below into your browser. This request will expire in #[b 24 hours].
 					a.link-to(href=`${host}/reset/${token}`) Reset Password
 					a.pasted(href=`${host}/reset/${token}`) #{host}/reset/#{token}
 					p If you didn't make the password change ignore it or reply to this email if you think your account has been compromised.
 					p Best regards, #[br] Notekeep Support
 				.email-footer
-					small &copy; Notekeep 2017 #[a(href=`${host}`) #{host}]
+					small.main Copyright &copy; 2017
+					small.main Notekeep.io
 					small You have received this mandatory email announcement to keep you up to date with important changes to your account.

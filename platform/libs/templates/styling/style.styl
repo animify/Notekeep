@@ -41,6 +41,8 @@ body
 	background-color #fff
 	font-family "Avenir Next", "Lato" , "open-sans" , "helvetica" , "helvetica" , caption , sans-serif
 	font-size font-size-standard
+	height 100%
+	background-color background-light-gray
 
 .email
 	a
@@ -62,12 +64,11 @@ body
 		display block
 		margin-top 1.4rem
 	&-outer
-		background-color #fff
 		border-radius 10px
-		max-width 600px
+		max-width 630px
 		width 100%
 		display block
-		margin 2rem auto
+		margin 0 auto
 		text-align left
 	h4
 		font-size font-size-h4
@@ -75,18 +76,31 @@ body
 		margin 1.1rem 0 1.4rem
 		line-height 1.8em
 	&-inner
+		padding 2rem 3rem
+		background-color #fff
+		border-radius 10px
 		p
 			color body-dark
 			line-height 1.7rem
 	&-header
-		padding 2.2rem 0 1.2rem 0
+		padding 5rem 3rem 2rem 3rem
 		margin-bottom 1rem
-		border-bottom 1px solid border-gray
+		text-align center
+		.intro
+			font-weight 400
+			font-size 2rem
+			margin 1.8rem 0 0 0
+			line-height 2.4rem
+			color body-dark
 	&-footer
-		border-top 1px solid border-gray
-		padding 1.2rem 0 0 0
-		margin-top 1.4rem
+		margin-top .4rem
+		padding 1.6rem 3rem 4rem 3rem
+		text-align center
 	small
 		display block
 		margin-top .7rem
 		color text-light
+		&.main
+			color body-dark
+			margin-top .5rem
+			font-weight 600

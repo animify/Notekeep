@@ -28,7 +28,7 @@ gulp.task('stylusmain', () => {
 })
 
 gulp.task('stylusemail', () => {
-	return gulp.src(templateDir.path('styling.styl'))
+	return gulp.src(templateDir.path('style.styl'))
 		.pipe(stylus({
 			use: [jeet(), nib(), rupture()]
 		}))

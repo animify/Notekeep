@@ -11,24 +11,14 @@ const nodemailer = require('nodemailer')
 const smtpTransport = require('nodemailer-smtp-transport')
 const EmailTemplate = require('email-templates').EmailTemplate
 
-// const transport = nodemailer.createTransport(smtpTransport({
-// 	service: 'gmail',
-// 	auth: {
-// 		user: 'hello@notekeep.io',
-// 		pass: 'Notekeep10'
-// 	}
-// }))
-
-var smtpConfig = {
+const transport = nodemailer.createTransport(smtpTransport({
 	service: 'gmail',
-	secureConnection: false,
 	auth: {
 		user: 'hello@notekeep.io',
-		pass: 'Notekeep10'
+		pass: 'Activ8r42'
 	}
-};
+}))
 
-var transport = nodemailer.createTransport(smtpConfig);
 exports.sendemail = (req, res, callback) => {
 	transport.sendMail({
 		from: "hello@notekeep.io",
@@ -42,7 +32,6 @@ exports.sendemail = (req, res, callback) => {
 }
 
 exports.passwordReset = (req, res, emailOptions, callback) => {
-	const execPasswordReset = transport.templateSender(new EmailTemplate(jt.path('templates/password_reset')), {
 		from: '"Notekeep Support" <hello@notekeep.io>',
 	})
 

@@ -34,6 +34,8 @@ body {
   background-color: #fff;
   font-family: "Avenir Next", "Lato", "open-sans", "helvetica", "helvetica", caption, sans-serif;
   font-size: 15px;
+  height: 100%;
+  background-color: #f0f4f7;
 }
 .email a {
   color: #0e8cf1;
@@ -57,12 +59,11 @@ body {
   margin-top: 1.4rem;
 }
 .email-outer {
-  background-color: #fff;
   border-radius: 10px;
-  max-width: 600px;
+  max-width: 630px;
   width: 100%;
   display: block;
-  margin: 2rem auto;
+  margin: 0 auto;
   text-align: left;
 }
 .email h4 {
@@ -71,22 +72,39 @@ body {
   margin: 1.1rem 0 1.4rem;
   line-height: 1.8em;
 }
+.email-inner {
+  padding: 2rem 3rem;
+  background-color: #fff;
+  border-radius: 10px;
+}
 .email-inner p {
   color: #20304c;
   line-height: 1.7rem;
 }
 .email-header {
-  padding: 2.2rem 0 1.2rem 0;
+  padding: 5rem 3rem 2rem 3rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #e3e9ee;
+  text-align: center;
+}
+.email-header .intro {
+  font-weight: 400;
+  font-size: 2rem;
+  margin: 1.8rem 0 0 0;
+  line-height: 2.4rem;
+  color: #20304c;
 }
 .email-footer {
-  border-top: 1px solid #e3e9ee;
-  padding: 1.2rem 0 0 0;
-  margin-top: 1.4rem;
+  margin-top: 0.4rem;
+  padding: 1.6rem 3rem 4rem 3rem;
+  text-align: center;
 }
 .email small {
   display: block;
   margin-top: 0.7rem;
   color: #8999af;
+}
+.email small.main {
+  color: #20304c;
+  margin-top: 0.5rem;
+  font-weight: 600;
 }

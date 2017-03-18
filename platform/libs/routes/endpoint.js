@@ -30,10 +30,11 @@ router.post('/notes/publish', (req, res) => {
 	})
 }).get('/sendmail', (req, res) => {
 	o = {}
-	o.email = "st.mansson@icloud.com"
+	o.email = ["st.mansson@icloud.com", "stefan.aotik@gmail.com"]
 	o.token = "1234"
-	mailer.passwordReset(req, res, o, (err, ret) => {
-		console.log(err,ret);
+	o.firstname = "Stefan"
+	mailer.passwordReset(req, res, o, (err, id, response) => {
+		res.json([{id: id}, {res: response}])
 	})
 }).post('/notes/delete', (req, res) => {
 	notesController.deleteNote(req, res, (err, ret) => {
