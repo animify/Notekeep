@@ -32,23 +32,33 @@ exports.sendemail = (req, res, callback) => {
 }
 
 exports.passwordReset = (req, res, emailOptions, callback) => {
-		from: '"Notekeep Support" <hello@notekeep.io>',
+	const passwordReset = new EmailTemplate(jt.path('templates/password_reset'), {
+		juiceOptions: {
+			preserveImportant: true
+		}
 	})
 
-	execPasswordReset({
-		to: emailOptions.email,
-		subject: 'Forgot your password?'
-	}, {
+	let toUser = {
 		firstname: emailOptions.firstname,
 		lastname: emailOptions.lastname,
 		email: emailOptions.email,
 		token: emailOptions.token,
 		host: `${req.protocol}://${req.get('host')}`
-	}, (err, ret) => {
-		if(err){
-			 console.log(err);
-		} else{
-			console.log('Password reset sent')
+	}
+
+	passwordReset.render(toUser, function (err, result) {
+		let mailOptions = {
+			from: '"Notekeep Support" <hello@notekeep.io>',
+			to: toUser.email,
+			subject: "Password Reset",
+			text: result.text,
+			html: result.html
 		}
+
+		transport.sendMail(mailOptions, (error, info) => {
+			if (error)return console.log(error)
+			console.log('Message %s sent: %s', info.messageId, info.response)
+			callback(null, info.messageId, info.response)
+		})
 	})
 }

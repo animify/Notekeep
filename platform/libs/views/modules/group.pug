@@ -31,7 +31,7 @@ block content
 										h5 Activity Updates
 
 				.xs-12.s-5
-					.summary.nohover
+					.summary.nohover.light
 						.grid-row
 							.xs-12
 								.intro
@@ -39,10 +39,10 @@ block content
 										h5 Members
 								.unit
 									svg.avatar(data-jdenticon-hash=`${group[0].creator.avatar}`)
-									p #{group[0].creator.firstname} #{group[0].creator.lastname}
+									p.has_icon #{group[0].creator.firstname} #{group[0].creator.lastname}
 									small #{group[0].creator.email}
 								for user in group[0].userlist
 									.unit
 										svg.avatar(data-jdenticon-hash=`${user.avatar}`)
-										p= `${user.firstname} ${user.lastname}`
+										p.has_icon= `${user.firstname} ${user.lastname}`
 										small= user.email

@@ -19,7 +19,7 @@ block content
 				.groups.owned
 					.grid-row
 						.xs-12
-							h6.what Owned groups
+							h5.what Owned groups
 						for group in groups
 							if (group.creator._id.toString() == user._id.toString())
 								.xs-12.s-6.m-3
@@ -31,7 +31,7 @@ block content
 				.groups
 					.grid-row
 						.xs-12
-							h6.what Other groups
+							h5.what Other groups
 						for group in groups
 							if (group.creator._id.toString() != user._id.toString())
 								.xs-12.s-6.m-3
