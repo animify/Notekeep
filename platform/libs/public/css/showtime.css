@@ -232,7 +232,6 @@ footer .home img {
   transition: opacity 0.14s ease;
 }
 footer ul.options {
-  border-top: 1px solid #e2e9f1;
   margin: 0;
   padding: 1.7rem 0;
 }
@@ -1661,8 +1660,8 @@ footer ul.options li + li {
   max-width: 16em;
   width: 100%;
   background-color: #fff;
-  -webkit-box-shadow: 0 1px 6px 1px rgba(18,19,22,0.15);
-  box-shadow: 0 1px 6px 1px rgba(18,19,22,0.15);
+  -webkit-box-shadow: 0 1px 13px 2px rgba(18,19,22,0.08);
+  box-shadow: 0 1px 13px 2px rgba(18,19,22,0.08);
   border-radius: 5px;
   overflow: hidden;
 }
@@ -3673,7 +3672,7 @@ nav.nav .float-right > *:not(.switches) {
   vertical-align: top;
 }
 nav.nav .logo img {
-  height: 1.76rem;
+  height: 29px;
   position: relative;
   top: 1.1rem;
   *zoom: 1;
@@ -4972,7 +4971,7 @@ nav.nav.shard .user.open span {
   display: none;
 }
 .pace .pace-progress {
-  background: #6c8ba2;
+  background: #0e86f1;
   position: fixed;
   z-index: 12000;
   top: 0;

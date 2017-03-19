@@ -3,6 +3,7 @@ const router = express.Router()
 const passport = require('passport')
 const mongoose = require('mongoose')
 const	crypto = require('crypto')
+const	async = require('async')
 const jetpack = require('fs-jetpack')
 
 const jt = jetpack.cwd('./libs/')
@@ -18,17 +19,24 @@ const commentsController = require(jt.path('controllers/comments'))
 const mailer = require(jt.path('controllers/mailer'))
 const sessions = require(jt.path('controllers/sessions'))
 
+//POST: PUBLISH A NOTE
 router.post('/notes/publish', (req, res) => {
 	notesController.newNote(req, res, false, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send({Message: ret})
 	})
-}).get('/notes/get/:note', (req, res) => {
+})
+
+//GET: GET NOTE DATA
+router.get('/notes/get/:note', (req, res) => {
 	notesController.findNote(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: 'Internal Error'})
 		res.send(ret)
 	})
-}).get('/sendmail', (req, res) => {
+})
+
+//TEST SEND MAIL
+router.get('/sendmail', (req, res) => {
 	o = {}
 	o.email = ["st.mansson@icloud.com", "stefan.aotik@gmail.com"]
 	o.token = "1234"
@@ -36,27 +44,42 @@ router.post('/notes/publish', (req, res) => {
 	mailer.passwordReset(req, res, o, (err, id, response) => {
 		res.json([{id: id}, {res: response}])
 	})
-}).post('/notes/delete', (req, res) => {
+})
+
+//POST: DELETE NOTE
+router.post('/notes/delete', (req, res) => {
 	notesController.deleteNote(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: 'Internal Error'})
 		res.send(ret)
 	})
-}).post('/notes/status', (req, res) => {
+})
+
+//POST: UPDATE NOTE STATUS
+router.post('/notes/status', (req, res) => {
 	notesController.updateStatus(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).post('/notes/share', (req, res) => {
+})
+
+//POST: CREATE SHARE LINK AND PUBLICISE
+router.post('/notes/share', (req, res) => {
 	notesController.shareNote(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).post('/activities/group', (req, res) => {
+})
+
+//POST: GET ACTIVITIES PER GROUP
+router.post('/activities/group', (req, res) => {
 	activitiesController.groupActivities(req, res, 10, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).get('/activities/all/:listed?', (req, res) => {
+})
+
+//GET: RETRIEVE ACTIVITIES
+router.get('/activities/all/:listed?', (req, res) => {
 	let listed = false
 	if (req.params.listed == "true") listed = true
 
@@ -64,11 +87,17 @@ router.post('/notes/publish', (req, res) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).get('/account/sessions', (req, res) => {
+})
+
+//GET: GET USER SESSIONS
+router.get('/account/sessions', (req, res) => {
 	sessions.userSessions(req, res, (err, ret) => {
 		res.send(ret)
 	})
-}).get('/notes/retrieve/:type', (req, res) => {
+})
+
+//GET: FIND NOTES BY TYPE
+router.get('/notes/retrieve/:type', (req, res) => {
 	switch (req.params.type) {
 		case 'group':
 			notesController.findGroupNotes(req, res, (err, ret) => {
@@ -91,55 +120,87 @@ router.post('/notes/publish', (req, res) => {
 		default:
 			res.send('error')
 	}
-}).post('/groups/new', (req, res) => {
+})
+
+//POST: CREATE NEW GROUP
+router.post('/groups/new', (req, res) => {
 	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No group name found.'})
 
 	groupsController.newGroup(req, res, req.body.name, (err, ret) => {
 		if (err) return res.send({error: err, message: ret[0].description})
 		res.send({group: ret, fn: req.user.firstname, ln: req.user.lastname})
 	})
-}).post('/groups/invite', (req, res) => {
+})
+
+//POST: SEND GROUP INVITE
+router.post('/groups/invite', (req, res) => {
 	if (req.body.name === null || req.body.name == '') res.send({Error: 404, Message: 'No group name found.'})
 
 	groupsController.inviteToGroup(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).post('/invites/accept', (req, res) => {
+})
+
+//POST: ACCEPT GROUP INVITE
+router.post('/invites/accept', (req, res) => {
 	if (req.body.group === null || req.body.group == '') res.send({Error: 404, Message: 'No group name found.'})
 
 	groupsController.acceptInvite(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).post('/invites/decline', (req, res) => {
+})
+
+//POST: DECLINE GROUP INVITE
+router.post('/invites/decline', (req, res) => {
 	if (req.body.group === null || req.body.group == '') res.send({Error: 404, Message: 'No group name found.'})
 
 	groupsController.declineInvite(req, res, (err, ret) => {
 		if (err) return res.send({error: err, message: ret})
 		res.send(ret)
 	})
-}).post('/groups/find', (req, res) => {
+})
+
+//POST: FIND GROUP DATA
+router.post('/groups/find', (req, res) => {
 	if (req.body.group === null || req.body.group == '') res.send({Error: 404, Message: 'No group found.'})
 
 	groupsController.findGroup(req, res, req.body.group, (err, group) => {
 		if (err) return res.send({error: err})
 		res.send({group: group})
 	})
-}).post('/account/update', (req, res) => {
+})
+
+//POST: UPDATE ACCOUNT DETAILS
+router.post('/account/update', (req, res) => {
 	accountController.updatePreferences(req, res, (err, account) => {
 		if (err) return res.send({error: err, message: account})
 		res.send(account)
 	})
-}).post('/comments/new', (req, res) => {
+})
+
+//POST: POST A NEW COMMENT FOR NOTE
+router.post('/comments/new', (req, res) => {
 	commentsController.newComment(req, res, (err, comment) => {
 		if (err) return res.send({error: err, message: comment})
 		res.send(comment)
 	})
-}).post('/comments/get', (req, res) => {
+})
+
+//POST: GET COMMENTS FOR NOTE
+router.post('/comments/get', (req, res) => {
 	commentsController.getComments(req, res, (err, comments) => {
 		if (err) return res.send({error: err, message: comments})
 		res.send(comments)
+	})
+})
+
+//POST: FORGOT PASSWORD SETUP
+router.POST('/forgot', (req, res) => {
+	accountController.resetPassword(req, res, (err, status) => {
+		if (err) return res.json({error: err, message: status})
+		res.json({status: 200, message: status})
 	})
 })
 

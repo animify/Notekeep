@@ -57,7 +57,7 @@ exports.updatePreferences = (req, res, callback) => {
 	})
 }
 
-exports.updatePreferences = (req, res, callback) => {
+exports.resetPassword = (req, res, callback) => {
 	req.sanitizeBody()
 	req.checkBody({
 	 'email': {
@@ -70,42 +70,41 @@ exports.updatePreferences = (req, res, callback) => {
 
 	req.getValidationResult().then(function(errors) {
 		if (!errors.isEmpty()) {
-			return callback('100', errors.useFirstErrorOnly().array())
+			return callback(400, errors.useFirstErrorOnly().array())
 		}
 
 		async.waterfall([
-			(cb) => {
-				crypto.randomBytes(20, (err, byteBuffer) => {
-					const _token = byteBuffer.toString('hex')
-					cb(err, _token)
+			(next) => {
+				crypto.randomBytes(32, (err, randomBytes) => {
+					token = randomBytes.toString('hex')
+					next(err, token)
 				})
 			},
-			(_token, cb) => {
-				User.findOne({'email': new RegExp(`^${req.body.email}$`, "i")}, (err, user) => {
-					if (!user) return callback('404', 'Email could not be found')
-
-					user.resetPasswordToken = _token
-					user.resetPasswordExpires = Date.now() + 86400
+			(token, next) => {
+				User.findOne({ email: "st.mansson@icloud.com" }, (err, user) => {
+					if (!user)
+						return callback(404, 'Email could not be found')
+	
+					user.resetPasswordToken = token
+					user.resetPasswordExpires = Date.now() + 3600000
 
 					user.save((err) => {
-						cb(err, _token, user)
+						next(err, token, user)
 					})
 				})
 			},
-			(_token, user, cb) => {
-				let o = {}
-				o.token = _token
-				o.firstname = user.firstname
-				o.lastname = user.lastname
-				o.email = user.email
-				o.host = `${req.protocol}://${req.get('host')}`
-				mailer.passwordReset(req, res, o, function(err) {
-					cb(err, 'cb')
+			(token, user, next) => {
+				let options = {}
+				options.email = user.email
+				options.token = token
+				options.firstname = user.firstname
+				mailer.passwordReset(req, res, options, (err, id, response) => {
+					next(err, 'done')
 				})
 			}
-		], (err) => {
-		 if (err) return next(err)
+		], (err, complete) => {
+		 if (err) return callback(err, complete)
+		 callback(null, complete)
 		})
-
 	})
 }

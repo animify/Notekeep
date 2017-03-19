@@ -120,11 +120,11 @@ input#hidden_copy(type="text")
 					li.copy_link #[a(data-run="copy_shared_link") Copy share link]
 					li.create_link #[a(data-modal="open", data-modal-name="share_note") Create public link]
 					li #[a(data-run="presentation_mode") Presentation mode]
-					li.divider
-					li #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
+					li.delete_note.divider
+					li.delete_note #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
 			.publish.invert
 				a.slim(data-modal="open", data-modal-name="modal_publish") Publish note
-			a.slim.invert.hasicon.open(data-run="toggle_comments") #[i.material-icons last_page]
+			a.slim.invert.hasicon.open.toggle_comments(data-run="toggle_comments") #[i.material-icons last_page]
 	.options.presentation_tools
 		.float-left
 			a.toggle.slim.invert.hasicon.return(data-run="presentation_mode") #[i.material-icons close]

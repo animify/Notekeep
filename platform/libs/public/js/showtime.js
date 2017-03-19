@@ -34,24 +34,19 @@ let nk = {
 		if ($('#recent_activity').length)
 			activities.recent()
 
-		if ($('#recent_activity').length)
-			activities.recent()
-
 		if ($('#all_sessions').length)
 			sessions.all()
 
 	},
 	resetEditor: () => {
 		editor.resetContent()
-		$('.copy_link').hide()
-		$('.create_link').show()
+		$('.publish, .create_link').show()
+		$('.priority, .toggle_comments, .share, .copy_link, .delete_note').hide()
 		$('.note_headroom h3').text('')
 		$('.editor h6.group').text('')
 		$('.note_headroom p').find('span.user').text(`${accountHash.firstname} ${accountHash.lastname}`)
 		$('.note_headroom p').find('span.type').removeClass('draft published').addClass('draft')
 		$('.editor .priority a.toggle').attr('data-status', 0).html(`<i class="material-icons ${priority.classes[0]}">lens</i> ${priority.label[0]}`)
-		$('.share').hide()
-		$('.publish').show()
 	}
 }
 
@@ -326,8 +321,7 @@ let modal = {
 		$(`.modal`).removeClass('active')
 	},
 	openEditor: (groupSelect) => {
-		$('.copy_link').hide()
-		$('.create_link').hide()
+		$('.copy_link, .create_link, .delete_note').hide()
 
 		if (groupSelect.private == 1) {
 			group.selected = 0
@@ -345,10 +339,10 @@ let modal = {
 	editEditor: (info) => {
 		if (info.note.draft) {
 			$('.publish').show()
-			$('.share').hide()
+			$('.priority, .toggle_comments, .delete_note, .share').hide()
 		} else {
-			$('.share').show()
 			$('.publish').hide()
+			$('.priority, .toggle_comments, .delete_note, .share').show()
 		}
 
 		if (!info.note.shared) {
