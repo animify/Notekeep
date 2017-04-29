@@ -1,0 +1,20 @@
+{
+	"port": 3000,
+	"url": "http://localhost:3000",
+	"gsuiteEmail": "XX",
+	"gsuitePass": "XX",
+	"security": {
+		"tokenLife" : 3600
+	},
+	"mongoose": {
+		"uri": "mongodb://localhost:27017/notekeep"
+	},
+	"default": {
+		"api": {
+				"version" : "v1"
+		}
+	},
+	"stripe": {
+		"key" : "XX"
+	}
+}

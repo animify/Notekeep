@@ -82,7 +82,7 @@ nav.nav
 	display block
 	width 100%
 	height 4rem
-	background-color #fff
+	background-color bg-grey
 	z-index 2000
 	fixed top left
 	.float-right
@@ -100,7 +100,7 @@ nav.nav
 		cursor pointer
 		padding-left 2rem
 		&:hover span, &.open span
-			color body-dark
+			color text-lighter
 		span
 			vertical-align top
 			text-transform capitalize
@@ -123,15 +123,15 @@ nav.nav
 				color text-light
 				font-weight 600
 				&:hover
-					color body-dark
+					color text-lighter
 			i
-				color text-lighter
+				color text-light
 				relative top .28em
 				&:hover
 					color inherit
 			&.active
 				a, i
-					color color-primary
+					color #fff
 			& + li
 				margin-left 2.3rem
 	&.shard
@@ -191,11 +191,11 @@ nav.nav
 			font-weight 500
 
 .strip
-	padding 5.5rem 0 2.3rem 0
+	padding 6rem 0 2.6rem 0
 	width 100%
 	display block
 	position relative
-	background-color #fff
+	background-color bg-grey
 	cf()
 	z-index 30
 	&.has-selection
@@ -225,9 +225,8 @@ nav.nav
 					content ' '
 					display block
 					width 100%
-					border-bottom 2px solid color-primary
 				a
-					color color-primary
+					color #fff
 			a
 				color text-light
 				line-height 1rem
@@ -287,7 +286,7 @@ nav.nav
 		vertical-align top
 		line-height 1.4em
 		font-size 2.1em
-		color body-dark
+		color #fff
 		i.switch_trigger
 			color text-light
 			cursor pointer
@@ -314,7 +313,7 @@ nav.nav
 			&.add
 				height 2.3em
 				border 2px solid transparent
-				box-shadow 0 0 0 4px border-gray
+				box-shadow 0 0 0 4px bg-grey
 				border-radius 15px
 				background-color #fff
 				cursor pointer
@@ -334,7 +333,7 @@ nav.nav
 				height 2.3em
 				width 2.3em
 				border-radius 50%
-				box-shadow 0 0 0 4px border-gray
+				box-shadow 0 0 0 4px bg-grey
 				background-color #fff
 	small
 		color #fff

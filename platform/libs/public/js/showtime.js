@@ -59,10 +59,8 @@ let errorHandler = {
 
 let comments = {
 	new: () => {
-		console.log(group);
 		_data = JSON.stringify({group: group.viewing, note: group.viewingNote, content: $('#comment_new').text()})
 		endpoint.call(`/facets/endpoints/comments/new`, 'POST', _data, (res) => {
-			console.log(res);
 			if (res.error) return errorHandler.modal(res.message[0].msg, res.message[0].param)
 			res.created = moment(res.created).fromNow()
 			newComment = _.template(templates.comments_compact)(res)
@@ -678,8 +676,7 @@ $(() => {
 				$("#groups .group").each(function() {
 					if ($(this).find('h6').text().toLowerCase().indexOf(filterSearch) > -1) {
 						$(this).show()
-					}
-					else {
+					} else {
 						$(this).hide()
 					}
 				})

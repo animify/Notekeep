@@ -124,42 +124,42 @@ body {
 }
 h1 {
   font-size: 3.8em;
-  color: #20304c;
+  color: #161e29;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h2 {
   font-size: 2.8em;
-  color: #20304c;
+  color: #161e29;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h3 {
   font-size: 2.4em;
-  color: #20304c;
+  color: #161e29;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h4 {
   font-size: 2em;
-  color: #20304c;
+  color: #161e29;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h5 {
   font-size: 1.4em;
-  color: #20304c;
+  color: #161e29;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
 }
 h6 {
   font-size: 1.08em;
-  color: #20304c;
+  color: #161e29;
   font-weight: 800;
   line-height: 1.7em;
   letter-spacing: -0.02em;
@@ -1558,7 +1558,7 @@ footer ul.options li + li {
   cursor: default;
 }
 .dropdown li.header {
-  color: #20304c;
+  color: #161e29;
   padding: 0.8rem 1rem;
   margin: 0 0.4rem;
   font-weight: 600;
@@ -1566,7 +1566,7 @@ footer ul.options li + li {
   line-height: 1.1rem;
 }
 .dropdown li.header.sub {
-  color: #617693;
+  color: #8897ac;
   font-size: 1em;
   font-weight: 500;
 }
@@ -1581,7 +1581,7 @@ footer ul.options li + li {
   color: #f34133;
 }
 .dropdown li a {
-  color: #20304c;
+  color: #161e29;
   display: block;
   padding: 0.6rem 1rem;
   margin: 0 0.4rem;
@@ -1683,7 +1683,7 @@ footer ul.options li + li {
   line-height: 1.1em;
 }
 .switches .switch span {
-  color: #617693;
+  color: #8897ac;
   font-size: 0.8em;
   margin-top: 0.1rem;
   display: block;
@@ -2317,7 +2317,7 @@ ol.ordered li[value]:before {
   position: absolute;
   right: 1em;
   top: 0.8em;
-  color: #617693;
+  color: #8897ac;
 }
 .input.sm a i {
   font-size: 1.4em;
@@ -2334,7 +2334,7 @@ ol.ordered li[value]:before {
   -ms-user-select: none;
   user-select: none;
   background-color: #f2f5f7;
-  color: #385485;
+  color: #354963;
 }
 .input input[disabled].display,
 .input.disabled.display {
@@ -2351,7 +2351,7 @@ ol.ordered li[value]:before {
 .input textarea {
   font-family: 'Avenir Next W00', 'Open Sans', caption, sans-serif;
   font-size: 15px;
-  color: #20304c;
+  color: #161e29;
   margin: 0;
   font-size: 1em;
   max-width: 100%;
@@ -3642,7 +3642,7 @@ ul.options li {
   vertical-align: top;
 }
 ul.options li a {
-  color: #617693;
+  color: #8897ac;
   cursor: pointer;
 }
 ul.options li a i {
@@ -3661,7 +3661,7 @@ nav.nav {
   display: block;
   width: 100%;
   height: 4rem;
-  background-color: #fff;
+  background-color: #18212d;
   z-index: 2000;
   position: fixed;
   top: 0;
@@ -3694,13 +3694,13 @@ nav.nav .user {
 }
 nav.nav .user:hover span,
 nav.nav .user.open span {
-  color: #20304c;
+  color: #acb6c5;
 }
 nav.nav .user span {
   vertical-align: top;
   text-transform: capitalize;
   margin-left: 0.6em;
-  color: #617693;
+  color: #8897ac;
   font-weight: 600;
   -webkit-transition: 0.14s ease all;
   -moz-transition: 0.14s ease all;
@@ -3724,14 +3724,14 @@ nav.nav ul.options li a {
   -o-transition: 0.14s ease all;
   -ms-transition: 0.14s ease all;
   transition: 0.14s ease all;
-  color: #617693;
+  color: #8897ac;
   font-weight: 600;
 }
 nav.nav ul.options li a:hover {
-  color: #20304c;
+  color: #acb6c5;
 }
 nav.nav ul.options li i {
-  color: #b0bec4;
+  color: #8897ac;
   position: relative;
   top: 0.28em;
 }
@@ -3740,7 +3740,7 @@ nav.nav ul.options li i:hover {
 }
 nav.nav ul.options li.active a,
 nav.nav ul.options li.active i {
-  color: #0e86f1;
+  color: #fff;
 }
 nav.nav ul.options li + li {
   margin-left: 2.3rem;
@@ -3752,10 +3752,10 @@ nav.nav.shard.presentation .contain {
   max-width: 100%;
 }
 nav.nav.shard ul.options li a {
-  color: #20304c;
+  color: #161e29;
 }
 nav.nav.shard ul.options li a i {
-  color: #617693;
+  color: #8897ac;
 }
 nav.nav.shard ul.options li a.present i {
   margin-right: 0.3rem;
@@ -3764,7 +3764,7 @@ nav.nav.shard ul.options li a:hover {
   color: #2a3137;
 }
 nav.nav.shard .user span {
-  color: #20304c;
+  color: #161e29;
 }
 nav.nav.shard .user:hover span,
 nav.nav.shard .user.open span {
@@ -3785,7 +3785,7 @@ nav.nav.shard .user.open span {
   font-weight: 800;
 }
 .inner h6.what {
-  color: #617693;
+  color: #8897ac;
 }
 .inner#settings .section {
   display: none;
@@ -3817,11 +3817,11 @@ nav.nav.shard .user.open span {
   font-weight: 500;
 }
 .strip {
-  padding: 5.5rem 0 2.3rem 0;
+  padding: 6rem 0 2.6rem 0;
   width: 100%;
   display: block;
   position: relative;
-  background-color: #fff;
+  background-color: #18212d;
   *zoom: 1;
   z-index: 30;
 }
@@ -3849,13 +3849,13 @@ nav.nav.shard .user.open span {
   position: relative;
 }
 .strip .selection li p {
-  color: #617693;
+  color: #8897ac;
   line-height: 1rem;
 }
 .strip .selection li p i {
   font-size: 1rem;
   line-height: 0.4rem;
-  color: #617693;
+  color: #8897ac;
   position: relative;
   top: 4px;
   margin-right: 0.2rem;
@@ -3868,13 +3868,12 @@ nav.nav.shard .user.open span {
   content: ' ';
   display: block;
   width: 100%;
-  border-bottom: 2px solid #0e86f1;
 }
 .strip .selection li.active a {
-  color: #0e86f1;
+  color: #fff;
 }
 .strip .selection li a {
-  color: #617693;
+  color: #8897ac;
   line-height: 1rem;
   display: block;
   font-weight: 600;
@@ -3928,12 +3927,12 @@ nav.nav.shard .user.open span {
 }
 .strip h6 {
   font-weight: 500;
-  color: #617693;
+  color: #8897ac;
 }
 .strip h6[contenteditable=true]:empty:before {
   content: attr(placeholder);
   display: block;
-  color: #617693;
+  color: #8897ac;
 }
 .strip h6:focus[contenteditable=true]:empty:before {
   color: #ccd5d9;
@@ -3943,21 +3942,21 @@ nav.nav.shard .user.open span {
   vertical-align: top;
   line-height: 1.4em;
   font-size: 2.1em;
-  color: #20304c;
+  color: #fff;
 }
 .strip h4.what i.switch_trigger {
-  color: #617693;
+  color: #8897ac;
   cursor: pointer;
   position: relative;
   top: 3px;
 }
 .strip h4.what i.settings {
   font-size: 1.2rem;
-  color: #617693;
+  color: #8897ac;
   margin-left: 0.6rem;
 }
 .strip h4.what i.settings:hover {
-  color: #20304c;
+  color: #161e29;
   cursor: pointer;
 }
 .strip .members {
@@ -3978,8 +3977,8 @@ nav.nav.shard .user.open span {
 .strip .members .round_action.add {
   height: 2.3em;
   border: 2px solid transparent;
-  -webkit-box-shadow: 0 0 0 4px #e2e9f1;
-  box-shadow: 0 0 0 4px #e2e9f1;
+  -webkit-box-shadow: 0 0 0 4px #18212d;
+  box-shadow: 0 0 0 4px #18212d;
   border-radius: 15px;
   background-color: #fff;
   cursor: pointer;
@@ -4008,8 +4007,8 @@ nav.nav.shard .user.open span {
   height: 2.3em;
   width: 2.3em;
   border-radius: 50%;
-  -webkit-box-shadow: 0 0 0 4px #e2e9f1;
-  box-shadow: 0 0 0 4px #e2e9f1;
+  -webkit-box-shadow: 0 0 0 4px #18212d;
+  box-shadow: 0 0 0 4px #18212d;
   background-color: #fff;
 }
 .strip small {
@@ -4021,7 +4020,7 @@ nav.nav.shard .user.open span {
   line-height: 1rem;
 }
 .strip small span {
-  color: #617693;
+  color: #8897ac;
 }
 .section {
   border-radius: 10px;
@@ -4052,7 +4051,7 @@ nav.nav.shard .user.open span {
 }
 .section .sub > p {
   font-size: 1rem;
-  color: #617693;
+  color: #8897ac;
 }
 .section .content {
   padding: 2rem 2.2rem 2rem 2.2rem;
@@ -4091,7 +4090,7 @@ nav.nav.shard .user.open span {
 }
 .summary .desc h5 {
   font-weight: 600;
-  color: #20304c;
+  color: #161e29;
   line-height: 1.5em;
   font-size: 1.1rem;
 }
@@ -4147,7 +4146,7 @@ nav.nav.shard .user.open span {
   line-height: 1.6em;
   display: inline-block;
   vertical-align: top;
-  color: #20304c;
+  color: #161e29;
   font-size: 0.92rem;
 }
 .summary .unit p.has_icon,
@@ -4167,7 +4166,7 @@ nav.nav.shard .user.open span {
 .summary .unit p span,
 .summary .unit h6 span {
   font-weight: 500;
-  color: #617693;
+  color: #8897ac;
 }
 .summary .unit p i,
 .summary .unit h6 i {
@@ -4190,7 +4189,7 @@ nav.nav.shard .user.open span {
   clear: both;
 }
 .summary .unit .content_plain p {
-  color: #617693;
+  color: #8897ac;
   white-space: nowrap;
   overflow: hidden;
   -o-text-overflow: ellipsis;
@@ -4208,7 +4207,7 @@ nav.nav.shard .user.open span {
 }
 .summary .unit span.actions a {
   font-weight: 500;
-  color: #20304c;
+  color: #161e29;
 }
 .summary .unit span.actions a.clr-accept:hover {
   color: #24cc9e;
@@ -4224,9 +4223,9 @@ nav.nav.shard .user.open span {
   float: right;
   vertical-align: top;
   line-height: 2em;
-  color: #20304c;
+  color: #161e29;
   font-weight: 500;
-  color: #617693;
+  color: #8897ac;
 }
 .summary .unit small span {
   margin-left: 0.8rem;
@@ -4238,7 +4237,7 @@ nav.nav.shard .user.open span {
   font-size: 1rem;
   position: relative;
   top: 3px;
-  color: #b0bec4;
+  color: #acb6c5;
   margin: 0 0.2rem 0 0.5rem;
 }
 .recent + .recent {
@@ -4271,10 +4270,10 @@ nav.nav.shard .user.open span {
   border-bottom: 1px solid #e2e9f1;
 }
 .editor.presentation .presentation_tools.options h6 {
-  color: #20304c;
+  color: #161e29;
 }
 .editor.presentation .presentation_tools.options .invert i {
-  color: #20304c;
+  color: #161e29;
 }
 .editor.presentation .editable {
   width: 100%;
@@ -4355,20 +4354,20 @@ nav.nav.shard .user.open span {
 .editor .options > * h6 {
   display: inline-block;
   vertical-align: top;
-  color: #617693;
+  color: #8897ac;
   line-height: 1.4em;
   margin: 0.9rem 0 0.9rem 1rem;
 }
 .editor .options > * h6.group {
   font-weight: 600;
-  color: #20304c;
+  color: #161e29;
 }
 .editor .options > * h6 + h6 {
   padding-left: 1em;
   border-left: 1px solid #e2e9f1;
 }
 .editor .options .invert {
-  color: #617693;
+  color: #8897ac;
   background-color: transparent;
   line-height: 1.3em;
   font-weight: 600;
@@ -4387,7 +4386,7 @@ nav.nav.shard .user.open span {
 }
 .editor .options .invert .presentation_tools,
 .editor .options .invert:hover {
-  color: #20304c;
+  color: #161e29;
   background-color: transparent;
 }
 .editor .options .invert.hasicon i {
@@ -4478,7 +4477,7 @@ nav.nav.shard .user.open span {
   left: 0;
 }
 .editable .note_headroom p {
-  color: #617693;
+  color: #8897ac;
   line-height: 1.7em;
   font-weight: 600;
 }
@@ -4510,7 +4509,7 @@ nav.nav.shard .user.open span {
 .editable .note_headroom h3:focus:empty:before {
   content: 'Untitled';
   display: block;
-  color: #617693;
+  color: #8897ac;
 }
 .editable .note_content,
 .editable .readonly-note {
@@ -4579,13 +4578,13 @@ nav.nav.shard .user.open span {
   vertical-align: top;
 }
 .comments_who span.user {
-  color: #20304c;
+  color: #161e29;
   font-weight: 600;
   margin-left: 0.6rem;
   line-height: 1.2rem;
 }
 .comments_write[contenteditable=true] {
-  color: #20304c;
+  color: #161e29;
   margin-top: 0.5rem;
   padding-bottom: 1.3rem;
   line-height: 1.4rem;
@@ -4593,7 +4592,7 @@ nav.nav.shard .user.open span {
 .comments_write[contenteditable=true]:empty:before {
   content: attr(placeholder);
   display: block;
-  color: #617693;
+  color: #8897ac;
 }
 .comments_write[contenteditable=true]:focus:empty:before {
   color: #ccd5d9;
@@ -4608,7 +4607,7 @@ nav.nav.shard .user.open span {
 }
 .comment_content {
   margin-top: 0.5rem;
-  color: #617693;
+  color: #8897ac;
   font-weight: 500;
   line-height: 1.4rem;
 }
@@ -4620,7 +4619,7 @@ nav.nav.shard .user.open span {
 }
 .groups h5.what {
   font-weight: 600;
-  color: #20304c;
+  color: #161e29;
   line-height: 1.5em;
   font-size: 1.1rem;
   padding: 1.2rem 0 0.5rem 0;
@@ -4663,7 +4662,7 @@ nav.nav.shard .user.open span {
   margin-top: 0.7rem;
 }
 .groups .group h6 span {
-  color: #617693;
+  color: #8897ac;
 }
 .groups .group:hover {
   border-color: #0e86f1;
@@ -4675,7 +4674,7 @@ nav.nav.shard .user.open span {
   text-align: center;
   width: 100%;
   font-size: 0.875em;
-  color: #617693;
+  color: #8897ac;
   font-weight: 500;
 }
 .setting > * {
@@ -4684,11 +4683,11 @@ nav.nav.shard .user.open span {
 }
 .setting small {
   font-weight: 500;
-  color: #617693;
+  color: #8897ac;
 }
 .setting small .info {
   vertical-align: middle;
-  color: #20304c;
+  color: #161e29;
   font-size: 1.3rem;
   margin-left: 0.6rem;
 }
@@ -4790,7 +4789,7 @@ nav.nav.shard .user.open span {
   margin-bottom: 0.4rem;
 }
 .modal .content p {
-  color: #617693;
+  color: #8897ac;
 }
 .modal .inside {
   padding: 2.8em 2.8em 2.2em 2.8em;
@@ -4878,7 +4877,7 @@ nav.nav.shard .user.open span {
 .medium-editor-toolbar-form {
   background-color: #222e38;
   border-radius: 8px;
-  color: #b0bec4;
+  color: #acb6c5;
   overflow: hidden;
 }
 .medium-editor-toolbar-form .medium-editor-toolbar-input {
@@ -4947,7 +4946,7 @@ nav.nav.shard .user.open span {
   padding: 1em 1.3em;
 }
 .medium-editor-toolbar-anchor-preview {
-  color: #b0bec4;
+  color: #acb6c5;
   text-decoration: none;
   padding: 0.3em 1em;
 }

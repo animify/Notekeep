@@ -1,2 +1,4 @@
 node_modules
 libs/logs/debug/**
+libs/configs/settings.json
+libs/configs/s3config.json

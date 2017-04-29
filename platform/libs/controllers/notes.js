@@ -6,6 +6,7 @@ const config = require(jt.path('config'))
 const Notes = require(jt.path('model/notes'))
 const Group = require(jt.path('model/group'))
 const auth = require(jt.path('auth/auth'))
+const account = require(jt.path('controllers/account'))
 const groups = require(jt.path('controllers/groups'))
 const activities = require(jt.path('controllers/activities'))
 const comments = require(jt.path('controllers/comments'))
@@ -18,6 +19,42 @@ let status = {
 	2: "Medium priority",
 	3: "High priority"
 }
+
+exports.newNoteByEmail = (email, groupID, subject, content) => {
+	let note = new Notes({
+		owner: null,
+		title: null,
+		content: null,
+		plain: null,
+		group: null,
+		created: moment().format(),
+		draft: false,
+		private: false
+	})
+
+	account.findByEmail(null, null, email).then((userID) => {
+		log.info(`Email by user: ${userID}`)
+		note.group = groupID
+
+		let userObj = {_id: userID}
+
+		groups.isMember(userObj, note.group, (err, isMember) => {
+			if(isMember) {
+				note.owner = userID
+				note.title = subject
+				note.content = content
+				note.plain = content
+				note.save().then((createdNote) => {
+					console.log(createdNote);
+					activities.newActivity(note.owner, null, 'create_note', note.group, createdNote._id)
+				})
+			}
+		})
+	}).catch((err) => {
+		log.info(`${err} finding user on the system`)
+	})
+}
+
 
 exports.newNote = (req, res, drafttype, callback) => {
 	req.sanitizeBody()

@@ -41,7 +41,6 @@ passport.use('local', new LocalStategy({passReqToCallback: true}, (req, email, p
 				}},
 				{ new: true },
 				(err, updatedUser) => {
-					console.log(err, updatedUser);
 					return done(null, updatedUser)
 			})
 
