@@ -37,6 +37,11 @@ let nk = {
 		if ($('#all_sessions').length)
 			sessions.all()
 
+		if($('.open__selected').length) {
+			history.replaceState({notes:null}, "Notes - Notekeep", "/notes");
+			$('.open__selected').trigger("click")
+		}
+
 	},
 	resetEditor: () => {
 		editor.resetContent()
@@ -249,6 +254,24 @@ let editor = new MediumEditor('.note_content', {
 		text: 'Start typing your note here',
 		hideOnClick: true
 	},
+	keyboardCommands: {
+		commands: [
+			{
+				command: 'append-h4',
+				key: '1',
+				meta: true,
+				shift: false,
+				alt: true
+			},
+			{
+				command: 'append-h5',
+				key: '2',
+				meta: true,
+				shift: false,
+				alt: true
+			}
+		],
+	},
 	toolbar: {
 		allowMultiParagraphSelection: true,
 		buttons: ['bold',
@@ -260,7 +283,7 @@ let editor = new MediumEditor('.note_content', {
 			action: 'append-h4',
 			aria: 'main heading',
 			tagNames: ['h4'],
-			contentDefault: '<b>H4</b>',
+			contentDefault: '<b>H1</b>',
 			classList: ['custom-class-h4'],
 			attrs: {
 				'data-custom-attr': 'attr-value-h4'
@@ -271,7 +294,7 @@ let editor = new MediumEditor('.note_content', {
 			action: 'append-h5',
 			aria: 'sub heading',
 			tagNames: ['h5'],
-			contentDefault: '<b>H5</b>',
+			contentDefault: '<b>H2</b>',
 			classList: ['custom-class-h5'],
 			attrs: {
 				'data-custom-attr': 'attr-value-h5'
@@ -743,6 +766,7 @@ $(() => {
 	$('#comment_new').on('keydown', function (e) {
 		if(e.keyCode == 13) {
 			e.preventDefault()
+			if($('#comment_new').text() == "") return
 			comments.new()
 			$('#comment_new').text('')
 		}

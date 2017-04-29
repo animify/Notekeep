@@ -80,6 +80,24 @@ input#hidden_copy(type="text")
 					.button-group.clearfix.to-right
 						a.button(data-modal="close") Close
 
+.modal#modal_shortcuts
+	.overlay
+		.close
+			i.material-icons clear
+		.cell
+			.content
+				.inside
+					h5 Keyboard shortcuts
+					p #[kbd Ctrl + B] Bolden text selection
+					p #[kbd Ctrl + U] Underline text selection
+					p #[kbd Ctrl + I] Italise text selection
+					p #[kbd Ctrl + C] Copy text selection
+					p #[kbd Ctrl + V] Paste unformatted text
+					p #[kbd Ctrl + Alt + 1] Toggle main heading
+					p #[kbd Ctrl + Alt + 2] Toggle sub heading
+					.button-group.clearfix.to-right
+						a.button(data-modal="close") Close
+
 .modal#share_note
 	.overlay
 		.close
@@ -114,7 +132,7 @@ input#hidden_copy(type="text")
 			.dropdown.right
 				a.toggle.slim.invert.hasicon.more #[i.material-icons more_horiz]
 				ul.menu
-					li #[a Keyboard shortcuts]
+					li #[a(data-modal="open", data-modal-name="modal_shortcuts") Keyboard shortcuts]
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
 					li.divider
 					li.copy_link #[a(data-run="copy_shared_link") Copy share link]
@@ -134,7 +152,7 @@ input#hidden_copy(type="text")
 			.dropdown.right
 				a.toggle.slim.invert.hasicon.more #[i.material-icons more_horiz]
 				ul.menu
-					li #[a Keyboard shortcuts]
+					li #[a(data-modal="open", data-modal-name="modal_shortcuts") Keyboard shortcuts]
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
 					li.divider
 					li #[a(data-modal="open", data-modal-name="share_note") Create public link]

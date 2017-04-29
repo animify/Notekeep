@@ -186,6 +186,19 @@ small {
 strong {
   font-weight: 700;
 }
+#modal_shortcuts p {
+  margin-top: 0.9rem;
+}
+#modal_shortcuts kbd {
+  font-family: 'Source Code Pro', 'Consolas', 'Monaco', 'Lucida Console', monospace;
+  color: #fff;
+  padding: 0.4rem 0.7rem;
+  border-radius: 5px;
+  background-color: #2a3137;
+  letter-spacing: -1px;
+  font-weight: 600;
+  margin-right: 0.7rem;
+}
 footer {
   position: relative;
   margin-top: -5rem;
@@ -4610,6 +4623,7 @@ nav.nav.shard .user.open span {
   color: #8897ac;
   font-weight: 500;
   line-height: 1.4rem;
+  word-break: break-word;
 }
 .comment_meta small.when {
   color: #b1bbce;
