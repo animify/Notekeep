@@ -16,15 +16,15 @@ block content
 						.grid-row
 							.xs-12
 								.intro
-									.desc
-										span.text-preview D
-										h5 Design Group
+									.desc 
+										h5 Your recently updated notes
 							.xs-12
-								.unit
-									h6 New note
-									small Modified 2 days ago
-									.content_plain
-										p Note content
+								for note in notes
+									.unit(class= selected == note._id ? "open__selected" : "", data-note=note._id, data-run="get_note")
+										h6(class=(note.status == 1) ? 'medium-p': (note.status == 2) && 'high-p') #{note.title}
+										small= note.group.name
+										.content_plain
+											p= note.plain
 				.l-7.xs-12
 					.summary.light
 						.grid-row

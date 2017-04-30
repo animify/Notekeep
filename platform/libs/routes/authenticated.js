@@ -15,7 +15,9 @@ const groupsController = require(jt.path('controllers/groups'))
 const async = require('async')
 
 router.get('/', (req, res) => {
-	return res.render('dashboard', {title: 'Dashboard - Notekeep', user: req.user, selected: 'dashboard', light: true})
+	notesController.getRecentNotes(req, res, (err, notes) => {
+		res.render('dashboard', {title: 'Dashboard - Notekeep', notes: notes, user: req.user, selected: 'dashboard', light: true})
+	})
 })
 
 router.get('/notes/:note?', (req, res) => {

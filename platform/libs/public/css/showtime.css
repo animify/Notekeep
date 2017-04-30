@@ -3814,6 +3814,9 @@ nav.nav.shard .user.open span {
 .inner {
   padding: 1.4em 0;
 }
+.inner.nosub {
+  padding: 2.2rem 0;
+}
 .inner h2.what {
   margin-bottom: 1.2em;
   font-size: 2.1em;
@@ -3995,7 +3998,7 @@ nav.nav.shard .user.open span {
 }
 .strip h6 {
   font-weight: 500;
-  color: #7f91ab;
+  color: #a9b4c3;
 }
 .strip h6[contenteditable=true]:empty:before {
   content: attr(placeholder);
@@ -4817,18 +4820,25 @@ nav.nav.shard .user.open span {
 .empty {
   width: 100%;
   text-align: center;
-  padding: 8rem 3rem;
-  border-radius: 5px;
-  background-color: #fff;
+  padding: 4rem 3rem;
   display: none;
   margin-top: 2.8rem;
 }
+.empty.compact {
+  margin-top: 5rem;
+}
+.empty.shown {
+  display: block;
+}
 .empty img {
-  max-width: 220px;
+  max-width: 260px;
 }
 .empty h5 {
-  margin-top: 1.2rem;
+  margin-top: 1.8rem;
   font-weight: 600;
+}
+.empty p {
+  color: #7f91ab;
 }
 .modal {
   width: 100%;

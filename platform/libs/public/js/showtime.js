@@ -688,25 +688,23 @@ $(() => {
 						$(this).show()
 
 						if ($(this).parent().find('.unit:hidden').length > 0)
-							$(this).closest('.summary').fadeIn(140)
+							$(this).closest('.summary').show()
 					}
 					else {
 						$(this).hide()
 
 						if ($(this).parent().find('.unit:visible').length == 0)
-							$(this).closest('.summary').fadeOut(140)
+							$(this).closest('.summary').hide()
 					}
 				})
 
-				setTimeout(function () {
-					if($('#summary_notes').children(':visible').length == 0) {
-						$('#summary_notes').css({"padding": "0"})
-						$('.empty_notes').show()
-					} else {
-						$('#summary_notes').css({"padding": "1.4em 0"})
-						$('.empty_notes').hide()
-					}
-				}, 150);
+				if($('#summary_notes').children(':visible').length == 0) {
+					$('#summary_notes').css({"padding": "0"})
+					$('.empty_notes').show()
+				} else {
+					$('#summary_notes').css({"padding": "1.4em 0"})
+					$('.empty_notes').hide()
+				}
 
 			break
 			case 'groups':

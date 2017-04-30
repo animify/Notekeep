@@ -1,6 +1,10 @@
 extends ../layout
 
+
+
 block content
+	-var ownedGroups = 0
+	-var otherGroups = 0
 	include ../static/dashboard/nav.pug
 	.strip
 		.contain
@@ -22,25 +26,38 @@ block content
 							h5.what Owned groups
 						for group in groups
 							if (group.creator._id.toString() == user._id.toString())
+								- ownedGroups++
 								.xs-12.s-6.m-3
 									a.group(href=`/group/${group._id}`)
 										.text-preview(style=`background-color:${group.color}`)
 											span= group.name.substr(0,1)
 										h6 #{group.name} #[span (#{group.userlist.length + 1})]
 										span.created=moment(group.created_at).format("MMM Do YY")
+						if(ownedGroups == 0)
+							.empty.compact.shown
+								h5 You haven't created a group yet.
+								p To manage a group you'll first need to #[a(data-modal="open", data-modal-name="modal_group") create one]. You can then create notes for your group and invite other members.
 				.groups
 					.grid-row
 						.xs-12
 							h5.what Other groups
 						for group in groups
 							if (group.creator._id.toString() != user._id.toString())
+								- otherGroups++
 								.xs-12.s-6.m-3
 									a.group(href=`/group/${group._id}`)
 										.text-preview(style=`background-color:${group.color}`)
 											span= group.name.substr(0,1)
 										h6 #{group.name} #[span (#{group.userlist.length + 1})]
 										span.created=moment(group.created_at).format("MMM Do YY")
+						if(otherGroups == 0)
+							.empty.compact.shown
+								h5 You aren't a member of other non-owned groups!
+								p The groups that you get invites to will appear here, these are groups that you don't directly own.
 			else
 				.grid-row
 					.xs-12
-						.text-red No groups yet! #[a(data-modal="open", data-modal-name="modal_group") Create one]
+						.empty.compact
+							img(src="/images/empty-groups.jpg", alt="")
+							h5 Oh no, you're not a member of any group!
+							p Get invites to groups by other members or #[a(data-modal="open", data-modal-name="modal_group") create a group] to get them listed here.

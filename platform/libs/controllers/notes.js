@@ -337,6 +337,19 @@ exports.findDraftNotes = (req, res, callback) => {
 	})
 }
 
+exports.getRecentNotes = (req, res, callback) => {
+	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
+
+	Notes.find({owner: req.user._id, draft: false})
+	.populate(populateQuery)
+	.sort({updated: -1})
+	.lean()
+	.exec((err, notes) => {
+		if(err) return callback("404", "Notes not found")
+		callback(null, notes.splice(0, 7))
+	})
+}
+
 exports.updateNote = (noteID, noteBody, notePlain, groupID, callback) => {
 	if (groupID === undefined) groupID = "0"
 

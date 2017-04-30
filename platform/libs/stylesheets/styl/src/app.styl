@@ -175,6 +175,8 @@ nav.nav
 				color dark-color
 .inner
 	padding 1.4em 0
+	&.nosub
+		padding 2.2rem 0
 	h2.what
 		margin-bottom 1.2em
 		font-size 2.1em
@@ -307,7 +309,7 @@ nav.nav
 			margin-top .8rem
 	h6
 		font-weight 500
-		color text-light
+		color text-light-invert
 		&[contenteditable=true]:empty:before
 			content attr(placeholder)
 			display block
@@ -926,13 +928,17 @@ nav.nav
 .empty
 	width 100%
 	text-align center
-	padding 8rem 3rem
-	border-radius border-radius-normal
-	background-color #fff
+	padding 4rem 3rem
 	display none
 	margin-top 2.8rem
+	&.compact
+		margin-top 5rem
+	&.shown
+		display block
 	img
-		max-width 220px
+		max-width 260px
 	h5
-		margin-top 1.2rem
+		margin-top 1.8rem
 		font-weight 600
+	p
+		color text-light
