@@ -5,7 +5,6 @@ block content
 	.strip.has-selection
 		.contain
 			.bind
-				svg.avatar(height="200", width="200", data-jdenticon-hash=user.avatar)
 				.about
 					h4.what= user.firstname + ' ' + user.lastname
 					h6 Manage your account &amp; security details
@@ -28,6 +27,9 @@ block content
 							h3 Profile information
 							p General information about your account
 						.content
+							.account-profile
+								svg.avatar(height="160", width="160", data-jdenticon-hash=user.avatar)
+								small Profile image
 							.input
 								h6 First name
 								input#input_firstname(type="text", value=user.firstname)

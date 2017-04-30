@@ -1,5 +1,5 @@
 .switches
-	absolute top -.4rem left -.4rem
+	absolute top 0 left -.6rem
 	display none
 	max-width 16em
 	width 100%
@@ -50,7 +50,7 @@
 	border 0
 	font-size 1em
 	cursor pointer
-	transition all 0.2s ease
+	transition all 0.14s ease
 	vertical-align top
 	height em-height
 	line-height 1.3em
@@ -88,6 +88,7 @@
 			background-color transparent
 	&:hover
 		box-shadow none
+		color hover-text-button-default
 		background-color darken(background-light-gray, 6%)
 	for clr in ('red' 'orange' 'yellow' 'green' 'teal' 'blue' 'violet' 'purple' 'pink' 'brown' 'grey' 'black' 'primary')
 		&.{clr}
@@ -118,9 +119,6 @@
 				left auto
 	&.icon
 		padding 0 0.8275em
-	&:hover
-		color hover-text-button-default
-		background-color #fff
 
 .button-group
 	cf()
