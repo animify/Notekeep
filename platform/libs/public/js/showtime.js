@@ -372,6 +372,7 @@ let modal = {
 		} else {
 			$('.create_link').hide()
 			$('.copy_link').show()
+			$('#shared_url').val(`${$(location).attr('protocol')}//${$(location).attr('host')}/shard/${info.group._id}/${info.note._id}`)
 		}
 
 		(info.note.private) ? $('.editor h6.group').text('Private note') : $('.editor h6.group').text(info.group.name)
@@ -575,8 +576,8 @@ $(() => {
 				endpoint.call(`/facets/endpoints/notes/retrieve/${newType}`, 'GET', _data, (res) => {
 					let newNote = null
 					noteSection = _.template(eval(`templates.notes_${newType}`))({})
-					$('#summary_notes').empty()
-					$('#summary_notes').html($(noteSection))
+					$('#summary_notes .summary').remove()
+					$('#summary_notes').append($(noteSection))
 
 					_.each(res, function(arr) {
 						newNote = _.template(templates.notes)(arr)
@@ -613,14 +614,17 @@ $(() => {
 				endpoint.call('/facets/endpoints/invites/decline', 'POST', _data, (res) => {
 				})
 				break
-			case 'share_note':
+			case 'publicize_note':
 				_data = JSON.stringify({group: group.viewing, note: group.viewingNote})
 				endpoint.call('/facets/endpoints/notes/share', 'POST', _data, (res) => {
 					if (res.error) {
-						iziToast.error({title: "Already shared", message: `This note is already public`})
+						iziToast.error({title: "Already public", message: `This note is already public`})
 					} else {
-						iziToast.success({title: "Note shared", message: `The note has been made public`})
-						$('#input-shared_link').val(res).slideDown('fast').parent().next().remove()
+						iziToast.success({title: "Note publisized", message: `The note has been made public`})
+						$('#shared_url').val(res)
+						$('.create_link').hide()
+						$('.copy_link').show()
+						$('#input-shared_link').val(res).slideDown('fast').parent().next().hide()
 					}
 				})
 				break
@@ -630,7 +634,6 @@ $(() => {
 				break
 			case 'update_preferences':
 				_data = JSON.stringify({firstname: $('#input_firstname').val(), lastname: $('#input_lastname').val(), email: $('#input_email').val()})
-				console.log(_data);
 				endpoint.call('/facets/endpoints/account/update', 'POST', _data, (res) => {
 					if (res.error) {
 						console.log(res.message);
@@ -644,13 +647,12 @@ $(() => {
 				})
 				break
 			case 'copy_shared_link':
-				copyField = document.getElementById("hidden_copy")
-				copyField.hidden = false
-				copyField.value = `${window.location.origin}/shard/${group.viewing}/${group.viewingNote}`
+				const copyField = $('#hidden_copy')
+				copyField.show()
+				copyField.val(`${$(location).attr('protocol')}//${$(location).attr('host')}/shard/${group.viewing}/${group.viewingNote}`)
 				copyField.select()
 				try {
-					const successful = document.execCommand('copy')
-					copyField.hidden = true
+					document.execCommand('copy')
 					iziToast.success({title: "Link copied", message: `Shared note link has been copied to your clipboard`})
 				} catch(err) {
 					iziToast.error({title: "Link copy error", message: `The link could not be copied to your clipboard`})
@@ -679,21 +681,33 @@ $(() => {
 
 		switch (filterType) {
 			case 'notes':
+
 				$("#summary_notes .unit").each(function() {
 					if ($(this).text().toLowerCase().indexOf(filterSearch) > -1) {
 
 						$(this).show()
 
 						if ($(this).parent().find('.unit:hidden').length > 0)
-							$(this).closest('.summary').fadeIn('fast')
+							$(this).closest('.summary').fadeIn(140)
 					}
 					else {
 						$(this).hide()
 
 						if ($(this).parent().find('.unit:visible').length == 0)
-							$(this).closest('.summary').fadeOut('fast')
+							$(this).closest('.summary').fadeOut(140)
 					}
 				})
+
+				setTimeout(function () {
+					if($('#summary_notes').children(':visible').length == 0) {
+						$('#summary_notes').css({"padding": "0"})
+						$('.empty_notes').show()
+					} else {
+						$('#summary_notes').css({"padding": "1.4em 0"})
+						$('.empty_notes').hide()
+					}
+				}, 150);
+
 			break
 			case 'groups':
 				$("#groups .group").each(function() {
@@ -763,6 +777,13 @@ $(() => {
 		console.log(e,v);
 	})
 
+	$('.sharing li').bind('click', function (e) {
+		$('.sharing li').removeClass('active')
+		$('.inside.sharing-tab').hide()
+		$(this).addClass('active')
+		$(`.sharing-${$(this).data('sharing')}`).show()
+	})
+
 	$('#comment_new').on('keydown', function (e) {
 		if(e.keyCode == 13) {
 			e.preventDefault()
@@ -789,7 +810,6 @@ $(() => {
 		arChange = {op: "+change", change: []}
 
 		diff = JsDiff.diffWordsWithSpace(oldHTML, newHTML)
-		console.log(diff);
 		diff.forEach(function(part){
 			part.count = part.value.length
 			part.from = ld
@@ -810,7 +830,7 @@ $(() => {
 	}
 
 	socket.on('connect', (sock) => {
-		console.log('Socket connection')
+		console.debug('Notekeep: socket connection made')
 	})
 	.on('change', (chg) => {
 		switch (chg.op) {

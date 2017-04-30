@@ -77,7 +77,26 @@ ul.options
 			color primary-color
 		& + li
 			margin-left 2.8em
-
+	&.sharing
+		display block
+		margin 0 auto
+		border-bottom 1px solid border-gray
+		text-align center
+		padding-top 1.7rem
+		li
+			padding 0 .8rem 1.3rem .8rem
+			position relative
+			a
+				font-weight 600
+			&.active::after
+				width 100%
+				border-bottom 3px solid transparent
+				height 1px
+				content ' '
+				absolute bottom -2px left
+			&.active
+				&::after
+					border-color color-primary
 nav.nav
 	display block
 	width 100%
@@ -100,12 +119,12 @@ nav.nav
 		cursor pointer
 		padding-left 2rem
 		&:hover span, &.open span
-			color text-lighter
+			color lighten(text-light-invert, 40%)
 		span
 			vertical-align top
 			text-transform capitalize
 			margin-left .6em
-			color text-light
+			color text-light-invert
 			font-weight 600
 			transition .14s ease all
 		svg
@@ -120,12 +139,12 @@ nav.nav
 		li
 			a
 				transition .14s ease all
-				color text-light
+				color text-light-invert
 				font-weight 600
 				&:hover
-					color text-lighter
+					color lighten(text-light-invert, 40%)
 			i
-				color text-light
+				color text-light-invert
 				relative top .28em
 				&:hover
 					color inherit
@@ -155,7 +174,7 @@ nav.nav
 			&:hover span, &.open span
 				color dark-color
 .inner
-	padding 2.6em 0
+	padding 1.4em 0
 	h2.what
 		margin-bottom 1.2em
 		font-size 2.1em
@@ -230,7 +249,7 @@ nav.nav
 				i
 					font-size 1rem
 					line-height .4rem
-					color text-light
+					color text-light-invert
 					relative top 4px
 					margin-right .2rem
 			&.active
@@ -243,7 +262,7 @@ nav.nav
 				a
 					color #fff
 			a
-				color text-light
+				color text-light-invert
 				line-height 1rem
 				display block
 				font-weight 600
@@ -402,7 +421,7 @@ nav.nav
 				line-height 1.4rem
 	.intro
 		padding 1.2rem 0
-	& + .summary
+	&:not([style*="display: none"]) + .summary
 		margin-top 2rem
 	.desc
 		& > *
@@ -565,10 +584,12 @@ nav.nav
 		z-index 0
 		display block
 		.editable
-			padding 3.375rem 0 5rem 0
+			padding 4.1rem 0 5rem 0
 		&.presentation
 			.editable
-				padding 3.375rem 0 0 0
+				padding 4.1rem 0 0 0
+		.note_container
+			padding .7rem 0 2rem 0
 	.options
 		cf()
 		background-color #fff
@@ -589,15 +610,6 @@ nav.nav
 				font-weight 800
 				color color-green
 				position relative
-				// &::after
-				// 	width 100%
-				// 	border-bottom 1px dashed text-light-invert
-				// 	height 1px
-				// 	content ' '
-				// 	absolute bottom -3px left
-				// &:hover
-				// 	&::after
-				// 		border-color #fff
 		&.bottom
 			border-bottom 0
 			absolute bottom 0
@@ -737,10 +749,7 @@ nav.nav
 	.note_content, .readonly-note
 		font-size 1.1em
 		line-height 1.5em
-	.note_content
-		blockquote
-			border-left 4px solid violet
-			padding .4rem 1.2rem
+
 
 #hidden_copy
 	display none
@@ -901,3 +910,29 @@ nav.nav
 			margin-left .6rem
 			&:hover
 				color color-primary
+
+.sharing
+	&-tab
+		display none
+		padding-top 2em !important
+	&-url
+		display block
+
+#summary_notes:empty
+	display none
+	& + .empty
+		display block
+
+.empty
+	width 100%
+	text-align center
+	padding 8rem 3rem
+	border-radius border-radius-normal
+	background-color #fff
+	display none
+	margin-top 2.8rem
+	img
+		max-width 220px
+	h5
+		margin-top 1.2rem
+		font-weight 600

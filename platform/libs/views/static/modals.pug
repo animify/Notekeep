@@ -98,22 +98,54 @@ input#hidden_copy(type="text")
 					.button-group.clearfix.to-right
 						a.button(data-modal="close") Close
 
-.modal#share_note
+.modal#publicize_note
 	.overlay
 		.close
 			i.material-icons clear
 		.cell
 			.content
 				.inside
-					h5 Share note?
-					p Sharing this note will make it public and accessible by everyone. This means a public link will be created and can be shared to other Notekeep users or guests.
+					h5 Publisize note?
+					p Making this note public results in it being accessible by everyone. A public link will be generated and can be shared to other Notekeep users or guests.
 					br
 					p.text-green You can make the note group-only again after it's been made public.
-					.input.block.form
+					.input.block.form.copy_link
 						input#input-shared_link.disabled.display(type="text", disabled="true")
-					.button-group.clearfix.to-right
-						a.button.green(data-run="share_note") Share note
+						.button-group
+							a.button.green.block(data-run="copy_shared_link") Copy share URL
+					.button-group.clearfix.to-right.create_link
+						a.button.green(data-run="publicize_note") Publicize note
 						a.button(data-modal="close") Cancel
+
+.modal#share_note
+	.overlay
+		.close
+			i.material-icons clear
+		.cell
+			.content
+				ul.options.sharing
+					li.active(data-sharing="url") #[a URL]
+					li(data-sharing="email") #[a Email]
+					li(data-sharing="social") #[a Social]
+				.inside.sharing-tab.sharing-url
+					.copy_link
+						p This note is public. You can share the below URL to share the note with anyone.
+						.input.block.form
+							input#shared_url.disabled.display(type="text", disabled="true")
+						.button-group
+							a.button.green.block(data-run="copy_shared_link") Copy share URL
+					.create_link
+						p This note is not yet public. You'll need to make it available to everyone before getting a share URL.
+						.button-group
+							a.button.green.block(data-run="publicize_note") Publicize note
+				.inside.sharing-tab.sharing-email
+					p Note content can be sent to an external email. The note will not be made public and can not be altered by the recipient.
+					.input.block.form
+						input.display(type="text", placeholder="Email of recipient")
+					.button-group
+						a.button.green.block Send note via Email
+				.inside.sharing-tab.sharing-social
+					p Social media sharing is not yet available.
 
 .editor
 	.options
@@ -128,15 +160,15 @@ input#hidden_copy(type="text")
 					li #[a(data-run="chg_priority", data-status="0") #[i.material-icons.text-green lens] Low priority]
 					li #[a(data-run="chg_priority", data-status="1") #[i.material-icons.text-yellow lens] Medium priority]
 					li #[a(data-run="chg_priority", data-status="2") #[i.material-icons.text-red lens] High priority]
-			a.slim.invert.share Share...
+			a.slim.invert.share(data-modal="open", data-modal-name="share_note") Share...
 			.dropdown.right
 				a.toggle.slim.invert.hasicon.more #[i.material-icons more_horiz]
 				ul.menu
 					li #[a(data-modal="open", data-modal-name="modal_shortcuts") Keyboard shortcuts]
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
 					li.divider
-					li.copy_link #[a(data-run="copy_shared_link") Copy share link]
-					li.create_link #[a(data-modal="open", data-modal-name="share_note") Create public link]
+					li.copy_link #[a(data-run="copy_shared_link") Copy share URL]
+					li.create_link #[a(data-modal="open", data-modal-name="publicize_note") Create public URL]
 					li #[a(data-run="presentation_mode") Presentation mode]
 					li.delete_note.divider
 					li.delete_note #[a.color-red(data-modal="open", data-modal-name="modal_delete") Delete note]
@@ -155,7 +187,7 @@ input#hidden_copy(type="text")
 					li #[a(data-modal="open", data-modal-name="modal_shortcuts") Keyboard shortcuts]
 					li #[a(data-modal="open", data-modal-name="modal_about") Learn more]
 					li.divider
-					li #[a(data-modal="open", data-modal-name="share_note") Create public link]
+					li.create_link #[a(data-modal="open", data-modal-name="publicize_note") Create public URL]
 					li #[a(data-run="presentation_mode") Leave presentation mode]
 
 	.editable
