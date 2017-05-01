@@ -70,7 +70,7 @@ exports.sendNote = (req, res, callback) => {
 				options.firstname = req.user.firstname
 				options.lastname = req.user.lastname
 				mailer.sendNote(req, res, options, (err, id, response) => {
-					next(err, "Note has been emailed")
+					next(err, `Note sent to ${options.email}`)
 				})
 			}
 		], (err, complete) => {
@@ -363,7 +363,7 @@ exports.findDraftNotes = (req, res, callback) => {
 }
 
 exports.getRecentNotes = (req, res, callback) => {
-	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}]
+	const populateQuery = [{path:'owner', select:'_id username firstname lastname email'}, {path:'group', select:'name'}]
 
 	Notes.find({owner: req.user._id, draft: false})
 	.populate(populateQuery)
@@ -371,6 +371,7 @@ exports.getRecentNotes = (req, res, callback) => {
 	.lean()
 	.exec((err, notes) => {
 		if(err) return callback("404", "Notes not found")
+		console.log(notes);
 		callback(null, notes.splice(0, 7))
 	})
 }

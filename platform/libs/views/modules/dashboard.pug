@@ -22,9 +22,9 @@ block content
 								for note in notes
 									.unit(class= selected == note._id ? "open__selected" : "", data-note=note._id, data-run="get_note")
 										h6(class=(note.status == 1) ? 'medium-p': (note.status == 2) && 'high-p') #{note.title}
-										small= note.group.name
+										small= `Edited ${moment(note.updated).fromNow()}`
 										.content_plain
-											p= note.plain
+											p= note.group.name
 				.l-7.xs-12
 					.summary.light
 						.grid-row

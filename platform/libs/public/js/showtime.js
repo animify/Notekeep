@@ -219,7 +219,6 @@ let group = {
 	viewing: null,
 	viewingNote: null,
 	append: (res) => {
-		console.log(res);
 		let _group = {
 			color: res.group.color,
 			created: res.group.created_at,
@@ -650,10 +649,11 @@ $(() => {
 				_data = JSON.stringify({note: group.viewingNote, email: $('#recipient_note').val()})
 				endpoint.call('/facets/endpoints/mail/note', 'POST', _data, (res) => {
 					if (res.error) {
-						console.log(res.message);
 						iziToast.error({message: `${res.message[0].msg !== undefined ? res.message[0].msg : res.message}`})
 					} else {
-						iziToast.success({title: "Note has been emailed", message: res.message})
+						iziToast.success({title: "Note sent", message: res.message})
+						$('#recipient_note').val('')
+						modal.close()
 					}
 				})
 				break

@@ -18,8 +18,8 @@ block content
 						a #[i.material-icons search]
 					a.button.invert.sm(data-modal="open", data-modal-name="modal_group") New Group
 	.contain
-		.inner#groups
-			if (groups.length)
+		if (groups.length)
+			.inner#groups
 				.groups.owned
 					.grid-row
 						.xs-12
@@ -54,10 +54,8 @@ block content
 							.empty.compact.shown
 								h5 You aren't a member of other non-owned groups!
 								p The groups that you get invites to will appear here, these are groups that you don't directly own.
-			else
-				.grid-row
-					.xs-12
-						.empty.compact
-							img(src="/images/empty-groups.jpg", alt="")
-							h5 Oh no, you're not a member of any group!
-							p Get invites to groups by other members or #[a(data-modal="open", data-modal-name="modal_group") create a group] to get them listed here.
+		else
+			.empty.shown
+				img(src="/images/empty-groups.jpg", alt="")
+				h5 Oh no, you're not a member of any group!
+				p Get invites to groups by other members or #[a(data-modal="open", data-modal-name="modal_group") create a group] to get them listed here.

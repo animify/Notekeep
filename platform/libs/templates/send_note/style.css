@@ -131,4 +131,5 @@ body {
 .note-content blockquote {
 	border-left: 4px solid #a104e0;
 	padding: 0.4rem 1.2rem;
+	margin: 0;
 }

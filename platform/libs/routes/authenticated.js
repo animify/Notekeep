@@ -28,7 +28,7 @@ router.get('/notes/:note?', (req, res) => {
 				cb()
 			})
 		}, (err) => {
-			return res.render('notes', {title: 'Notes - Notekeep', groups: groups, user: req.user, selected: 'notes', light: true, selected: req.params.note})
+			res.render('notes', {title: 'Notes - Notekeep', groups: groups, user: req.user, selected: 'notes', light: true, selectedNote: req.params.note})
 		})
 	})
 })

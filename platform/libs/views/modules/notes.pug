@@ -39,7 +39,7 @@ block content
 										h5= group.name
 							.xs-12.all_notes
 								for note in group.notes
-									.unit(class= selected == note._id ? "open__selected" : "", data-note=note._id, data-run="get_note")
+									.unit(class= selectedNote == note._id ? "open__selected" : "", data-note=note._id, data-run="get_note")
 										h6(class=(note.status == 1) ? 'medium-p': (note.status == 2) && 'high-p') #{note.title}
 										small= `Edited ${moment(note.updated).fromNow()}`
 										.content_plain
@@ -47,6 +47,7 @@ block content
 		.empty
 			img(src="/images/empty-notes.jpg", alt="")
 			h5 You haven't created a note yet!
+			p There are no notes in your workspace. Hit #[b New Note] and select a team or create a private note.
 		.empty.empty_notes
 			img(src="/images/empty-notes.jpg", alt="")
 			h5 No notes match that search query.
