@@ -141,9 +141,9 @@ input#hidden_copy(type="text")
 				.inside.sharing-tab.sharing-email
 					p Note content can be sent to an external email. The note will not be made public and can not be altered by the recipient.
 					.input.block.form
-						input.display(type="text", placeholder="Email of recipient")
+						input#recipient_note.display(type="text", placeholder="Email of recipient")
 					.button-group
-						a.button.green.block Send note via Email
+						a.button.green.block(data-run="email_note") Send note via Email
 				.inside.sharing-tab.sharing-social
 					p Social media sharing is not yet available.
 

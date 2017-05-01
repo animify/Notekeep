@@ -70,7 +70,7 @@ exports.passwordReset = (req, res, emailOptions, callback) => {
 
 	passwordReset.render(toUser, function (err, result) {
 		let mailOptions = {
-			from: '"Notekeep Support" <hello@notekeep.io>',
+			from: 'Notekeep.io <hello@notekeep.io>',
 			to: toUser.email,
 			subject: "Password Reset",
 			text: result.text,
@@ -78,7 +78,41 @@ exports.passwordReset = (req, res, emailOptions, callback) => {
 		}
 
 		transport.sendMail(mailOptions, (error, info) => {
-			if (error)return console.log(error)
+			if (error) return console.log(error)
+			console.log('Message %s sent: %s', info.messageId, info.response)
+			callback(null, info.messageId, info.response)
+		})
+	})
+}
+
+exports.sendNote = (req, res, emailOptions, callback) => {
+	const sendNote = new EmailTemplate(jt.path('templates/send_note'), {
+		juiceOptions: {
+			preserveImportant: true
+		}
+	})
+
+	let toUser = {
+		firstname: emailOptions.firstname,
+		lastname: emailOptions.lastname,
+		email: emailOptions.email,
+		fromEmail: emailOptions.from,
+		content: emailOptions.noteContents,
+		plain: emailOptions.notePlain,
+		title: emailOptions.noteTitle
+	}
+
+	sendNote.render(toUser, function (err, result) {
+		let mailOptions = {
+			from: 'Notekeep.io <hello@notekeep.io>',
+			to: toUser.email,
+			subject: "Someone has sent you a note!",
+			text: result.text,
+			html: result.html
+		}
+
+		transport.sendMail(mailOptions, (error, info) => {
+			if (error) return console.log(error)
 			console.log('Message %s sent: %s', info.messageId, info.response)
 			callback(null, info.messageId, info.response)
 		})

@@ -38,11 +38,11 @@ body {
   background-color: #f0f4f7;
 }
 .email a {
-  color: #0e8cf1;
+  color: #0956e6;
 }
 .email .link-to {
   color: #fff;
-  background-color: #0e8cf1;
+  background-color: #0956e6;
   text-decoration: none;
   outline: 0;
   padding: 1em 2.1em;
@@ -68,7 +68,7 @@ body {
 }
 .email h4 {
   font-size: 2em;
-  color: #20304c;
+  color: #161e29;
   margin: 1.1rem 0 1.4rem;
   line-height: 1.8em;
 }
@@ -78,7 +78,7 @@ body {
   border-radius: 10px;
 }
 .email-inner p {
-  color: #20304c;
+  color: #161e29;
   line-height: 1.7rem;
 }
 .email-header {
@@ -91,7 +91,7 @@ body {
   font-size: 2rem;
   margin: 1.8rem 0 0 0;
   line-height: 2.4rem;
-  color: #20304c;
+  color: #161e29;
 }
 .email-footer {
   margin-top: 0.4rem;
@@ -101,10 +101,34 @@ body {
 .email small {
   display: block;
   margin-top: 0.7rem;
-  color: #8999af;
+  color: #7f91ab;
 }
 .email small.main {
-  color: #20304c;
+  color: #161e29;
   margin-top: 0.5rem;
   font-weight: 600;
+}
+.note-content {
+  padding: 1.4rem;
+  background-color: #f3f6f9;
+}
+.note-content h4 {
+  font-size: 2em;
+  color: #161e29;
+  font-weight: 800;
+  line-height: 1.7em;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.3rem 0;
+}
+.note-content h5 {
+  font-size: 1.4em;
+  color: #161e29;
+  font-weight: 800;
+  line-height: 1.7em;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.3rem 0;
+}
+.note-content blockquote {
+  border-left: 4px solid #a104e0;
+  padding: 0.4rem 1.2rem;
 }

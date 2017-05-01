@@ -646,6 +646,17 @@ $(() => {
 					}
 				})
 				break
+			case 'email_note':
+				_data = JSON.stringify({note: group.viewingNote, email: $('#recipient_note').val()})
+				endpoint.call('/facets/endpoints/mail/note', 'POST', _data, (res) => {
+					if (res.error) {
+						console.log(res.message);
+						iziToast.error({message: `${res.message[0].msg !== undefined ? res.message[0].msg : res.message}`})
+					} else {
+						iziToast.success({title: "Note has been emailed", message: res.message})
+					}
+				})
+				break
 			case 'copy_shared_link':
 				const copyField = $('#hidden_copy')
 				copyField.show()

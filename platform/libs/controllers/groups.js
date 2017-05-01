@@ -66,7 +66,6 @@ exports.isMember = (user, groupID, callback) => {
 	.lean()
 	.exec((err, group) => {
 		if (group == null) return callback(null, false)
-		
 		isMember = _.filter(group.userlist, (member) => member.toString() == user._id.toString())
 		if (!err && (isMember.length == 1 || group.creator.toString() == user._id.toString()))
 			return callback(null, true)

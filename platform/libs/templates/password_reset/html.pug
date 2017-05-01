@@ -3,7 +3,9 @@ html(lang="en")
 	body
 		.email
 			.email-outer
-				include ../header.pug
+				.email-header
+					img(src="http://imgur.com/Bh4MQE7.png", alt="")
+					h6.intro Hi #[b=firstname], did you forget your password?
 				.email-inner
 					p It looks like you've requested a password reset, simply click the button or paste the link below into your browser. This request will expire in #[b 24 hours].
 					a.link-to(href=`${host}/reset/${token}`) Reset Password

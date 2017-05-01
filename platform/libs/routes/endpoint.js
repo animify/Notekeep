@@ -197,8 +197,16 @@ router.post('/comments/get', (req, res) => {
 })
 
 //POST: FORGOT PASSWORD SETUP
-router.get('/forgot', (req, res) => {
+router.post('/forgot', (req, res) => {
 	accountController.resetPassword(req, res, (err, status) => {
+		if (err) return res.json({error: err, message: status})
+		res.json({status: 200, message: status})
+	})
+})
+
+//POST: FORGOT PASSWORD SETUP
+router.post('/mail/note', (req, res) => {
+	notesController.sendNote(req, res, (err, status) => {
 		if (err) return res.json({error: err, message: status})
 		res.json({status: 200, message: status})
 	})

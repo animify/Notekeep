@@ -1,0 +1,16 @@
+doctype html
+html(lang="en")
+	body
+		.email
+			.email-outer
+				.email-header
+					img(src="http://imgur.com/Bh4MQE7.png", alt="")
+					h6.intro #[b=firstname] has sent you a note!
+				.email-inner
+					p #{firstname} #{lastname} (#{fromEmail}) has sent you a note titled #[b=title]
+					.note-content!=content
+					p Best regards, #[br] Team Notekeep
+				.email-footer
+					small.main Copyright &copy; 2017
+					small.main Notekeep.io
+					small You have received this mandatory email announcement to keep you up to date with important changes to your account.

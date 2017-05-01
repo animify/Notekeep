@@ -10,6 +10,7 @@ const account = require(jt.path('controllers/account'))
 const groups = require(jt.path('controllers/groups'))
 const activities = require(jt.path('controllers/activities'))
 const comments = require(jt.path('controllers/comments'))
+const mailer = require(jt.path('controllers/mailer'))
 const moment = require('moment')
 const async = require('async')
 const _ = require('underscore')
@@ -20,38 +21,62 @@ let status = {
 	3: "High priority"
 }
 
-exports.newNoteByEmail = (email, groupID, subject, content) => {
-	let note = new Notes({
-		owner: null,
-		title: null,
-		content: null,
-		plain: null,
-		group: null,
-		created: moment().format(),
-		draft: false,
-		private: false
+exports.sendNote = (req, res, callback) => {
+	req.sanitizeBody()
+	req.checkBody({
+	 'note': {
+			notEmpty: true,
+			errorMessage: `Note field is empty`
+		},
+	 'email': {
+			notEmpty: true,
+			errorMessage: 'Please enter the recipients email address',
+			isEmail: {
+				errorMessage: 'Please enter a valid email address'
+			}
+		}
 	})
 
-	account.findByEmail(null, null, email).then((userID) => {
-		log.info(`Email by user: ${userID}`)
-		note.group = groupID
+	req.getValidationResult().then(function(errors) {
+		if (!errors.isEmpty()) return callback('100', errors.useFirstErrorOnly().array())
 
-		let userObj = {_id: userID}
-
-		groups.isMember(userObj, note.group, (err, isMember) => {
-			if(isMember) {
-				note.owner = userID
-				note.title = subject
-				note.content = content
-				note.plain = content
-				note.save().then((createdNote) => {
-					console.log(createdNote);
-					activities.newActivity(note.owner, null, 'create_note', note.group, createdNote._id)
+		async.waterfall([
+			(next) => {
+				const populateQuery = [{path:'owner', select:'_id avatar username firstname lastname email'}]
+				Notes.findOne({_id: req.body.note})
+				.populate(populateQuery)
+				.exec((err, note) => {
+					next(err, note)
+				})
+			},
+			(note, next) => {
+				log.info(note.group)
+				groups.isMember(req.user, note.group, (err, isMember) => {
+					if(isMember) {
+						if (!err) note.content = _.unescape(note.content)
+						next(err, note)
+					} else {
+						next(404, "Not a member")
+					}
+				})
+			},
+			(note, next) => {
+				let options = {}
+				options.from = req.user.email
+				options.email = req.body.email
+				options.noteContents = note.content
+				options.notePlain = note.plain
+				options.noteTitle = note.title
+				options.firstname = req.user.firstname
+				options.lastname = req.user.lastname
+				mailer.sendNote(req, res, options, (err, id, response) => {
+					next(err, "Note has been emailed")
 				})
 			}
+		], (err, complete) => {
+		 if (err) return callback(err, complete)
+		 callback(null, complete)
 		})
-	}).catch((err) => {
-		log.info(`${err} finding user on the system`)
 	})
 }
 
