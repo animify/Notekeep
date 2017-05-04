@@ -409,6 +409,8 @@ nav.nav
 
 .summary
 	overflow hidden
+	&.empty_activity, &.has_activity
+		display none
 	&:not(.nohover) .unit
 		&:hover
 			cursor pointer
@@ -423,7 +425,7 @@ nav.nav
 				line-height 1.4rem
 	.intro
 		padding 1.2rem 0
-	&:not([style*="display: none"]) + .summary
+	&:not([style*="display: none"]) + .summary:not(.empty_activity)
 		margin-top 2rem
 	.desc
 		& > *
@@ -458,6 +460,9 @@ nav.nav
 		background-color #fff
 		border-radius 8px
 		border 1px solid border-gray
+		&.invite
+			p 	
+				padding-left 2rem
 		&.removed
 			p
 				opacity .5

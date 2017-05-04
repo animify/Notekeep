@@ -4137,6 +4137,10 @@ nav.nav.shard .user.open span {
 .summary {
   overflow: hidden;
 }
+.summary.empty_activity,
+.summary.has_activity {
+  display: none;
+}
 .summary:not(.nohover) .unit:hover {
   cursor: pointer;
 }
@@ -4153,7 +4157,7 @@ nav.nav.shard .user.open span {
 .summary .intro {
   padding: 1.2rem 0;
 }
-.summary:not([style*="display: none"]) + .summary {
+.summary:not([style*="display: none"]) + .summary:not(.empty_activity) {
   margin-top: 2rem;
 }
 .summary .desc > * {
@@ -4191,6 +4195,9 @@ nav.nav.shard .user.open span {
   background-color: #fff;
   border-radius: 8px;
   border: 1px solid #e3eaf3;
+}
+.summary .unit.invite p {
+  padding-left: 2rem;
 }
 .summary .unit.removed p {
   opacity: 0.5;

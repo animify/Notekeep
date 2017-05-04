@@ -135,5 +135,13 @@ exports.isAuthenticatedLocal = (req, res, callback) => {
 	}
 }
 
+exports.authenticateEndpoint = (req, res, callback) => {
+	if (req.isAuthenticated()) {
+		callback(null, true)
+	} else {
+		passport.authenticate('bearer', { session : false })
+	}
+}
+
 exports.isAuthenticated = passport.authenticate('local', { session : true })
 exports.isOauthAuthenticated = passport.authenticate('bearer', { session : false })

@@ -18,7 +18,7 @@ block content
 								h5 Pending Invites
 						if (invites.pending.length > 0)
 							for inv in invites.pending
-								.unit
+								.unit.invite
 									svg.avatar(data-jdenticon-hash=`${inv.by.avatar}`)
 									p #{inv.by.firstname} #{inv.by.lastname} has invited you to #[b #{inv.group.name}]
 									span.actions(data-group=inv.group._id)

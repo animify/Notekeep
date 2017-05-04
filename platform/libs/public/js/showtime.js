@@ -125,7 +125,7 @@ let templates = {
 	}
 }
 
-let endpoint = {
+const endpoint = {
 	call: (url, type, data, callback) => {
 		$.ajax({
 			url: url,
@@ -166,7 +166,6 @@ let activities = {
 				$('.populate .xs-12').append($(emptyActivities))
 			} else {
 				_.each(res, function(story) {
-					console.log(story);
 					story.created = moment(story.created).fromNow()
 					newStory = _.template(eval(`templates.act_${story.type}`))(story)
 					$('.populate .xs-12').append($(newStory))
@@ -178,7 +177,12 @@ let activities = {
 		_data = JSON.stringify({})
 		endpoint.call('/facets/endpoints/activities/all', 'GET', _data, (res) => {
 
-			acts = _.template(templates.build_activities)({dates: Object.getOwnPropertyNames(res).reverse()})
+			if (_.isEmpty(res))
+				return $('#activities_list').next().addClass('shown')
+			else
+				$('#activities_list').next().removeClass('shown')
+
+			const acts = _.template(templates.build_activities)({dates: Object.getOwnPropertyNames(res).reverse()})
 			$('#activities_list').empty().append($(acts))
 
 			_.each(res, function(stories, i) {
@@ -202,7 +206,11 @@ let activities = {
 	recent: (filter) => {
 		_data = JSON.stringify({})
 		endpoint.call('/facets/endpoints/activities/all/true', 'GET', _data, (stories) => {
-			console.log(stories);
+			if (_.isEmpty(stories))
+				return $('.summary.empty_activity').show()
+			else
+				$('.summary.has_activity').show()
+
 			_.each(stories.recent, function(story) {
 				if (!filter || (filter && filter == story.type)) {
 					story.created = moment(story.created).fromNow()
@@ -400,9 +408,8 @@ let modal = {
 
 		jdenticon.update("#note-avatar", info.note.owner.avatar.toString())
 
-		if (!info.note.private) {
+		if (!info.note.private)
 			socket.emit('group_join', {group: info.group._id, note: info.note._id})
-		}
 
 	},
 	closeEditor: () => {
@@ -429,19 +436,19 @@ let transform = {
 		console.log(c);
 		editor.setContent(c)
 	},
-	replaceChange: (chg) => {
-		let c = editor.getContent()
+replaceChange: (chg) => {
+	let c = editor.getContent()
 
-		chg.forEach((frag) => {
-			if (frag.removed)
-				c = c.substr(0, frag.from) + c.substr(frag.from + frag.count)
+	chg.forEach((frag) => {
+		if (frag.removed)
+			c = c.substr(0, frag.from) + c.substr(frag.from + frag.count)
 
-			if (frag.added)
-				c = c.substr(0, frag.from) + frag.value + c.substr(frag.from)
-		})
-		transform.oldHTML = c
-		editor.setContent(c)
-	}
+		if (frag.added)
+			c = c.substr(0, frag.from) + frag.value + c.substr(frag.from)
+	})
+	transform.oldHTML = c
+	editor.setContent(c)
+}
 }
 
 $(() => {
@@ -635,7 +642,6 @@ $(() => {
 				_data = JSON.stringify({firstname: $('#input_firstname').val(), lastname: $('#input_lastname').val(), email: $('#input_email').val()})
 				endpoint.call('/facets/endpoints/account/update', 'POST', _data, (res) => {
 					if (res.error) {
-						console.log(res.message);
 						iziToast.error({title: "Error updating", message: `${res.message[0].msg !== undefined ? res.message[0].msg : res.message}`})
 					} else {
 						iziToast.success({title: "Updated!", message: `Your profile details have been updated`})
@@ -811,7 +817,7 @@ $(() => {
 	})
 
 	pushChanges = (event, editable) => {
-		// console.time('Diff')
+		// console.time('Diff')	
 		if (_.isBlank(group.viewingNote)) return
 		oldHTML = transform.oldHTML
 		newHTML = editor.getContent()
@@ -835,7 +841,7 @@ $(() => {
 
 		socket.emit('change', arChange)
 		socket.emit('preSave', { _id: group.viewingNote, body: newHTML, plain: $('.note_content').text()})
-		// console.timeEnd('Diff')
+		// console.timeEnd('Diff')	
 	}
 
 	socket.on('connect', (sock) => {

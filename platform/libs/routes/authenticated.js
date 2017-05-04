@@ -66,7 +66,7 @@ router.get('/group/:group', (req, res) => {
 })
 
 router.get('/settings', (req, res) => {
-	return res.render('settings', {title: 'Dashboard - Notekeep', user: req.user, light:true})
+	return res.render('settings', {title: 'Settings - Notekeep', user: req.user, light:true})
 })
 
 router.get('/activity', (req, res) => {

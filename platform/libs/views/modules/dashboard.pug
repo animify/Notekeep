@@ -12,24 +12,49 @@ block content
 		.inner#dashboard
 			.grid-row
 				.l-5.xs-12
-					.summary
-						.grid-row
-							.xs-12
-								.intro
-									.desc 
-										h5 Your recently updated notes
-							.xs-12
-								for note in notes
-									.unit(class= selected == note._id ? "open__selected" : "", data-note=note._id, data-run="get_note")
-										h6(class=(note.status == 1) ? 'medium-p': (note.status == 2) && 'high-p') #{note.title}
-										small= `Edited ${moment(note.updated).fromNow()}`
+					if (notes.length != 0)
+						.summary
+							.grid-row
+								.xs-12
+									.intro
+										.desc 
+											h5 Recent Notes
+								.xs-12
+									for note in notes
+										.unit(class= selected == note._id ? "open__selected" : "", data-note=note._id, data-run="get_note")
+											h6(class=(note.status == 1) ? 'medium-p': (note.status == 2) && 'high-p') #{note.title}
+											small= `Edited ${moment(note.updated).fromNow()}`
+											.content_plain
+												p= note.group.name
+					else 
+						.summary.nohover
+							.grid-row
+								.xs-12
+									.intro
+										.desc 
+											h5 Recent Notes
+								.xs-12
+									.unit.nohover
+										h6 You haven't created any notes yet
 										.content_plain
-											p= note.group.name
+											p Recent notes will appear here
+								
 				.l-7.xs-12
-					.summary.light
+					.summary.light.has_activity
 						.grid-row
 							.xs-12
 								.intro
 									.desc
 										h5 Recent Activity
 							.xs-12#recent_activity
+					.summary.nohover.empty_activity
+						.grid-row
+							.xs-12
+								.intro
+									.desc 
+										h5 Recent Activity
+							.xs-12
+								.unit.nohover
+									h6 No activity in your feed
+									.content_plain
+										p Recent activity feed will appear here

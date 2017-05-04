@@ -100,7 +100,7 @@ app.set('view options', { layout: false })
 
 app.use('/', routeAuth)
 app.use('/', authcontroller.isAuthenticatedLocal, routeAuthed)
-app.use('/facets/endpoints', endpoint)
+app.use('/facets/endpoints', authcontroller.authenticateEndpoint, endpoint)
 
 server.listen(app.get('port'), () => {
 	log.info('Notekeep running on port: ' + app.get('port'))
