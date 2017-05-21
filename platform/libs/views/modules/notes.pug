@@ -23,9 +23,13 @@ block content
 				.switches.right#switch_groups
 					a.switch(data-groupid="0") #[b Private]
 						span Only available to you
-					for group in groups
-						a.switch(data-groupid=group._id) #[b= group.name]
-							span New note in #{group.name}
+					if (groups.length == 0)
+						.switch #[b No groups available]
+							span Create a new group to create a note
+					else
+						for group in groups
+							a.switch(data-groupid=group._id) #[b= group.name]
+								span New note in #{group.name}
 	.contain
 		.inner#summary_notes
 			for group in groups

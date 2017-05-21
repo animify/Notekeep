@@ -580,6 +580,8 @@ $(() => {
 				const newType = _this.data('type')
 				_data = JSON.stringify({})
 				endpoint.call(`/facets/endpoints/notes/retrieve/${newType}`, 'GET', _data, (res) => {
+					console.log(res);
+					
 					let newNote = null
 					noteSection = _.template(eval(`templates.notes_${newType}`))({})
 					$('#summary_notes .summary').remove()
@@ -817,7 +819,7 @@ $(() => {
 	})
 
 	pushChanges = (event, editable) => {
-		// console.time('Diff')	
+		// console.time('Diff')
 		if (_.isBlank(group.viewingNote)) return
 		oldHTML = transform.oldHTML
 		newHTML = editor.getContent()
@@ -841,7 +843,7 @@ $(() => {
 
 		socket.emit('change', arChange)
 		socket.emit('preSave', { _id: group.viewingNote, body: newHTML, plain: $('.note_content').text()})
-		// console.timeEnd('Diff')	
+		// console.timeEnd('Diff')
 	}
 
 	socket.on('connect', (sock) => {

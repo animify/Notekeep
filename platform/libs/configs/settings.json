@@ -1,6 +1,8 @@
 {
 	"port": 3000,
 	"url": "http://localhost:3000",
+	"gsuiteEmail": "hello@notekeep.io",
+	"gsuitePass": "Activ8r42",
 	"security": {
 		"tokenLife" : 3600
 	},
